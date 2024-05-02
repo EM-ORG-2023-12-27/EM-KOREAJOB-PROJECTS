@@ -27,7 +27,7 @@ MEMBERERS
 --- 
 |NAME|ROLE|DETAILS|DESCRIPTION| 
 |---|---|---|---|
-|정우균|FN|FrontController / Docment 관리 / Dependencies  관리 |---|
+|정우균|FN| FrontController / Docment 관리 / Dependencies  관리 |---|
 |나재현|BN| OFFER - 회원가입 / 회원탈퇴 / 기업정보 CRUD|---|
 |이동환|BN| 유저공통 - 로그인 / 로그아웃|---|
 |박정현|BN| SEEKER 회원가입 회원탈퇴 이력서 CRUD|---|
