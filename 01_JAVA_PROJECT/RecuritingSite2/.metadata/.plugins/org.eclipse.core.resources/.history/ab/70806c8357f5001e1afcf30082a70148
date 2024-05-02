@@ -1,0 +1,30 @@
+package Domain.Dao;
+
+import java.util.List;
+
+import Domain.Dto.MemberDto;
+
+public interface MemberDao {
+
+	//	insert
+	boolean insert(MemberDto dto) throws Exception;
+
+	//		update
+	boolean update(MemberDto dto) throws Exception;
+
+	//		Delete
+	boolean delete(MemberDto dto) throws Exception;
+
+	//		SelectAll
+	List<MemberDto> SelectAll() throws Exception;
+
+	//		selectOne
+	MemberDto select(int Membercode) throws Exception;
+	
+	
+//
+//	static MemberDao getInstance() {
+//		// TODO Auto-generated method stub
+//		return null;
+	}
+
