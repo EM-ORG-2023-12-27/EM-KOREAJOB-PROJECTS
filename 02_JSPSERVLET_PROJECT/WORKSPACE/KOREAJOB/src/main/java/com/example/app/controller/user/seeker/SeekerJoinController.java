@@ -39,13 +39,12 @@ public class SeekerJoinController implements SubController {
 			
 			//01 파라미터받기 
 			String id = request.getParameter("id");
-		    String username = request.getParameter("username");
 		    String password = request.getParameter("password");
 		    String tel = request.getParameter("tel");
 		    String addr = request.getParameter("address");
 			
 		    //02 유효성검사
-		    if(!isValid(id,username,password,tel,addr)) {		
+		    if(!isValid(id,password,tel,addr)) {		
 				return ;
 			} else {
 			}
@@ -53,7 +52,6 @@ public class SeekerJoinController implements SubController {
 			//03 - 
 		    SeekerDto scckerDto = new SeekerDto();
 		    scckerDto.setId(id);
-		    scckerDto.setUsername(username);
 		    scckerDto.setPassword(password);
 		    scckerDto.setRole(ROLE.ROLE_SEEKER);
 		    scckerDto.setTel(tel);
@@ -82,14 +80,12 @@ public class SeekerJoinController implements SubController {
 
 	}
 
-	private boolean isValid(String id, String username, String password, String tel, String addr) {
-		// 널 값인지 확인
+	private boolean isValid(String id, String password, String tel, String addr) {
+		// 비었는지 확인
 		
-//		if(id==null || id.isEmpty() || username == null || username == "" || password == null || password == ""
-//				|| tel == null || tel == "" || addr == null || addr == ""	
-//				) {
-//			return false;
-//		}
+		if(id == null || id.isEmpty() || password == null || password.isEmpty() || addr == null || addr.isEmpty() || tel == null || tel.isEmpty())  {
+			return false;
+		}
 		
 		
 		return true;
