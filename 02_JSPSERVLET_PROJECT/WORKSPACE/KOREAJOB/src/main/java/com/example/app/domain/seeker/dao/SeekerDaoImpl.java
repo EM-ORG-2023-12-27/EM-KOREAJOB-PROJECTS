@@ -1,6 +1,7 @@
 package com.example.app.domain.seeker.dao;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import com.example.app.domain.common.dao.connectionPool.CommonDao;
 import com.example.app.domain.common.dto.UserDto;
@@ -34,7 +35,21 @@ public class SeekerDaoImpl extends CommonDao{
 	}
 	public boolean delete(SeekerDto seekdto) throws Exception {
 		String sql = "delete form user where ID = ? ";
+		
+		String chk = "SELECT COUNT(*) AS count FROM user WHERE ID = ?";
+		boolean idchack = false;
 		boolean success = false;
+		PreparedStatement chkstmt = conn.prepareStatement(chk);
+		chkstmt.setString(1, seekdto.getId());
+		ResultSet resultSet = chkstmt.executeQuery();
+		if(resultSet.next()) {
+	        int count = resultSet.getInt("count");
+	        idchack = count > 0;
+		}
+		if(!idchack) {
+			return false;
+		}
+		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, seekdto.getId());
 		int rowsAffected = pstmt.executeUpdate();
