@@ -10,7 +10,7 @@
 						</a>
 					</div>
 					<div class="logo">
-						<img src="${pageContext.request.contextPath}/resources/static/assets/logo.gif" alt="logo" />
+						<img src="${pageContext.request.contextPath}/resources/static/assets/logo_2.png" alt="logo" />
 					</div>	
 					<div class="search">
 						<form action="">

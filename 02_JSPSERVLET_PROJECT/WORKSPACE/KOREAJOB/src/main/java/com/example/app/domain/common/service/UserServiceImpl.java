@@ -126,7 +126,7 @@ public class UserServiceImpl implements UserService{
 		SessionDto sessionDto = new SessionDto();
 		String randUUID =  UUID.randomUUID().toString();
 		sessionDto.setSessionId(randUUID);
-		sessionDto.setUsername(savedUser.getUsername());
+		sessionDto.setUsername(id);
 		sessionDto.setRole(savedUser.getRole());
 		
 		boolean isSessionSaved =  sessionDao.Insert(sessionDto);
@@ -159,7 +159,7 @@ public class UserServiceImpl implements UserService{
 
 
 	//logout
-	public Map<String,Object> logout(SessionDto sessionDto,HttpServletResponse resp) throws Exception{
+	public Map<String,Object> logout(HttpSession session ,SessionDto sessionDto,HttpServletResponse resp) throws Exception{
 		
 		Map<String,Object> returnValue =new HashMap();
 		connectionPool.txStart();
@@ -178,6 +178,9 @@ public class UserServiceImpl implements UserService{
 		cookie.setPath("/");
 		cookie.setMaxAge(0);
 		resp.addCookie(cookie);
+		
+		//세션 제거 
+		session.invalidate();
 		
 		returnValue.put("response", true);
 		returnValue.put("msg", "로그아웃 성공");

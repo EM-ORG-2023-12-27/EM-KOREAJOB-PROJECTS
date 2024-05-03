@@ -1,11 +1,12 @@
         // BANNER
-        const swiper_banner=new Swiper('.wrapper>main>section.banner-section>.swiper',{
+        const swiper_banner=new Swiper('.banner-section>.swiper',{
             direction : 'horizontal',
             autoplay : {
                 delay:2000,
                 pauseOnMouseEnter : true,
             },
             loop :true,
+           slidesPerView :3,
             pagination : {
                 el : '.swiper-pagination',
                 clickable :'true',

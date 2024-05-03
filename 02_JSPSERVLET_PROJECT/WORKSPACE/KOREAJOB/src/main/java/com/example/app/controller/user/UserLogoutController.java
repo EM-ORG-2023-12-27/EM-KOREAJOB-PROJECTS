@@ -48,10 +48,11 @@ public class UserLogoutController implements SubController {
 			//03
 			//유저 서비스로 logout 함수 실행
 			Map<String,Object> logoutValue=null;
-			logoutValue=userServiceImpl.logout(sessionDto, response);
+			logoutValue=userServiceImpl.logout(session,sessionDto, response);
 			
 			//04
 			boolean logout=(boolean) logoutValue.get("response");
+			System.out.println("RESPONSE : " + logout);
 			if(logout) {//로그아웃이 성공을한다면?
 				response.sendRedirect(request.getContextPath()+"/user/login");
 			}else {
