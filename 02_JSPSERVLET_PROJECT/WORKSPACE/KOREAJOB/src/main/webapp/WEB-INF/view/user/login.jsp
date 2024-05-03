@@ -134,11 +134,7 @@
         </main>
         
         
-        <footer>
-        	<!-- footer  -->
-			<%-- <%@ include file="/resources/static/jsp/footer.jsp" %> --%>
-       </footer>
-        	
+
 	</div>
 		
 </body>	

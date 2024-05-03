@@ -18,14 +18,14 @@ public class UserLoginController implements SubController {
 	private ConnectionPool connectionpool;
 	
 	public UserLoginController() {
-		
-		System.out.println("UserLoginController's Constructor invoke");
+
 		try {
 			userServiceImpl = UserServiceImpl.getInstance();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println("UserLoginController's Constructor invoke! userServiceImpl : " + userServiceImpl);
 	}
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) {

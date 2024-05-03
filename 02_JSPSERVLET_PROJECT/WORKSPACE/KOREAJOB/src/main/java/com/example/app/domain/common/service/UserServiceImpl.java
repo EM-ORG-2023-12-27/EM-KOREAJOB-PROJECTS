@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.example.app.domain.common.dao.SessionDao;
 import com.example.app.domain.common.dao.SessionDaoImpl;
 import com.example.app.domain.common.dao.UserDaoImpl;
 import com.example.app.domain.common.dao.connectionPool.ConnectionPool;
@@ -23,7 +24,7 @@ public class UserServiceImpl implements UserService{
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	private UserDaoImpl userDaoImpl;
 	private ConnectionPool connectionPool;
-	private SessionDaoImpl sessionDao;
+	private SessionDao sessionDao;
 	//싱글톤
 	private static UserServiceImpl instance ;
 	public static UserServiceImpl getInstance() throws Exception {
@@ -47,7 +48,7 @@ public class UserServiceImpl implements UserService{
 		List<SessionDto> tmpList =sessionDao.SelectAll();
 		for(SessionDto dto : tmpList) {
 				//SessionIdList.add(dto.getSessionId());
-			}
+		}
 	}
 	
 	//Join(회원가입)
@@ -159,6 +160,7 @@ public class UserServiceImpl implements UserService{
 
 	//logout
 	public Map<String,Object> logout(SessionDto sessionDto,HttpServletResponse resp) throws Exception{
+		
 		Map<String,Object> returnValue =new HashMap();
 		connectionPool.txStart();
 		

@@ -9,6 +9,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.example.app.controller.user.UserInfoController;
 import com.example.app.controller.user.UserJoinController;
 import com.example.app.controller.user.UserLoginController;
 import com.example.app.controller.user.UserLogoutController;
@@ -41,7 +43,8 @@ public class FrontController extends HttpServlet{
 		map.put(path+"/user/join", new UserJoinController());							//일반회원 | 기업회원 구분
 		map.put(path+"/user/login", new UserLoginController());
 		map.put(path+"/user/logout", new UserLogoutController());
-		
+		map.put(path+"/user/myinfo", new UserInfoController());
+
 		//Seeker(박정현)
 		map.put(path+"/seeker/join", 	new SeekerJoinController());					//회원가입
 		map.put(path+"/seeker/remove", 	new SeekerRemoveController());					//회원탈퇴		

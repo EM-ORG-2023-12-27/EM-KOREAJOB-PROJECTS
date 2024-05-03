@@ -30,34 +30,30 @@ public class UserLogoutController implements SubController {
 	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("userLogoutController..excute");
+		System.out.println("UserLogoutController..execute");
 			Map<String,Object> result=new HashMap();
 		try {
-			//GET MAPPING 
-			String method = request.getMethod();
-			if(method.contains("GET")) {
-				request.getRequestDispatcher("/WEB-INF/view/..").forward(request, response);
-				return ;
-			}
+
 			//01 파라미터 다 받아오기
 			HttpSession session = request.getSession();
 			SessionDto sessionDto = (SessionDto)session.getAttribute("sessionDto");	
 			
 			//02
-			if(!isValid(sessionDto)) { //로그인 상태가 아닐때!
+			if(sessionDto==null) {
 				session.setAttribute("msg", "로그인상태가아닙니다.");
-				request.getRequestDispatcher("/WEB-INF/vew/user/login.jsp");
+				request.getRequestDispatcher("/WEB-INF/view/user/login.jsp").forward(request, response);
+				return ;
 			}
-			
+	
 			//03
 			//유저 서비스로 logout 함수 실행
-			Map<String,Object> LogOutValue=null;
-			LogOutValue=userServiceImpl.logout(sessionDto, response);
+			Map<String,Object> logoutValue=null;
+			logoutValue=userServiceImpl.logout(sessionDto, response);
 			
 			//04
-			boolean logout=(boolean) LogOutValue.get("response");
+			boolean logout=(boolean) logoutValue.get("response");
 			if(logout) {//로그아웃이 성공을한다면?
-				response.sendRedirect(request.getContextPath()+"/user/login.jsp");
+				response.sendRedirect(request.getContextPath()+"/user/login");
 			}else {
 				//로그아웃 실패이면?
 				request.getRequestDispatcher("/WEB-INF/view/index.jsp").forward(request, response);
