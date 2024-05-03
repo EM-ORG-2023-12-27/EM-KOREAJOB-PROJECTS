@@ -84,14 +84,22 @@
 									<label for="">패스워드 : </label>
 									<input type="password" name="password"  class="form-control" />
 								</div>
-								<div class="m-2"  style="font-size:.8rem">								
-									<a href="">아이디 찾기</a> | 
-									<a href="">패스워드 찾기</a>
+								<div class="row m-0 p-0"  style="font-size:.8rem">	
+									<div class="col">							
+										<a href="">아이디 찾기</a> | 
+										<a href="">패스워드 찾기</a>
+									</div>
+									<div class="col" style="text-align:right">
+										<a href="${pageContext.request.contextPath}/user/join" >회원가입</a>
+									</div>
 								</div>
 								<div class="m-2">
-									<button class="btn btn-success w-100 mb-3">로그인</button>
-									<button class="btn btn-success w-100">회원가입</button>
+									<button class="btn btn-success w-100">로그인</button>
 								</div>			
+								<div class="m-2">
+									<button class="btn btn-warning w-100 mb-2 text-white">카카오 로그인</button>
+									<button class="btn w-100 mb-2" style="border : 1px solid lightgray;">GOOGLE 로그인</button>
+								</div>									
 								<div>
 									<input type="hidden" name="type" value="seekerUser" />
 								</div>		
@@ -110,14 +118,22 @@
 									<label for="">패스워드 : </label>
 									<input type="password" name="password"  class="form-control" />
 								</div>
-								<div class="m-2" style="font-size:.8rem">								
-									<a href="" >아이디 찾기</a> | 
-									<a href="" >패스워드 찾기</a>
+								<div class="row m-0 p-0"  style="font-size:.8rem">	
+									<div class="col">							
+										<a href="">아이디 찾기</a> | 
+										<a href="">패스워드 찾기</a>
+									</div>
+									<div class="col" style="text-align:right">
+										<a href="${pageContext.request.contextPath}/user/join" >회원가입</a>
+									</div>
 								</div>
 								<div class="m-2">
-									<button class="btn btn-success w-100 mb-3">로그인</button>
-									<button class="btn btn-success w-100">회원가입</button>
+									<button class="btn btn-success w-100">로그인</button>
 								</div>		
+								<div class="m-2">
+									<button class="btn btn-warning w-100 mb-2 text-white">카카오 로그인</button>
+									<button class="btn w-100 mb-3" style="border : 1px solid lightgray;">GOOGLE 로그인</button>
+								</div>									
 								<div>
 									<input type="hidden" name="type" value="offerUser" />
 								</div>			

@@ -40,6 +40,9 @@
 
 		</header>
        <main class="">
+       		<section>
+       		
+       		</section>
             <section class="main-block layout-150">
             
             		<div class="left">
@@ -47,7 +50,10 @@
             		</div>
                     
                     <div class="banner-section" >
-                                       <!-- Slider main container -->
+                        <div class="notification">
+                         	NOTIFICATION
+                        </div>
+                         <!-- Slider main container -->
 	                    <div class="swiper centers">
 	                        <!-- Additional required wrapper -->
 	                        <div class="swiper-wrapper">
