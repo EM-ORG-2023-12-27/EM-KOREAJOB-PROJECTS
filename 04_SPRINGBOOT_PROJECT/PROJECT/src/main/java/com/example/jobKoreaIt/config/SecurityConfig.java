@@ -48,14 +48,15 @@ public class SecurityConfig  {
         http.authorizeHttpRequests(
                 authorize->{
                     authorize.requestMatchers("/js/**","/css/**","/images/**","/templates","/assets/**").permitAll();
-                    authorize.requestMatchers("/","/login").permitAll();
+                    authorize.requestMatchers("/","/user/login","/user/join").permitAll();
+
                     authorize.anyRequest().authenticated();
                 }
         );
         //로그인
         http.formLogin(login->{
             login.permitAll();
-            login.loginPage("/login");
+            login.loginPage("/user/login");
             login.successHandler(customLoginSuccessHandler());
             login.failureHandler(new CustomAuthenticationFailureHandler());
 
@@ -97,7 +98,7 @@ public class SecurityConfig  {
         //Oauth2
         http.oauth2Login(
                 oauth2->{
-                    oauth2.loginPage("/login");
+                    oauth2.loginPage("/user/login");
                     oauth2.successHandler(oauth2JwtLoginSuccessHandler());
                 }
         );
