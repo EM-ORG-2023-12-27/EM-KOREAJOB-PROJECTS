@@ -1,7 +1,7 @@
 package com.example.jobKoreaIt.config.auth;
 
 
-import com.example.jobKoreaIt.domain.dto.UserDto;
+import com.example.jobKoreaIt.domain.common.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
