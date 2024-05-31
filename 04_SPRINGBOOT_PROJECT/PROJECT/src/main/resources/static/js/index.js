@@ -23,8 +23,9 @@
         //MULTISLIDER
         const multislider =  new Swiper('.wrapper>main>section.multi-slider>.swiper',{
             direction : 'horizontal',
+            speed:7000,
             autoplay:{
-                delay:2000,
+                delay:0,
                 disableOnInteraction: false,
             },
             loop : true,
