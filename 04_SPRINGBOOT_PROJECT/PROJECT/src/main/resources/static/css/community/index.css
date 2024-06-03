@@ -121,6 +121,9 @@ section.main>.left>.category>.head{
     border-radius : 5px;
     padding : 10px;
 }
+section.main>.left>.category>.head input{
+
+}
 section.main>.left>.category>.body{}
 section.main>.left>.category>.body swiper-wrapper{
    display:flex !important;
@@ -186,10 +189,10 @@ section.main>.left>.category>.body .swiper .swiper-button-next{
     background-color : white;
 }
 section.main>.left>.category>.body .swiper .swiper-button-prev{
-    left : 93%;
+    left :61.5vw;
 }
 section.main>.left>.category>.body .swiper .swiper-button-next{
-    left : 96%;
+    left : 63.5vw;
 }
 
 section.main>.left>.category>.body .swiper .swiper-button-prev::after,
