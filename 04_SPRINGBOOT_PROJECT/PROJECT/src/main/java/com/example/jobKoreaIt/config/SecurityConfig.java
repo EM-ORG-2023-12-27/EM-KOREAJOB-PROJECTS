@@ -49,6 +49,8 @@ public class SecurityConfig  {
                 authorize->{
                     authorize.requestMatchers("/js/**","/css/**","/images/**","/templates","/assets/**").permitAll();
                     authorize.requestMatchers("/","/user/login","/user/join").permitAll();
+                   
+                    authorize.requestMatchers("/**").permitAll(); //임시 모든 URL 허용
 
                     authorize.anyRequest().authenticated();
                 }

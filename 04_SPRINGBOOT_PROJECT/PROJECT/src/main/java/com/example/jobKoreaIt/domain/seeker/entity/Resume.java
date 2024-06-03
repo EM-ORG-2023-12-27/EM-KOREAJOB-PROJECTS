@@ -1,4 +1,4 @@
-package com.example.jobKoreaIt.domain.common.entity;
+package com.example.jobKoreaIt.domain.seeker.entity;
 
 
 import jakarta.persistence.Entity;
@@ -8,11 +8,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Offer {
+@Data
+public class Resume {
     @Id
     private Long id;
+    //
+    //
+    //
+    //
+    //
 
 }
