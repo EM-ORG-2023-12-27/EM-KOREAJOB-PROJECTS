@@ -1,6 +1,9 @@
 package com.example.jobKoreaIt.domain.offer.service;
 
 
+import com.example.jobKoreaIt.domain.common.dto.UserDto;
+import com.example.jobKoreaIt.domain.common.repository.UserRepository;
+import com.example.jobKoreaIt.domain.offer.dto.OfferDto;
 import com.example.jobKoreaIt.domain.offer.entity.Company;
 import com.example.jobKoreaIt.domain.offer.repository.CompanyRepository;
 import com.example.jobKoreaIt.domain.offer.repository.JobOfferRepository;
@@ -47,4 +50,17 @@ public class JobOfferServiceImpl {
     public void ShowCompany(){
         log.info("회사정보 확인...");
     }
+
+
+    @Autowired
+    UserRepository userRepository;
+    JobOfferRepository jobOfferRepository;
+
+    @Transactional(rollbackFor = Exception.class)
+    public boolean memberRegistration(UserDto userDto, OfferDto offerDto) {
+
+
+        return false;
+    }
+
 }

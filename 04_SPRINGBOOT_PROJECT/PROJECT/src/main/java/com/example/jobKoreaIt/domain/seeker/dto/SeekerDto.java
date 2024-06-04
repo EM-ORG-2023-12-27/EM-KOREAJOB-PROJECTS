@@ -1,6 +1,7 @@
 package com.example.jobKoreaIt.domain.seeker.dto;
 
 
+import com.example.jobKoreaIt.domain.common.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @Slf4j
 public class SeekerDto {
+
     private Long id;
     private String tel;
     private String zipcode;

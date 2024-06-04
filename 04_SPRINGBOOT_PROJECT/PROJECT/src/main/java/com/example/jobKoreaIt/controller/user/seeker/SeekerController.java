@@ -1,6 +1,8 @@
 package com.example.jobKoreaIt.controller.user.seeker;
 
 
+import com.example.jobKoreaIt.domain.common.dto.UserDto;
+import com.example.jobKoreaIt.domain.seeker.dto.SeekerDto;
 import com.example.jobKoreaIt.domain.seeker.service.JobSeekerServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @Slf4j
@@ -23,6 +26,13 @@ public class SeekerController {
     @GetMapping("/join")
     public void join_get(){
         log.info("GET /seeker/join...");
+    }
+
+    @PostMapping("/join")
+    public @ResponseBody void join_post(UserDto userDto,SeekerDto seekerDto){
+        log.info("GET /seeker/join..." +userDto );
+        log.info("GET /seeker/join..." +seekerDto);
+
     }
 
 
