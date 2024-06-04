@@ -223,3 +223,40 @@ section.main>.right{
     border-radius : 5px;
     height : 100vh;
 }
+
+section.main>.right>.myinfo{
+    width : 100%;
+    padding : 10px;
+
+
+    display:flex;
+    justify-content:center;
+    align-items : center;
+    flex-direction : column;
+}
+section.main>.right>.myinfo>div{
+    margin : 5px;
+}
+section.main>.right>.myinfo img{
+    width : 55px;
+    height : 55px;
+    border : 1px solid;
+    border-radius : 50%;
+
+}
+section.main>.right .board_add_block{
+    text-align: center;
+    display:flex;
+    justify-content : center;
+    align-items : center;
+}
+section.main>.right .board_add{
+    width :90%;
+    height :55px;
+
+    font-size : 1.2rem;
+    display:flex;
+    justify-content : center;
+    align-items : center;
+
+}
