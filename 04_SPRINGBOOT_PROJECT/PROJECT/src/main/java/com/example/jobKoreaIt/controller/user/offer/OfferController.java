@@ -32,12 +32,21 @@ public class OfferController {
         log.info("GET /offer/join..." +offerDto);
 
         //2 유효성 체크(Data)
-
-        //3 서비스 실행
+        if(userDto == null || offerDto == null) {
+            log.error(" null error");
+            return "DATA NULL.";
+        }
+        if(userDto.getUsername() == null || userDto.getUsername().isEmpty()){
+            log.error("ID EMPTY");
+            return "EMPTY ID";
+        }
         boolean isJoin =jobOfferServiceImpl.memberRegistration(userDto,offerDto);
         if(!isJoin) {
-
+            log.error("Failed!!");
+            return "Failed..";
         }
+
+        log.info("Good " + userDto.getUsername());
         return "/login";
 
     }

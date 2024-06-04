@@ -4,22 +4,48 @@ package com.example.jobKoreaIt.controller.user.seeker;
 import com.example.jobKoreaIt.domain.common.dto.UserDto;
 import com.example.jobKoreaIt.domain.seeker.dto.SeekerDto;
 import com.example.jobKoreaIt.domain.seeker.service.JobSeekerServiceImpl;
+import jakarta.mail.Message;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @Slf4j
 @RequestMapping("/seeker")
 public class SeekerController {
 
+    //RegisterRequest  seeker class
     //------------------
     //이력서 CRUD (이동환)
     //------------------
+    @GetMapping("/join")
+    public String registerFrom(Model model){
+
+        model.addAttribute("registerRequest", new SeekerDto());
+        log.info("error: ");
+        return "seeker/register";
+    }
+
+    @PostMapping("/join")
+    public String SeekerJoin(@Valid SeekerDto seekerDto, BindingResult bindingResult,Model model){
+
+        if(bindingResult.hasErrors()){
+            return "seeker/register";
+        }
+
+        if(!seekerDto.getPassword().equals(seekerDto.getRepassword())){
+            bindingResult.rejectValue("password", "passwordInCorrect","패스워드가 일치하지 않습니다.");
+            return "seeker/register";
+        }
+
+            return "seeker/login";
+    }
+
+
     @Autowired
     private JobSeekerServiceImpl jobSeekerServiceImpl;
 
@@ -29,10 +55,8 @@ public class SeekerController {
     }
 
     @PostMapping("/join")
-    public @ResponseBody void join_post(UserDto userDto,SeekerDto seekerDto){
-        log.info("GET /seeker/join..." +userDto );
-        log.info("GET /seeker/join..." +seekerDto);
-
+    public @ResponseBody String join_post(){
+        return null;
     }
 
 
