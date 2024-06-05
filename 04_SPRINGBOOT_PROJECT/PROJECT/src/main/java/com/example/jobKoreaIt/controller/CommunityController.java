@@ -13,6 +13,27 @@ public class CommunityController {
 
     @GetMapping("/index")
     public void index(){
-        log.info("GET /index.css/index...");
+        log.info("GET /community/index...");
     }
+
+    @GetMapping("/add")
+    public void add(){
+        log.info("GET /community/add.css...");
+    }
+
+    @GetMapping("/list")
+    public void list(){
+        log.info("GET /community/list...");
+    }
+
+    @GetMapping("/read")
+    public void read(){
+        log.info("GET /community/read...");
+    }
+
+    @GetMapping("/update")
+    public void update(){
+        log.info("GET /community/update...");
+    }
+
 }
