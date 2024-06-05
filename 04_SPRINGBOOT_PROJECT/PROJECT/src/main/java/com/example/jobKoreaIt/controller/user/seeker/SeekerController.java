@@ -18,20 +18,22 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/seeker")
 public class SeekerController {
 
+    @Autowired
+    private JobSeekerServiceImpl jobSeekerServiceImpl;
+
     //RegisterRequest  seeker class
     //------------------
     //이력서 CRUD (이동환)
     //------------------
     @GetMapping("/join")
     public String registerFrom(Model model){
-
         model.addAttribute("registerRequest", new SeekerDto());
-        log.info("error: ");
+        log.info("GET /seeker/join...");
         return "seeker/register";
     }
 
     @PostMapping("/join")
-    public String SeekerJoin(@Valid SeekerDto seekerDto, BindingResult bindingResult,Model model){
+    public String SeekerJoin(@Valid SeekerDto seekerDto, BindingResult bindingResult, Model model){
 
         if(bindingResult.hasErrors()){
             return "seeker/register";
@@ -42,12 +44,8 @@ public class SeekerController {
             return "seeker/register";
         }
 
-            return "seeker/login";
+        return "seeker/login";
     }
-
-
-    @Autowired
-    private JobSeekerServiceImpl jobSeekerServiceImpl;
 
     @GetMapping("/join")
     public void join_get(){

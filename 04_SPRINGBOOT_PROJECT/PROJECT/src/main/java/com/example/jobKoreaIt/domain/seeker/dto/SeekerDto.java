@@ -31,7 +31,6 @@ public class SeekerDto {
     private String addr1;
     private String addr2;
 
-    public SeekerDto(String s, String s1, RequestMethod requestMethod, Object o) {
-    }
+
 
 }

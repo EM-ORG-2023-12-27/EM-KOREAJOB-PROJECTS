@@ -47,7 +47,7 @@ public class OfferController {
         }
 
         log.info("Good " + userDto.getUsername());
-        return "/login";
+        return "redirect:/login";
 
     }
 
