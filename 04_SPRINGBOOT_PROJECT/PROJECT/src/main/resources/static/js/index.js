@@ -29,8 +29,8 @@
                 disableOnInteraction: false,
             },
             loop : true,
-            slidesPerView :8,
-            //centeredSlides : true,
+            slidesPerView :4,
+            centeredSlides : true,
             pagination : {
                 el : '.swiper-pagination',
                 clickable :'true',

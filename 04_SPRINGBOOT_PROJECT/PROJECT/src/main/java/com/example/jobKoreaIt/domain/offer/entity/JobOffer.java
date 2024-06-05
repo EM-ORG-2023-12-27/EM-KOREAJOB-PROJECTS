@@ -18,6 +18,7 @@ public class JobOffer{
     @Id
     private Long id;
     private String offerName;
+    private String offerTuserel;
     private String offerAddress;
 
 }
