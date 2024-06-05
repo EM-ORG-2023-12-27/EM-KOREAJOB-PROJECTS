@@ -34,21 +34,29 @@ public class SeekerController {
     public String registerFrom(Model model){
         model.addAttribute("registerRequest", new SeekerDto());
         log.info("GET /seeker/join...");
-        return "seeker/login";
+        return "user/login";
     }
 
     @PostMapping("/join")
     public String SeekerJoin(@Valid SeekerDto seekerDto, BindingResult bindingResult, Model model){
-        if(bindingResult.hasErrors()) {
-            // 실패시 입력 데이터 값 유지
-            model.addAttribute("SeekerDto", seekerDto);
 
-        }else if(!seekerDto.getPassword().equals(seekerDto.getRepassword())){
-            bindingResult.rejectValue("password", "passwordInCorrect","패스워드가 일치하지 않습니다.");
-            return "login";
+        if(bindingResult.hasErrors()){
+            log.info("error!!");
+            model.addAttribute("SeekerDto", seekerDto);
+        }
+        if(!seekerDto.getPassword().equals(seekerDto.getRepassword())){
+            bindingResult.rejectValue("repassword","password.mismatch", "비밀번호가 일치하지않습니다.");
+            log.info("repassword error!");
+            return "join";
+        }if(bindingResult.hasErrors()){
+            model.addAttribute("SeekerDto",seekerDto);
+            log.info("tel error!!");
+            return "join";
+        }
+            return "user/login";
         }
 
-        return "redirect:login";
+//        return "redirect:user/login";
         }
 
 //    @GetMapping("/join")
@@ -97,4 +105,4 @@ public class SeekerController {
 //    }
 
 
-}
+
