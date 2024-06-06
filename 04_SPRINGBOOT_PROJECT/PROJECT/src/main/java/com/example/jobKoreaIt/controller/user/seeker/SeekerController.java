@@ -20,89 +20,48 @@ import java.util.Map;
 @RequestMapping("/seeker")
 public class SeekerController {
 
-
-
-
     @Autowired
     private JobSeekerServiceImpl jobSeekerServiceImpl;
 
-    //RegisterRequest  seeker class
-    //------------------
-    //이력서 CRUD (이동환)
-    //------------------
     @GetMapping("/join")
-    public String registerFrom(Model model){
+    public String registerForm(Model model) {
         model.addAttribute("registerRequest", new SeekerDto());
+        model.addAttribute("userRequest", new UserDto());
         log.info("GET /seeker/join...");
         return "user/login";
     }
 
     @PostMapping("/join")
-    public String SeekerJoin(@Valid SeekerDto seekerDto, BindingResult bindingResult, Model model){
+    public String seekerJoin(@ModelAttribute @Valid SeekerDto seekerDto, BindingResult seekerBindingResult,
+                             @ModelAttribute @Valid UserDto userDto, BindingResult userBindingResult, Model model) {
+        log.info("POST /seeker/join..seekerDto : " + seekerDto + " seekerBindingResult : " + seekerBindingResult);
+        log.info("POST /seeker/join..userDto : " + userDto + " userBindingResult : " + userBindingResult);
 
-        if(bindingResult.hasErrors()){
-            log.info("error!!");
-            model.addAttribute("SeekerDto", seekerDto);
+        if (seekerBindingResult.hasFieldErrors() || userBindingResult.hasFieldErrors()) {
+            for (FieldError error : seekerBindingResult.getFieldErrors()) {
+                log.info("ErrorField : " + error.getField() + " ErrorMsg : " + error.getDefaultMessage());
+                model.addAttribute(error.getField(), error.getDefaultMessage());
+            }
+            for (FieldError error : userBindingResult.getFieldErrors()) {
+                log.info("ErrorField : " + error.getField() + " ErrorMsg : " + error.getDefaultMessage());
+                model.addAttribute(error.getField(), error.getDefaultMessage());
+            }
+            return "join";
         }
-        if(!seekerDto.getPassword().equals(seekerDto.getRepassword())){
-            bindingResult.rejectValue("repassword","password.mismatch", "비밀번호가 일치하지않습니다.");
+
+        if (!seekerDto.getPassword().equals(seekerDto.getRepassword())) {
+            seekerBindingResult.rejectValue("repassword", "password.mismatch", "비밀번호가 일치하지 않습니다.");
             log.info("repassword error!");
             return "join";
-        }if(bindingResult.hasErrors()){
-            model.addAttribute("SeekerDto",seekerDto);
-            log.info("tel error!!");
+        }
+
+
+        boolean isRegistered = jobSeekerServiceImpl.memberRegistration(userDto, seekerDto);
+        if (!isRegistered) {
+            model.addAttribute("registrationError", "회원가입 중 오류가 발생했습니다.");
             return "join";
         }
-            return "user/login";
-        }
 
-//        return "redirect:user/login";
-        }
-
-//    @GetMapping("/join")
-//    public void join_get(){
-//        log.info("GET /seeker/join...");
-//    }
-//
-//    @PostMapping("/join")
-//    public @ResponseBody String join_post(){
-//        return null;
-//    }
-//
-//
-//    @GetMapping("/resume/add")
-//    public void resume_add_get(){
-//        log.info("GET /resume/add..");
-//    }
-//    @GetMapping("/resume/update")
-//    public void resume_update_get(){
-//        log.info("GET /resume/update..");
-//    }
-//    @GetMapping("/resume/read")
-//    public void resume_read_get(){
-//        log.info("GET /resume/read..");
-//    }
-//    @GetMapping("/resume/list")
-//    public void resume_list_get(){
-//        log.info("GET /resume/list..");
-//    }
-//
-//    @PostMapping("/resume/add")
-//    public void resume_add_post(){
-//        log.info("GET /resume/add..");
-//    }
-//    @PostMapping("/resume/update")
-//    public void resume_update_post(){
-//        log.info("GET /resume/update..");
-//    }
-//    @PostMapping("/resume/read")
-//    public void resume_read_post(){
-//        log.info("GET /resume/read..");
-//    }
-//    @PostMapping("/resume/list")
-//    public void resume_list_post(){
-//        log.info("GET /resume/list..");
-//    }
-
-
+        return "redirect:/user/login";
+    }
 
