@@ -22,7 +22,7 @@ public class OfferController {
     }
 
 
-    @GetMapping("/company/add")
+    @GetMapping("/company/add.css")
     public void companyAdd(){}
     @GetMapping("/company/read")
     public void companyRead(){}

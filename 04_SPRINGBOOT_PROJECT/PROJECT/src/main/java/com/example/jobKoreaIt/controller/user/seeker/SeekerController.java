@@ -26,9 +26,9 @@ public class SeekerController {
     }
 
 
-    @GetMapping("/resume/add")
+    @GetMapping("/resume/add.css")
     public void resume_add_get(){
-        log.info("GET /resume/add..");
+        log.info("GET /resume/add.css..");
     }
     @GetMapping("/resume/update")
     public void resume_update_get(){
@@ -43,9 +43,9 @@ public class SeekerController {
         log.info("GET /resume/list..");
     }
 
-    @PostMapping("/resume/add")
+    @PostMapping("/resume/add.css")
     public void resume_add_post(){
-        log.info("GET /resume/add..");
+        log.info("GET /resume/add.css..");
     }
     @PostMapping("/resume/update")
     public void resume_update_post(){
