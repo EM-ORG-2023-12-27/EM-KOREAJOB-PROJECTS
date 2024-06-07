@@ -33,19 +33,31 @@ public class JobSeekerServiceImpl {
 
     private ResumeFormDto resumeForm=new ResumeFormDto();
 
+
     @Transactional(rollbackFor = Exception.class)
     public void resume_add(ResumeFormDto resumeForm) {
         log.info("JobSeekerRepository/resume_add...!");
+        log.info("Received careers in service: " + resumeForm.getCareers());
+        // Resume 객체를 가져와서 저장
         Resume resume = resumeForm.getResume();
-        List<Career> ResumeFormDto = List.of();
-        List<Career> careers = ResumeFormDto;
-        for (Career career : careers) {
-            career.setResume(resume);
+
+        // 각 Career 객체에 Resume 객체를 설정
+        List<Career> careers = resumeForm.getCareers();
+        if (careers != null) {
+            for (Career career : careers) {
+                career.setResume(resume);
+            }
         }
+        // Resume 객체에 Careers 리스트 설정
         resume.setCareers(careers);
+        // Resume 저장
         resumeRepository.save(resume);
-
-
+        // 각 Career 객체 저장 (CascadeType.ALL을 사용하여 자동으로 저장되도록 할 수도 있습니다)
+        if (careers != null) {
+            for (Career career : careers) {
+                careerRepository.save(career);
+            }
+        }
     }
 
     @Transactional(rollbackFor = Exception.class)
