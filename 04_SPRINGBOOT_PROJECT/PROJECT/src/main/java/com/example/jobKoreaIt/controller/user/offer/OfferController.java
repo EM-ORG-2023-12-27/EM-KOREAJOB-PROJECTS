@@ -1,5 +1,6 @@
 package com.example.app.controller;
 
+import com.example.jobKoreaIt.domain.common.dto.UserDto;
 import com.example.jobKoreaIt.domain.offer.dto.OfferDto;
 import com.example.jobKoreaIt.domain.offer.service.JobOfferServiceImpl;
 import jakarta.validation.Valid;
@@ -59,3 +60,4 @@ public class OfferController {
 
         return "redirect:/user/login";
     }
+}

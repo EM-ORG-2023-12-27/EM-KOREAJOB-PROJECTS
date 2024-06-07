@@ -6,7 +6,6 @@ import com.example.jobKoreaIt.domain.common.dto.UserDto;
 import com.example.jobKoreaIt.domain.common.entity.User;
 import com.example.jobKoreaIt.domain.common.repository.UserRepository;
 import com.example.jobKoreaIt.domain.seeker.dto.SeekerDto;
-import com.example.jobKoreaIt.domain.seeker.entity.Seeker;
 import com.example.jobKoreaIt.domain.seeker.repository.JobSeekerRepository;
 import com.example.jobKoreaIt.domain.seeker.repository.ResumeRepository;
 import lombok.extern.slf4j.Slf4j;
