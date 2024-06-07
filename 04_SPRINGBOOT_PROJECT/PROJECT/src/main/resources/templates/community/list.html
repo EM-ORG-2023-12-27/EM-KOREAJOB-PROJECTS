@@ -34,7 +34,147 @@
             </nav>
         </section>
 
-        <section></section>
+        <section class="layout-150">
+            <!--
+             SEARCH
+            -->
+            <div class="search-block" >
+                <form class="d-flex" action="">
+                    <select name="type"  class="form-select me-2" style="width:120px;">
+                        <option value="title" selected>TITLE</option>
+                        <option value="username">WRITER</option>
+                        <option value="content">CONTENTS</option>
+                    </select>
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="width:150px;" name="keyword">
+                    <button class="btn  btn-success btn-outline-light" type="submit">Search</button>
+                </form>
+            </div>
+
+
+            <!-- contents -->
+            <div class="col">
+                <!-- title -->
+                <div class="title">
+                    <h3>전체 커뮤니티</h3>
+                    <div>총 : <span>1000</span> 건</div>
+                </div>
+
+                <div>
+                    <div class="board-header">
+                        Page No (1 / 100 Page)
+                    </div>
+                    <div class="board-body">
+                        <!-- body -->
+                        <table class="table w-100">
+                            <thead>
+                            <tr>
+                                <th scope="col-1">번호</th>
+                                <th scope="col-2">제목</th>
+                                <th scope="col-2">작성자</th>
+                                <th scope="col-2">등록날짜</th>
+                                <th scope="col-1">조회수</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            <!-- BOARD LIST ITEMS -->
+                                <tr>
+                                    <td>1</td>
+                                    <td><a href="javascript:void(0)">제목</a></td>
+                                    <td>user@naver.com</td>
+                                    <td>2024-01-01</td>
+                                    <td>1</td>
+                                </tr>
+                            <tr>
+                                <td>1</td>
+                                <td><a href="javascript:void(0)">제목</a></td>
+                                <td>user@naver.com</td>
+                                <td>2024-01-01</td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td><a href="javascript:void(0)">제목</a></td>
+                                <td>user@naver.com</td>
+                                <td>2024-01-01</td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td><a href="javascript:void(0)">제목</a></td>
+                                <td>user@naver.com</td>
+                                <td>2024-01-01</td>
+                                <td>1</td>
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="board-footer row position-relative " >
+
+                        <!--  -->
+                        <div class="pagenation col-9">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+
+                                    <!-- PREV -->
+                                    <li class="page-item" >
+                                        <a class="page-link"  aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+
+
+                                    <!-- PAGENATION -->
+                                    <li class="page-item">
+                                        <a class="page-link" > <span>1</span> </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" > <span>2</span> </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" > <span>3</span> </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" > <span>4</span> </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" > <span>5</span> </a>
+                                    </li>
+
+
+                                    <!-- NEXT -->
+                                    <li class="page-item" >
+
+                                        <a class="page-link"  aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+
+                                    </li>
+
+
+
+                                </ul>
+                            </nav>
+                        </div>
+                        <!--  -->
+                        <div class="button--group col-2">
+                            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                <a type="button" class="btn btn-outline-primary m-2" style="width:100px;"  href="">글쓰기</a>
+                                <button type="button" class="btn btn-outline-primary m-2" style="width:100px;">처음으로</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </section>
     </main>
 
     <!-- footer       -->
