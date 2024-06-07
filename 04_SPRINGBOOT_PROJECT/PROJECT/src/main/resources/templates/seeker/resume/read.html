@@ -84,10 +84,9 @@
                 <h2>기타</h2>
                 <p th:text="${resume.hobbies}"></p>
             </div>
-            <form id="updateForm" th:action="@{/seeker/resume/update/{id}(id=${resume.id})}" method="post">
-                <input type="hidden" name="_method" value="delete">
-                <button type="submit">수정하기</button>
-            </form>
+
+             <a th:href="@{/seeker/resume/update/{id}(id=${resume.id})}">수정하기</a>
+
         </section>
     </main>
     <!-- footer -->
