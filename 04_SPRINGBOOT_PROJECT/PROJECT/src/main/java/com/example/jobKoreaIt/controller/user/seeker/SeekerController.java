@@ -33,34 +33,25 @@ public class SeekerController {
     }
 
     @PostMapping("/join")
-    public String seekerJoin(@ModelAttribute @Valid SeekerDto seekerDto, BindingResult seekerBindingResult,
-                             @ModelAttribute @Valid UserDto userDto, BindingResult userBindingResult, Model model) {
-        log.info("POST /seeker/join..seekerDto : " + seekerDto + " seekerBindingResult : " + seekerBindingResult);
-        log.info("POST /seeker/join..userDto : " + userDto + " userBindingResult : " + userBindingResult);
+    public String seekerJoin(
+            @ModelAttribute @Valid SeekerDto seekerDto,
+            BindingResult bindingResult,
+            Model model)
+    {
+        log.info("POST /seeker/join..seekerDto : " + seekerDto + " seekerBindingResult : " + bindingResult);
 
-        if (seekerBindingResult.hasFieldErrors() || userBindingResult.hasFieldErrors()) {
-            for (FieldError error : seekerBindingResult.getFieldErrors()) {
+        if (bindingResult.hasFieldErrors()) {
+            for (FieldError error : bindingResult.getFieldErrors()) {
                 log.info("ErrorField : " + error.getField() + " ErrorMsg : " + error.getDefaultMessage());
                 model.addAttribute(error.getField(), error.getDefaultMessage());
             }
-            for (FieldError error : userBindingResult.getFieldErrors()) {
-                log.info("ErrorField : " + error.getField() + " ErrorMsg : " + error.getDefaultMessage());
-                model.addAttribute(error.getField(), error.getDefaultMessage());
-            }
-            return "join";
+            return "/user/join";
         }
 
-        if (!seekerDto.getPassword().equals(seekerDto.getRepassword())) {
-            seekerBindingResult.rejectValue("repassword", "password.mismatch", "비밀번호가 일치하지 않습니다.");
-            log.info("repassword error!");
-            return "join";
-        }
-
-
-        boolean isRegistered = jobSeekerServiceImpl.memberRegistration(userDto, seekerDto);
+        boolean isRegistered = jobSeekerServiceImpl.memberRegistration(null, seekerDto);
         if (!isRegistered) {
             model.addAttribute("registrationError", "회원가입 중 오류가 발생했습니다.");
-            return "join";
+            return "/user/join";
         }
 
         return "redirect:/user/login";

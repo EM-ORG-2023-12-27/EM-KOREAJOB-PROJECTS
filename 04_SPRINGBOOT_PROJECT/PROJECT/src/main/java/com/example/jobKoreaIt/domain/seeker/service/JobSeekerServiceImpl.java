@@ -6,6 +6,7 @@ import com.example.jobKoreaIt.domain.common.dto.UserDto;
 import com.example.jobKoreaIt.domain.common.entity.User;
 import com.example.jobKoreaIt.domain.common.repository.UserRepository;
 import com.example.jobKoreaIt.domain.seeker.dto.SeekerDto;
+import com.example.jobKoreaIt.domain.seeker.entity.JobSeeker;
 import com.example.jobKoreaIt.domain.seeker.repository.JobSeekerRepository;
 import com.example.jobKoreaIt.domain.seeker.repository.ResumeRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,8 @@ public class JobSeekerServiceImpl {
     @Autowired
     private JobSeekerRepository jobSeekerRepository;
 
-
+    @Autowired
+    private UserRepository userRepository;
 
     @Transactional(rollbackFor = Exception.class)
     public void function(){
@@ -63,17 +65,13 @@ public class JobSeekerServiceImpl {
     @Transactional(rollbackFor = Exception.class)
     public boolean memberRegistration(UserDto userDto, SeekerDto seekerDto) {
         try {
-            // User 엔티티 생성 및 저장
-            User user = new User();
-            user.setUsername(userDto.getUsername());
-            user.setPassword(userDto.getPassword());
-            user.setEmail(userDto.getEmail());
-            // 기타 필요한 필드 설정
 
-            userRepository.save(user);
 
             // Seeker 엔티티 생성 및 저장
-            Seeker seeker = new Seeker();
+            JobSeeker seeker = new JobSeeker();
+            seeker.setUsername(seekerDto.getUsername());
+            seeker.setPassword(seekerDto.getPassword());
+
             seeker.setUsername(seekerDto.getUsename());
             seeker.setPassword(seekerDto.getPassword());
             seeker.setTel(seekerDto.getTel());

@@ -2,9 +2,11 @@ package com.example.jobKoreaIt.domain.offer.service;
 
 
 import com.example.jobKoreaIt.domain.common.dto.UserDto;
+import com.example.jobKoreaIt.domain.common.entity.User;
 import com.example.jobKoreaIt.domain.common.repository.UserRepository;
 import com.example.jobKoreaIt.domain.offer.dto.OfferDto;
 import com.example.jobKoreaIt.domain.offer.entity.Company;
+import com.example.jobKoreaIt.domain.offer.entity.JobOffer;
 import com.example.jobKoreaIt.domain.offer.repository.CompanyRepository;
 import com.example.jobKoreaIt.domain.offer.repository.JobOfferRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +20,9 @@ public class JobOfferServiceImpl {
 
     @Autowired
     private JobOfferRepository offerRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Transactional(rollbackFor = Exception.class)
     public void function(){
@@ -52,9 +57,8 @@ public class JobOfferServiceImpl {
     }
 
 
-    @Autowired
-    UserRepository userRepository;
-    JobOfferRepository jobOfferRepository;
+
+
 
     @Transactional(rollbackFor = Exception.class)
     public boolean memberRegistration(UserDto userDto, OfferDto offerDto) {
@@ -63,13 +67,12 @@ public class JobOfferServiceImpl {
             User user = new User();
             user.setUsername(userDto.getUsername());
             user.setPassword(userDto.getPassword());
-            user.setEmail(userDto.getEmail());
             // 기타 필요한 필드 설정
 
             userRepository.save(user);
 
             // Offer 엔티티 생성 및 저장
-            Offer offer = new Offer();
+            JobOffer offer = new JobOffer();
             offer.setUsername(offerDto.getUsername());
             offer.setPassword(offerDto.getPassword());
             offer.setOffertel(offerDto.getOffertel());
