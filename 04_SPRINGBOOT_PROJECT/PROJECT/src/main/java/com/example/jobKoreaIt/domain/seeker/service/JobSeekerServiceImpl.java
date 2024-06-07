@@ -108,6 +108,8 @@ public class JobSeekerServiceImpl {
     public void resume_update(long id, Resume updatedResume) {
         // 이력서 업데이트 처리
         Optional<Resume> optionalResume = resumeRepository.findById(id);
+
+
         if (optionalResume.isPresent()) {
             Resume resume = optionalResume.get();
             // 수정된 내용 업데이트
@@ -117,9 +119,10 @@ public class JobSeekerServiceImpl {
             resume.setSchoolName(updatedResume.getSchoolName());
             resume.setMajor(updatedResume.getMajor());
             resume.setGraduationYear(updatedResume.getGraduationYear());
+            resume.setSummary(updatedResume.getSummary());
+            resume.setHobbies(updatedResume.getHobbies());
             // 나머지 필드도 동일하게 업데이트
-
-            // 수정된 이력서 저장
+                    // 수정된 이력서 저장
             resumeRepository.save(resume);
             log.info("Resume with id {} updated successfully", id);
         } else {

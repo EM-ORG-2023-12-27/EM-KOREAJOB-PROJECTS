@@ -55,6 +55,7 @@ public class SeekerController {
         if (resumeOptional.isPresent()) {
             Resume resume = resumeOptional.get();
             model.addAttribute("resume", resume);
+            log.info("UPDATE 페이지로 이동성공!");
             return "seeker/resume/update"; // 수정 페이지 보여주기
         } else {
             model.addAttribute("notFound", "이력서를 찾을 수 없습니다.");
@@ -66,7 +67,7 @@ public class SeekerController {
     public String resume_update_post(@PathVariable("id") long id, @ModelAttribute("resume") Resume updatedResume) {
         log.info("POST /resume/update..");
         jobSeekerServiceImpl.resume_update(id, updatedResume);
-        return "redirect:/seeker/resume/update/{id}"; // 이력서 목록 페이지로 리다이렉트
+        return "redirect:/seeker/resume/update/"+id; // 이력서 목록 페이지로 리다이렉트
     }
 
 
