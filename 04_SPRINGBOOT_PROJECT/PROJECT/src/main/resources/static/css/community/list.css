@@ -4,3 +4,16 @@
     justify-content :right;
     align-items : center;
 }
+
+
+.community-block{
+    height : 800px;
+}
+
+
+.contents-block{
+    margin : 20px auto;
+}
+.contents-block>*{
+    margin-bottom : 15px;
+}
