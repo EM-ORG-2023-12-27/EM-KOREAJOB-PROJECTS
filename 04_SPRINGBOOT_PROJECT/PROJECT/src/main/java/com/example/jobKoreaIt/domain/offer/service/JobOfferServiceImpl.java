@@ -63,16 +63,13 @@ public class JobOfferServiceImpl {
     @Transactional(rollbackFor = Exception.class)
     public boolean memberRegistration(UserDto userDto, OfferDto offerDto) {
         try {
-            // User 엔티티 생성 및 저장
-            User user = new User();
-            user.setUsername(userDto.getUsername());
-            user.setPassword(userDto.getPassword());
-            // 기타 필요한 필드 설정
 
-            userRepository.save(user);
 
             // Offer 엔티티 생성 및 저장
             JobOffer offer = new JobOffer();
+            offer.setUsername(offerDto.getUsername());
+            offer.setPassword(offerDto.getPassword());
+
             offer.setUsername(offerDto.getUsername());
             offer.setPassword(offerDto.getPassword());
             offer.setOffertel(offerDto.getOffertel());
@@ -81,7 +78,6 @@ public class JobOfferServiceImpl {
             offer.setOffernumber(offerDto.getOffernumber());
             offer.setZipcode(offerDto.getZipcode());
             offer.setOfferaddress(offerDto.getOfferaddress());
-            // 기타 필요한 필드 설정
 
             offerRepository.save(offer);
 

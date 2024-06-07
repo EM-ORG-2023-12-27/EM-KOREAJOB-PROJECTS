@@ -79,7 +79,6 @@ public class JobSeekerServiceImpl {
             seeker.setZipcode(seekerDto.getZipcode());
             seeker.setAddr1(seekerDto.getAddr1());
             seeker.setAddr2(seekerDto.getAddr2());
-            // 기타 필요한 필드 설정
 
             jobSeekerRepository.save(seeker);
 

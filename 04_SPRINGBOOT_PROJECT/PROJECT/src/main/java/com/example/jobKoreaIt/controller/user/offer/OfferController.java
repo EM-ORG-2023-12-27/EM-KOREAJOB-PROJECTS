@@ -29,33 +29,27 @@ public class OfferController {
     }
 
     @PostMapping("/join")
-    public String offerJoin(@ModelAttribute @Valid OfferDto offerDto, BindingResult offerBindingResult,
-                            @ModelAttribute @Valid UserDto userDto, BindingResult userBindingResult, Model model) {
-        log.info("POST /offer/join..offerDto : " + offerDto + " offerBindingResult : " + offerBindingResult);
-        log.info("POST /offer/join..userDto : " + userDto + " userBindingResult : " + userBindingResult);
+    public String offerJoin(@ModelAttribute @Valid OfferDto offerDto,
+                            BindingResult bindingResult,
+                            Model model)
+    {
+        log.info("POST /offer/join...offerDto : " + offerDto + "offerBindingResiult : " + bindingResult );
 
-        if (offerBindingResult.hasFieldErrors() || userBindingResult.hasFieldErrors()) {
-            for (FieldError error : offerBindingResult.getFieldErrors()) {
+
+
+        if (bindingResult.hasFieldErrors()) {
+            for (FieldError error : bindingResult.getFieldErrors()) {
                 log.info("ErrorField : " + error.getField() + " ErrorMsg : " + error.getDefaultMessage());
                 model.addAttribute(error.getField(), error.getDefaultMessage());
             }
-            for (FieldError error : userBindingResult.getFieldErrors()) {
-                log.info("ErrorField : " + error.getField() + " ErrorMsg : " + error.getDefaultMessage());
-                model.addAttribute(error.getField(), error.getDefaultMessage());
-            }
-            return "join";
+
+            return "/offer/join";
         }
 
-        if (!offerDto.getPassword().equals(offerDto.getRepassword())) {
-            offerBindingResult.rejectValue("repassword", "password.mismatch", "비밀번호가 일치하지 않습니다.");
-            log.info("repassword error!");
-            return "join";
-        }
-
-        boolean isRegistered = jobOfferServiceImpl.memberRegistration(userDto, offerDto);
+        boolean isRegistered = jobOfferServiceImpl.memberRegistration(null,offerDto);
         if (!isRegistered) {
             model.addAttribute("registrationError", "회원가입 중 오류가 발생했습니다.");
-            return "join";
+            return "/user/join";
         }
 
         return "redirect:/user/login";
