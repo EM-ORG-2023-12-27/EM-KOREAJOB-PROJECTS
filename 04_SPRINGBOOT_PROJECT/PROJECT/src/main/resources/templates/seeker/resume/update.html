@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>이력서 수정</title>
@@ -71,25 +71,38 @@
             alert("수정이 완료되었습니다!");
         }
 
-        function addCareer() {
-            careerCount++;
-            const careersDiv = document.getElementById('careers');
-            const careerItem = document.createElement('div');
-            careerItem.className = 'career-item';
-            careerItem.innerHTML = `
-                <label for="companyName${careerCount}">경력사항 ${careerCount}:</label>
-                <input type="text" name="careers[${careerCount - 1}].companyName" placeholder="회사이름" required />
-                <input type="text" name="careers[${careerCount - 1}].position" placeholder="직책" required />
-                <input type="text" name="careers[${careerCount - 1}].startDate" placeholder="근무시작일" required />
-                <input type="text" name="careers[${careerCount - 1}].endDate" placeholder="근무종료일" required />
+       function addCareer() {
+            const careerContainer = document.getElementById('careerContainer');
+            const index = careerContainer.children.length;
+            const newCareer = document.createElement('div');
+            newCareer.innerHTML = `
+                <div class="career-item">
+                    <label for="companyName_${index}">회사이름:</label>
+                    <input type="text" id="companyName_${index}" name="careers[${index}].companyName" required />
+                </div>
+                <div class="career-item">
+                    <label for="position_${index}">직책:</label>
+                    <input type="text" id="position_${index}" name="careers[${index}].position" required />
+                </div>
+                <div class="career-item">
+                    <label for="startDate_${index}">근무시작일:</label>
+                    <input type="text" id="startDate_${index}" name="careers[${index}].startDate" required />
+                </div>
+                <div class="career-item">
+                    <label for="endDate_${index}">근무종료일:</label>
+                    <input type="text" id="endDate_${index}" name="careers[${index}].endDate" required />
+                </div>
+                <hr>
             `;
-            careersDiv.appendChild(careerItem);
-        }
+            careerContainer.appendChild(newCareer);
 
-       document.getElementById("updateForm").addEventListener("submit", function(event) {
-        let id = document.getElementById("updateForm").getAttribute("action").split("/").pop();
-        document.getElementById("updateForm").action = "/seeker/resume/update/" + id;
-    });
+            // Add hidden input field to include careerList index
+            const careerIndexInput = document.createElement('input');
+            careerIndexInput.type = 'hidden';
+            careerIndexInput.name = 'resume.careers[' + index + '].index';
+            careerIndexInput.value = index;
+            newCareer.appendChild(careerIndexInput);
+        }
 
 
 
@@ -103,58 +116,59 @@
     <main>
         <section>
             <form action="/seeker/resume/update" method="post" id="updateForm">
-                <input type="hidden" name="id" id="resumeIdField" value="{id}">
+
+
                 <!-- 기본 정보 폼 -->
                 <div>
+                    <input type="hidden" id="resumeId" name="resume.id" th:value="${resume.id}" />
                     <label for="name">이름:</label>
-                    <input type="text" id="name" name="name" required />
+                    <input type="text" id="name" name="resume.name" required />
                 </div>
                 <div>
                     <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required />
+                    <input type="email" id="email" name="resume.email" required />
                 </div>
                 <div>
                     <label for="phone">휴대폰번호:</label>
-                    <input type="text" id="phone" name="phone" required />
+                    <input type="text" id="phone"  name="resume.phone" required />
                 </div>
-                <!-- 학력 폼 -->
+                <h3>학력</h3>
+                <hr>
                 <div>
                     <label for="schoolName">출신학교:</label>
-                    <input type="text" id="schoolName" name="schoolName" required />
+                    <input type="text" id="schoolName" name="resume.schoolName" required />
                 </div>
                 <div>
                     <label for="major">전공:</label>
-                    <input type="text" id="major" name="major" required />
+                    <input type="text" id="major" name="resume.major" required />
                 </div>
                 <div>
                     <label for="graduationYear">졸업년도:</label>
-                    <input type="text" id="graduationYear" name="graduationYear" required />
+                    <input type="text" id="graduationYear" name="resume.graduationYear" required />
                 </div>
-                <!-- 경력 폼 -->
-                <div id="careers">
-                    <div class="career-item">
-                        <label for="companyName1">경력사항 1:</label>
-                        <input type="text" name="careers[0].companyName" placeholder="회사이름" required />
-                        <input type="text" name="careers[0].position" placeholder="직책" required />
-                        <input type="text" name="careers[0].startDate" placeholder="근무시작일" required />
-                        <input type="text" name="careers[0].endDate" placeholder="근무종료일" required />
-                    </div>
+                <hr>
+                <h3>경력</h3>
+                <div id="careerContainer">
+                    <!-- 경력 항목이 추가될 곳 -->
                 </div>
-                <button type="button" onclick="addCareer()">추가 경력</button>
-                <!-- 기술 및 자격증 폼 -->
+                <div>
+                    <button type="button" onclick="addCareer()">경력 추가</button>
+                </div>
+                <hr>
+                <h3>기술 및 자격증</h3>
                 <div>
                     <label for="certificationName">자격증:</label>
-                    <input type="text" id="certificationName" name="certificationName" required />
+                    <input type="text" id="certificationName" name="resume.certificationName" required />
                 </div>
-                <!-- 자기소개서 폼 -->
+                <hr>
+                <h3>자기소개</h3>
                 <div>
                     <label for="summary">자기소개서:</label>
-                    <textarea id="summary" name="summary" required style="height:300px;"></textarea>
+                    <textarea id="summary" name="resume.summary" required style="height:300px;"></textarea>
                 </div>
-                <!-- 기타 항목 폼 -->
                 <div>
-                    <label for="certificationName">자격증:</label>
-                    <input type="text" id="hobbies" name="hobbies" required />
+                    <label for="hobbies">취미:</label>
+                    <input type="text" id="hobbies"  name="resume.hobbies" required />
                 </div>
                 <!-- 추가적인 항목들을 원하실 경우 해당 폼을 추가하시면 됩니다. -->
                 <div>
