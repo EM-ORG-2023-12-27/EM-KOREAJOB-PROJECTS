@@ -68,4 +68,9 @@ public class Resume {
                 // Avoid printing careers to prevent StackOverflowError
                 '}';
     }
+
+    public void addCareer(Career career) {
+        careers.add(career);
+        career.setResume(this);
+    }
 }

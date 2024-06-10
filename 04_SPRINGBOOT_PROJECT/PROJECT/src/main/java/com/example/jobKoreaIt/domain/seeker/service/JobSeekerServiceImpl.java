@@ -13,8 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.text.html.Option;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,25 +40,39 @@ public class JobSeekerServiceImpl {
     public void resume_add(ResumeFormDto resumeForm) {
         log.info("JobSeekerRepository/resume_add...!");
         log.info("Received careers in service: " + resumeForm.getCareers());
+
         // Resume 객체를 가져와서 저장
         Resume resume = resumeForm.getResume();
 
         // 각 Career 객체에 Resume 객체를 설정
         List<Career> careers = resumeForm.getCareers();
         if (careers != null) {
-            for (Career career : careers) {
+            // CopyOnWriteArrayList 사용
+            List<Career> careersToSave = new CopyOnWriteArrayList<>(careers);
+            log.info("Original careers list size: " + careers.size());
+            log.info("Copied careers list size: " + careersToSave.size());
+
+            for (Career career : careersToSave) {
+                log.info("Setting resume for career: " + career);
                 career.setResume(resume);
             }
-        }
-        // Resume 객체에 Careers 리스트 설정
-        resume.setCareers(careers);
-        // Resume 저장
-        resumeRepository.save(resume);
-        // 각 Career 객체 저장 (CascadeType.ALL을 사용하여 자동으로 저장되도록 할 수도 있습니다)
-        if (careers != null) {
-            for (Career career : careers) {
+
+            // Resume 객체에 Careers 리스트 설정
+            resume.setCareers(careersToSave);
+
+            // Resume 저장
+            log.info("Saving resume: " + resume);
+            resumeRepository.save(resume);
+
+            // 각 Career 객체 저장 (CascadeType.ALL을 사용하여 자동으로 저장되도록 할 수도 있습니다)
+            for (Career career : careersToSave) {
+                log.info("Saving career: " + career);
                 careerRepository.save(career);
             }
+        } else {
+            // Resume 저장 (Careers가 없는 경우)
+            log.info("Saving resume without careers: " + resume);
+            resumeRepository.save(resume);
         }
     }
 
@@ -121,6 +137,9 @@ public class JobSeekerServiceImpl {
             resume.setGraduationYear(updatedResume.getGraduationYear());
             resume.setSummary(updatedResume.getSummary());
             resume.setHobbies(updatedResume.getHobbies());
+            //경력사항 저장
+            log.info("updateResume.get Career : "+updatedResume.getCareers());
+            resume.setCareers(updatedResume.getCareers());
             // 나머지 필드도 동일하게 업데이트
                     // 수정된 이력서 저장
             resumeRepository.save(resume);

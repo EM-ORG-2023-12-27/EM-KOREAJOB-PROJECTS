@@ -1,6 +1,7 @@
 package com.example.jobKoreaIt.controller.user.seeker;
 
 import com.example.jobKoreaIt.domain.seeker.dto.ResumeDto;
+import com.example.jobKoreaIt.domain.seeker.entity.Career;
 import com.example.jobKoreaIt.domain.seeker.entity.Resume;
 import com.example.jobKoreaIt.domain.seeker.dto.ResumeFormDto;
 import com.example.jobKoreaIt.domain.seeker.service.JobSeekerServiceImpl;
@@ -50,6 +51,7 @@ public class SeekerController {
     //수정 ------------------------------------------------------------
     @GetMapping("/resume/update/{id}")
     public String resume_update_get(@PathVariable("id") long id, Model model) {
+        log.info("id : "+id);
         log.info("GET /resume/update..");
         Optional<Resume> resumeOptional = jobSeekerServiceImpl.resume_read(id);
         if (resumeOptional.isPresent()) {
@@ -62,13 +64,53 @@ public class SeekerController {
             return "error"; // 에러 페이지 보여주기
         }
     }
-
     @PostMapping("/resume/update/{id}")
-    public String resume_update_post(@PathVariable("id") long id, @ModelAttribute("resume") Resume updatedResume) {
+    public String resume_update_post(
+            @PathVariable("id") long id,
+            @RequestParam String name,
+            @RequestParam String email,
+            @RequestParam String phone,
+            @RequestParam String schoolName,
+            @RequestParam String major,
+            @RequestParam String graduationYear,
+            @RequestParam List<String> companyName,
+            @RequestParam List<String> position,
+            @RequestParam List<String> startDate,
+            @RequestParam List<String> endDate,
+            @RequestParam String certificationName,
+            @RequestParam String summary) {
+
+        log.info("id : "+id);
         log.info("POST /resume/update..");
+
+        // Create the updated Resume object
+        Resume updatedResume = new Resume();
+        updatedResume.setName(name);
+        updatedResume.setEmail(email);
+        updatedResume.setPhone(phone);
+        updatedResume.setSchoolName(schoolName);
+        updatedResume.setMajor(major);
+        updatedResume.setGraduationYear(graduationYear);
+        updatedResume.setCertificationName(certificationName);
+        updatedResume.setSummary(summary);
+
+        // Create and add Career objects to the updated Resume
+        for (int i = 0; i < companyName.size(); i++) {
+            Career career = new Career();
+            career.setCompanyName(companyName.get(i));
+            career.setPosition(position.get(i));
+            career.setStartDate(startDate.get(i));
+            career.setEndDate(endDate.get(i));
+            updatedResume.addCareer(career); // Assuming there is a method to add Career to Resume
+        }
+
+        // Update the resume
         jobSeekerServiceImpl.resume_update(id, updatedResume);
-        return "redirect:/seeker/resume/update/"+id; // 이력서 목록 페이지로 리다이렉트
+
+        return "redirect:/seeker/resume/update/" + id; // 이력서 목록 페이지로 리다이렉트
     }
+
+
 
 
     //상세읽기--------------------------------------------------------------
@@ -86,11 +128,7 @@ public class SeekerController {
         return "seeker/resume/read"; // return the view name
     }
 
-    @PostMapping("/resume/read")
-    public String resume_read_post(){
-        log.info("POST /resume/read..");
-        return "redirect:/seeker/resume/list"; // redirect after reading
-    }
+
 
     //이력서 항목 리스트 조회------------------------
     @GetMapping("/resume/list")
