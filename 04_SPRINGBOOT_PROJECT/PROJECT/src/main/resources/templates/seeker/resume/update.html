@@ -86,9 +86,11 @@
             careersDiv.appendChild(careerItem);
         }
 
+       document.getElementById("updateForm").addEventListener("submit", function(event) {
+        let id = document.getElementById("updateForm").getAttribute("action").split("/").pop();
+        document.getElementById("updateForm").action = "/seeker/resume/update/" + id;
+    });
 
-  let id = document.getElementById("updateForm").getAttribute("action").split("/").pop();
-    document.getElementById("updateForm").action = "/seeker/resume/update/" + id;
 
 
     </script>
@@ -150,6 +152,10 @@
                     <textarea id="summary" name="summary" required style="height:300px;"></textarea>
                 </div>
                 <!-- 기타 항목 폼 -->
+                <div>
+                    <label for="certificationName">자격증:</label>
+                    <input type="text" id="hobbies" name="hobbies" required />
+                </div>
                 <!-- 추가적인 항목들을 원하실 경우 해당 폼을 추가하시면 됩니다. -->
                 <div>
                     <button type="submit" onclick="showSuccessMessage()">수정완료</button>
