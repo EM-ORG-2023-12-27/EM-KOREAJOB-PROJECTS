@@ -7,39 +7,22 @@
     <!-- link -->
     <th:block th:insert="~{fragments/link :: linkFragment}" />
 
-    <!-- find_id.css -->
-    <link rel="stylesheet" href="/css/user/find_id.css">
+    <!-- confirmId.css -->
+    <link rel="stylesheet" href="/css/user/confirm.css">
 
-    <!-- find_id.js -->
-    <script src="/js/user/find_id.js" defer></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelector('form').addEventListener('submit', function(event) {
-                event.preventDefault();
-                const email = document.querySelector('input[name="email"]').value;
-                fetch('/user/confirmId', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ email: email })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    alert(data);
-                })
-                .catch(error => console.error('Error:', error));
-            });
-        });
-    </script>
+    <!-- confirmId.js -->
+    <script src="/js/user/confirmId.js" defer></script>
+
 </head>
 <body>
 <div class="wrapper">
     <header>
         <!-- header -->
         <th:block th:insert="~{fragments/top_header :: topHeaderFragment}" />
+
         <!-- nav -->
         <th:block th:insert="~{fragments/nav :: navFragment}" />
+
     </header>
     <main>
         <section class="breadcrum-block layout-150">
@@ -52,16 +35,16 @@
         </section>
         <section>
             <div class="main-block">
-                <form>
+                <form  class="checkIdform"  name="checkIdform" action="/user/confirmId" method="post" >
                     <div class="m-2">
                         <h2>아이디 찾기</h2>
                     </div>
                     <div class="m-2">
-                        <label for="email">이메일 : </label>
+                        <label for="email">이메일 : </label>&nbsp;&nbsp;<span th:text="${email}" style="font-size:0.7rem;color:orange;"></span>
                         <input type="email" id="email" name="email" class="form-control" required/>
                     </div>
                     <div class="m-2">
-                        <button class="btn btn-success w-100" type="submit">아이디 찾기</button>
+                        <button class="btn btn-success w-100 confirmId_btn" type="submit">아이디 찾기</button>
                     </div>
                 </form>
             </div>

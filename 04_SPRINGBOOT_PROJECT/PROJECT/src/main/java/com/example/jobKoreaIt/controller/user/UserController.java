@@ -1,5 +1,7 @@
 package com.example.jobKoreaIt.controller.user;
 
+
+
 import com.example.jobKoreaIt.domain.common.dto.UserDto;
 import com.example.jobKoreaIt.domain.common.entity.User;
 import com.example.jobKoreaIt.domain.common.repository.UserRepository;
@@ -13,7 +15,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.Map;
 import java.util.Random;
 
 @Controller
@@ -41,8 +43,12 @@ public class UserController {
 
     // ID 찾기
     @PostMapping("/confirmId")
-    public @ResponseBody ResponseEntity<String> confirmId_post(@RequestBody UserDto userDto) {
-        log.info("POST /user/confirmId.." + userDto);
+    public @ResponseBody ResponseEntity<String> confirmId_post(@RequestParam Map<String, String> formData) {
+        log.info("POST /user/confirmId.." + formData);
+
+        UserDto userDto = new UserDto();
+        userDto.setUsername(formData.get("username"));
+        // 필요한 다른 필드도 설정
 
         User user = userService.getUser(userDto);
 
@@ -68,8 +74,11 @@ public class UserController {
     }
 
     @PostMapping("/confirmPw")
-    public @ResponseBody ResponseEntity<String> confirmPw_post(@RequestBody UserDto userDto) {
-        log.info("POST /user/confirmPw.." + userDto);
+    public @ResponseBody ResponseEntity<String> confirmPw_post(@RequestParam Map<String, String> formData) {
+        log.info("POST /user/confirmPw.." + formData);
+
+        UserDto userDto = new UserDto();
+        userDto.setUsername(formData.get("username"));
 
         User user = userService.getUser(userDto);
 
@@ -98,13 +107,13 @@ public class UserController {
     @GetMapping("/login")
     public String login_get() {
         log.info("GET /user/login..");
-        return "user/login"; // login.html 뷰를 반환
+        return "user/login";
     }
 
     @GetMapping("/join")
     public String join_get() {
         log.info("GET /user/join..");
-        return "user/join"; // join.html 뷰를 반환
+        return "user/join";
     }
 
     @PostMapping("/myinfo")

@@ -12,26 +12,6 @@
 
     <!-- find_password.js -->
     <script src="/js/user/find_password.js" defer></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelector('form').addEventListener('submit', function(event) {
-                event.preventDefault();
-                const email = document.querySelector('input[name="email"]').value;
-                fetch('/user/confirmPw', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ email: email })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    alert(data);
-                })
-                .catch(error => console.error('Error:', error));
-            });
-        });
-    </script>
 </head>
 <body>
 <div class="wrapper">
