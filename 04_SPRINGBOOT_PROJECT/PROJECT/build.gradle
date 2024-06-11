@@ -74,6 +74,10 @@ dependencies {
 
 	//Spotify API(최신버전 : https://github.com/spotify-web-api-java/spotify-web-api-java)
 	implementation 'se.michaelthelin.spotify:spotify-web-api-java:8.0.0'
+
+	//TX
+	implementation 'org.springframework:spring-tx'
+
 }
 
 tasks.named('test') {

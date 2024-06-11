@@ -20,6 +20,7 @@ public class User {
     @Id
     private String username;        //email
     private String password;
+    private String email;
     private String role;
 
     private LocalDateTime createAt;

@@ -17,10 +17,15 @@ public class UserDto {
 	private String password;
 	private String repassword;
 	private String role;
+	private String phone;
+	private String Email;
 
 	//OAUTH2
 	private String provider;
 	private String providerId;
+
+	
+
 
 //    //날짜
 //    @DateTimeFormat(pattern = "yyyy-MM-dd")
