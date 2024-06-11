@@ -19,8 +19,9 @@ public class Career {
     public String startDate;
     public String endDate;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL )
-    @JoinColumn(name = "resume_id")
+    @ManyToOne
+    @JoinColumn(name = "resume_id",foreignKey = @ForeignKey(name="FK_Resume_Carrer",
+            foreignKeyDefinition ="FOREIGN KEY(resume_id) REFERENCES resume(id) ON DELETE CASCADE ON UPDATE CASCADE" ))
     public Resume resume;
 
     @Override

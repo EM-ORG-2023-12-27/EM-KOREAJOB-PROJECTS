@@ -94,6 +94,9 @@
             `;
             careerContainer.appendChild(newCareer);
         }
+
+
+
     </script>
 </head>
 <body>
@@ -102,6 +105,10 @@
         <h1>이력서 수정</h1>
     </header>
     <main>
+        <section>
+            <div th:text="${list}"></div>
+
+        </section>
         <section>
             <form action="/seeker/resume/update" method="post" id="updateForm">
                 <!-- 기본 정보 폼 -->
@@ -136,28 +143,28 @@
                 <h3>경력</h3>
                 <div id="careerContainer">
                     <!-- 기존 경력 사항 표시 -->
-                    <th:block th:each="career, iterStat : ${resume.careers}">
+                    <th:block th:each="career : ${resume.careers}">
                         <div class="career-item">
-                            <label for="companyName_${iterStat.index}">회사이름:</label>
-                            <input type="text" id="companyName_${iterStat.index}" name="careers.companyName" th:value="${career.companyName}" required />
+                            <label for="">회사이름:</label>
+                            <input type="text"  th:name="careers[0].companyName" th:value="${career.companyName}" required />
                         </div>
                         <div class="career-item">
-                            <label for="position_${iterStat.index}">직책:</label>
-                            <input type="text" id="position_${iterStat.index}" name="careers.position" th:value="${career.position}" required />
+                            <label for="">직책:</label>
+                            <input type="text"  th:name="careers[0].position" th:value="${career.position}" required />
                         </div>
                         <div class="career-item">
-                            <label for="startDate_${iterStat.index}">근무시작일:</label>
-                            <input type="text" id="startDate_${iterStat.index}" name="careers.startDate" th:value="${career.startDate}" required />
+                            <label >근무시작일:</label>
+                            <input type="text"  th:name="careers[0].startDate" th:value="${career.startDate}" required />
                         </div>
                         <div class="career-item">
-                            <label for="endDate_${iterStat.index}">근무종료일:</label>
-                            <input type="text" id="endDate_${iterStat.index}" name="careers.endDate" th:value="${career.endDate}" required />
+                            <label >근무종료일:</label>
+                            <input type="text"  th:name="careers[0].endDate" th:value="${career.endDate}" required />
                         </div>
                         <hr>
                     </th:block>
                 </div>
                 <div>
-                    <button type="button" onclick="addCareer()">경력 추가</button>
+                    <a href="javascipt:void(0)" class="addCarrer" >경력 추가</a>
                 </div>
                 <hr>
                 <h3>기술 및 자격증</h3>
@@ -188,6 +195,36 @@
     <footer>
         <!-- Footer content here -->
     </footer>
+
+
+    <script>
+        const addCarrer = document.querySelector('.addCarrer');
+        addCarrer.addEventListener('click',function(){
+            const careerContainer = document.getElementById('careerContainer');
+            const index = careerContainer.children.length;
+            const newCareer = document.createElement('div');
+            newCareer.innerHTML = `
+                <div class="career-item">
+                    <label for="companyName_${index}">회사이름:</label>
+                    <input type="text" id="companyName_${index}" name="careers[${index}].companyName" required />
+                </div>
+                <div class="career-item">
+                    <label for="position_${index}">직책:</label>
+                    <input type="text" id="position_${index}" name="careers[${index}].position" required />
+                </div>
+                <div class="career-item">
+                    <label for="startDate_${index}">근무시작일:</label>
+                    <input type="text" id="startDate_${index}" name="careers[${index}].startDate" required />
+                </div>
+                <div class="career-item">
+                    <label for="endDate_${index}">근무종료일:</label>
+                    <input type="text" id="endDate_${index}" name="careers[${index}].endDate" required />
+                </div>
+                <hr>
+            `;
+            careerContainer.appendChild(newCareer);
+        });
+    </script>
 </div>
 </body>
 </html>

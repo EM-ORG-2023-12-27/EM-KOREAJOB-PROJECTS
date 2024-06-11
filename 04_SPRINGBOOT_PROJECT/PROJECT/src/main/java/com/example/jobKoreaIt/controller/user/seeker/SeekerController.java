@@ -4,6 +4,7 @@ import com.example.jobKoreaIt.domain.seeker.dto.ResumeDto;
 import com.example.jobKoreaIt.domain.seeker.entity.Career;
 import com.example.jobKoreaIt.domain.seeker.entity.Resume;
 import com.example.jobKoreaIt.domain.seeker.dto.ResumeFormDto;
+import com.example.jobKoreaIt.domain.seeker.repository.CareerRepository;
 import com.example.jobKoreaIt.domain.seeker.service.JobSeekerServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,22 +50,36 @@ public class SeekerController {
     }
 
     //수정 ------------------------------------------------------------
+
+    @Autowired
+    CareerRepository careerRepository;
     @GetMapping("/resume/update/{id}")
     public String resume_update_get(@PathVariable("id") long id, Model model) {
         log.info("id : "+id);
         log.info("GET /resume/update..");
         Optional<Resume> resumeOptional = jobSeekerServiceImpl.resume_read(id);
+
+
         if (resumeOptional.isPresent()) {
             Resume resume= resumeOptional.get();
+            System.out.println("/resume/update/{id} resume : " + resume);
 
             model.addAttribute("resume", resume);
             log.info("UPDATE 페이지로 이동성공!");
+
+            //------------------------
+            List<Career> list =  careerRepository.findAllByResume(resume);
+            System.out.println("!" + list);
+            model.addAttribute("list",list);
+            //------------------------
+
             return "seeker/resume/update"; // 수정 페이지 보여주기
         } else {
             model.addAttribute("notFound", "이력서를 찾을 수 없습니다.");
             return "error"; // 에러 페이지 보여주기
         }
     }
+
     @PostMapping("/resume/update")
     public String resume_update_post(ResumeFormDto formDto) {
         log.info("formDto : "+formDto);
