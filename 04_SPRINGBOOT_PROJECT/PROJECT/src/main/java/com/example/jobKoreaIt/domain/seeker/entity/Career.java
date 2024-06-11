@@ -24,14 +24,5 @@ public class Career {
             foreignKeyDefinition ="FOREIGN KEY(resume_id) REFERENCES resume(id) ON DELETE CASCADE ON UPDATE CASCADE" ))
     public Resume resume;
 
-    @Override
-    public String toString() {
-        return "Career{" +
-                "id=" + id +
-                ", companyName='" + companyName + '\'' +
-                ", position='" + position + '\'' +
-                ", startDate='" + startDate + '\'' +
-                ", endDate='" + endDate + '\'' +
-                '}';
-    }
+
 }

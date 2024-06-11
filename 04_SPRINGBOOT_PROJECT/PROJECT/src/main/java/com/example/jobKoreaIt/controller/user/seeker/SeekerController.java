@@ -69,6 +69,7 @@ public class SeekerController {
 
             //------------------------
             List<Career> list =  careerRepository.findAllByResume(resume);
+
             System.out.println("!" + list);
             model.addAttribute("list",list);
             //------------------------
@@ -87,6 +88,8 @@ public class SeekerController {
         log.info("formDto.id : "+id);
         // Update the resume
         jobSeekerServiceImpl.resume_update(id, formDto);
+
+
 
      return "redirect:/seeker/resume/list";
 
