@@ -73,4 +73,9 @@ public class Resume {
         careers.add(career);
         career.setResume(this);
     }
+
+    public void removeCareer(Career career) {
+        careers.remove(career);
+        career.setResume(null);
+    }
 }

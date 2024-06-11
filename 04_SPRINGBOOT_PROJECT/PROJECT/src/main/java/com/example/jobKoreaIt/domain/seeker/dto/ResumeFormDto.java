@@ -13,8 +13,26 @@ import java.util.List;
 @AllArgsConstructor
 public class ResumeFormDto {
 
+
     private Resume resume;
     private List<Career> careers;
 
 
+
+    // getters and setters
+    public Resume getResume() {
+        return resume;
+    }
+
+    public void setResume(Resume resume) {
+        this.resume = resume;
+    }
+
+    public List<Career> getCareers() {
+        return careers;
+    }
+
+    public void setCareers(List<Career> careers) {
+        this.careers = careers;
+    }
 }

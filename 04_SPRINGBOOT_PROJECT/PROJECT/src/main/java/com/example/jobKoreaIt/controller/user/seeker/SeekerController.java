@@ -55,7 +55,8 @@ public class SeekerController {
         log.info("GET /resume/update..");
         Optional<Resume> resumeOptional = jobSeekerServiceImpl.resume_read(id);
         if (resumeOptional.isPresent()) {
-            Resume resume = resumeOptional.get();
+            Resume resume= resumeOptional.get();
+
             model.addAttribute("resume", resume);
             log.info("UPDATE 페이지로 이동성공!");
             return "seeker/resume/update"; // 수정 페이지 보여주기
@@ -68,12 +69,14 @@ public class SeekerController {
     public String resume_update_post(ResumeFormDto formDto) {
         log.info("formDto : "+formDto);
         Long id=formDto.getResume().getId();
-
+        log.info("formDto.id : "+id);
         // Update the resume
-        jobSeekerServiceImpl.resume_update(id, formDto.getResume());
+        jobSeekerServiceImpl.resume_update(id, formDto);
 
-        return "redirect:/seeker/resume/list";
+     return "redirect:/seeker/resume/list";
+
     }
+
 
 
 

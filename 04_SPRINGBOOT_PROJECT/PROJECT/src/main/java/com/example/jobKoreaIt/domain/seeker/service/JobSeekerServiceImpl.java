@@ -121,34 +121,53 @@ public class JobSeekerServiceImpl {
 
 
     @Transactional(rollbackFor = Exception.class)
-    public void resume_update(long id, Resume updatedResume) {
+    public void resume_update(long id, ResumeFormDto updatedResume) {
         // 이력서 업데이트 처리
         Optional<Resume> optionalResume = resumeRepository.findById(id);
 
 
         if (optionalResume.isPresent()) {
             Resume resume = optionalResume.get();
+            Resume updatedResumeDto = updatedResume.getResume();
+
             // 수정된 내용 업데이트
-            resume.setName(updatedResume.getName());
-            resume.setEmail(updatedResume.getEmail());
-            resume.setPhone(updatedResume.getPhone());
-            resume.setSchoolName(updatedResume.getSchoolName());
-            resume.setMajor(updatedResume.getMajor());
-            resume.setGraduationYear(updatedResume.getGraduationYear());
-            resume.setSummary(updatedResume.getSummary());
-            resume.setHobbies(updatedResume.getHobbies());
-            //경력사항 저장
-            log.info("updateResume.get Career : "+updatedResume.getCareers());
-            resume.setCareers(updatedResume.getCareers());
-            // 나머지 필드도 동일하게 업데이트
-                    // 수정된 이력서 저장
+            resume.setName(updatedResumeDto.getName());
+            resume.setEmail(updatedResumeDto.getEmail());
+            resume.setPhone(updatedResumeDto.getPhone());
+            resume.setSchoolName(updatedResumeDto.getSchoolName());
+            resume.setMajor(updatedResumeDto.getMajor());
+            resume.setGraduationYear(updatedResumeDto.getGraduationYear());
+            resume.setSummary(updatedResumeDto.getSummary());
+            resume.setHobbies(updatedResumeDto.getHobbies());
+
+
+            // 기존 경력 사항 업데이트
+            List<Career> existingCareers = resume.getCareers();
+            List<Career> updatedCareers = updatedResumeDto.getCareers();
+            for (int i = 0; i < existingCareers.size(); i++) {
+                Career existingCareer = existingCareers.get(i);
+                Career updatedCareer = updatedCareers.get(i);
+                existingCareer.setCompanyName(updatedCareer.getCompanyName());
+                existingCareer.setPosition(updatedCareer.getPosition());
+                existingCareer.setStartDate(updatedCareer.getStartDate());
+                existingCareer.setEndDate(updatedCareer.getEndDate());
+            }
+
+            // 새 경력 사항 추가
+            for (Career career : updatedResumeDto.getCareers()) {
+                resume.addCareer(career);
+            }
+            log.info("resume : "+resume);
+            log.info("getCareers : "+resume.getCareers());
+            // 수정된 이력서 저장
             resumeRepository.save(resume);
             log.info("Resume with id {} updated successfully", id);
         } else {
             log.info("Resume with id {} not found", id);
         }
     }
-
-
-
 }
+
+
+
+

@@ -65,13 +65,11 @@
         }
     </style>
     <script>
-        let careerCount = 1;
-
         function showSuccessMessage() {
             alert("수정이 완료되었습니다!");
         }
 
-       function addCareer() {
+        function addCareer() {
             const careerContainer = document.getElementById('careerContainer');
             const index = careerContainer.children.length;
             const newCareer = document.createElement('div');
@@ -95,17 +93,7 @@
                 <hr>
             `;
             careerContainer.appendChild(newCareer);
-
-            // Add hidden input field to include careerList index
-            const careerIndexInput = document.createElement('input');
-            careerIndexInput.type = 'hidden';
-            careerIndexInput.name = 'resume.careers[' + index + '].index';
-            careerIndexInput.value = index;
-            newCareer.appendChild(careerIndexInput);
         }
-
-
-
     </script>
 </head>
 <body>
@@ -116,40 +104,57 @@
     <main>
         <section>
             <form action="/seeker/resume/update" method="post" id="updateForm">
-
-
                 <!-- 기본 정보 폼 -->
                 <div>
                     <input type="hidden" id="resumeId" name="resume.id" th:value="${resume.id}" />
                     <label for="name">이름:</label>
-                    <input type="text" id="name" name="resume.name" required />
+                    <input type="text" id="name" name="resume.name" th:value="${resume.name}" required />
                 </div>
                 <div>
                     <label for="email">Email:</label>
-                    <input type="email" id="email" name="resume.email" required />
+                    <input type="email" id="email" name="resume.email" th:value="${resume.email}" required />
                 </div>
                 <div>
                     <label for="phone">휴대폰번호:</label>
-                    <input type="text" id="phone"  name="resume.phone" required />
+                    <input type="text" id="phone" name="resume.phone" th:value="${resume.phone}" required />
                 </div>
                 <h3>학력</h3>
                 <hr>
                 <div>
                     <label for="schoolName">출신학교:</label>
-                    <input type="text" id="schoolName" name="resume.schoolName" required />
+                    <input type="text" id="schoolName" name="resume.schoolName" th:value="${resume.schoolName}" required />
                 </div>
                 <div>
                     <label for="major">전공:</label>
-                    <input type="text" id="major" name="resume.major" required />
+                    <input type="text" id="major" name="resume.major" th:value="${resume.major}" required />
                 </div>
                 <div>
                     <label for="graduationYear">졸업년도:</label>
-                    <input type="text" id="graduationYear" name="resume.graduationYear" required />
+                    <input type="text" id="graduationYear" name="resume.graduationYear" th:value="${resume.graduationYear}" required />
                 </div>
                 <hr>
                 <h3>경력</h3>
                 <div id="careerContainer">
-                    <!-- 경력 항목이 추가될 곳 -->
+                    <!-- 기존 경력 사항 표시 -->
+                    <th:block th:each="career, iterStat : ${resume.careers}">
+                        <div class="career-item">
+                            <label for="companyName_${iterStat.index}">회사이름:</label>
+                            <input type="text" id="companyName_${iterStat.index}" name="careers.companyName" th:value="${career.companyName}" required />
+                        </div>
+                        <div class="career-item">
+                            <label for="position_${iterStat.index}">직책:</label>
+                            <input type="text" id="position_${iterStat.index}" name="careers.position" th:value="${career.position}" required />
+                        </div>
+                        <div class="career-item">
+                            <label for="startDate_${iterStat.index}">근무시작일:</label>
+                            <input type="text" id="startDate_${iterStat.index}" name="careers.startDate" th:value="${career.startDate}" required />
+                        </div>
+                        <div class="career-item">
+                            <label for="endDate_${iterStat.index}">근무종료일:</label>
+                            <input type="text" id="endDate_${iterStat.index}" name="careers.endDate" th:value="${career.endDate}" required />
+                        </div>
+                        <hr>
+                    </th:block>
                 </div>
                 <div>
                     <button type="button" onclick="addCareer()">경력 추가</button>
@@ -158,17 +163,17 @@
                 <h3>기술 및 자격증</h3>
                 <div>
                     <label for="certificationName">자격증:</label>
-                    <input type="text" id="certificationName" name="resume.certificationName" required />
+                    <input type="text" id="certificationName" name="resume.certificationName" th:value="${resume.certificationName}" required />
                 </div>
                 <hr>
                 <h3>자기소개</h3>
                 <div>
                     <label for="summary">자기소개서:</label>
-                    <textarea id="summary" name="resume.summary" required style="height:300px;"></textarea>
+                    <textarea id="summary" name="resume.summary" required style="height:300px;" th:text="${resume.summary}"></textarea>
                 </div>
                 <div>
                     <label for="hobbies">취미:</label>
-                    <input type="text" id="hobbies"  name="resume.hobbies" required />
+                    <input type="text" id="hobbies" name="resume.hobbies" th:value="${resume.hobbies}" required />
                 </div>
                 <!-- 추가적인 항목들을 원하실 경우 해당 폼을 추가하시면 됩니다. -->
                 <div>
