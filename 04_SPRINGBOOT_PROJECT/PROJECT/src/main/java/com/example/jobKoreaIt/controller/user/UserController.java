@@ -1,10 +1,6 @@
 package com.example.jobKoreaIt.controller.user;
 
-
-
-import com.example.jobKoreaIt.domain.common.dto.UserDto;
 import com.example.jobKoreaIt.domain.common.entity.User;
-import com.example.jobKoreaIt.domain.common.repository.UserRepository;
 import com.example.jobKoreaIt.domain.common.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +11,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import java.util.Map;
+
 import java.util.Random;
 
 @Controller
@@ -32,41 +28,37 @@ public class UserController {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    @Autowired
-    private UserRepository userRepository;
-
     @GetMapping("/confirmId")
     public String confirmId_get() {
         log.info("GET /user/confirmId..");
         return "user/confirmId";
     }
 
-    // ID 찾기
     @PostMapping("/confirmId")
-    public @ResponseBody ResponseEntity<String> confirmId_post(@RequestParam Map<String, String> formData) {
-        log.info("POST /user/confirmId.." + formData);
+    public @ResponseBody ResponseEntity<String> confirmId_post(@RequestParam("email") String email) {
+        log.info("POST /user/confirmId.. email: " + email);
 
-        UserDto userDto = new UserDto();
-        userDto.setUsername(formData.get("username"));
-        // 필요한 다른 필드도 설정
-
-        User user = userService.getUser(userDto);
+        User user = userService.getUserByEmail(email);
 
         if (user != null) {
             String username = user.getUsername();
-            username = username.substring(0, username.indexOf("@") - 2);
-            username = username + "**"; // @기호 전 2번째 문자열까지 * 처리
-            log.info("USERNAME : " + username);
+            int atIndex = username.indexOf("@");
 
-            // 화면에 * 처리된 사용자명 반환
-            return new ResponseEntity<>(username, HttpStatus.OK);
+            if (atIndex > 2) {
+                username = username.substring(0, atIndex - 2) + "**";
+            } else if (atIndex > 0) {
+                username = username.substring(0, 1) + "*";
+            } else {
+                username = username + "**";
+            }
+
+            log.info("USERNAME : " + username);
+            return new ResponseEntity<>("사용자 이름은 " + username + "입니다.", HttpStatus.OK);
         } else {
-            // 사용자가 존재하지 않는 경우 일치하는 계정이 없을 경우 반환
-            return new ResponseEntity<>("계정이 없습니다.", HttpStatus.BAD_GATEWAY);
+            return new ResponseEntity<>("계정을 찾을 수 없습니다.", HttpStatus.BAD_GATEWAY);
         }
     }
 
-    // PW 찾기
     @GetMapping("/confirmPw")
     public String confirmPw() {
         log.info("GET /user/confirmPw..");
@@ -74,31 +66,25 @@ public class UserController {
     }
 
     @PostMapping("/confirmPw")
-    public @ResponseBody ResponseEntity<String> confirmPw_post(@RequestParam Map<String, String> formData) {
-        log.info("POST /user/confirmPw.." + formData);
+    public @ResponseBody ResponseEntity<String> confirmPw_post(@RequestParam("email") String email, @RequestParam("username") String username) {
+        log.info("POST /user/confirmPw.. email: " + email + ", username: " + username);
 
-        UserDto userDto = new UserDto();
-        userDto.setUsername(formData.get("username"));
+        User user = userService.getUserByEmail(email);
 
-        User user = userService.getUser(userDto);
-
-        if (user != null) {
-            // 난수 패스워드
+        if (user != null && user.getUsername().equals(username)) {
             Random rand = new Random();
             int value = (int) (rand.nextDouble() * 100000);
 
-            // DB 저장
             user.setPassword(passwordEncoder.encode(String.valueOf(value)));
-            userRepository.save(user);
+            userService.saveUser(user);
 
-            // 이메일 발송
             SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo(user.getUsername());
-            message.setSubject("임시패스워드");
-            message.setText(value + "\n\n 임시 패스워드 입니다. 패스워드 변경요망");
+            message.setTo(user.getEmail());
+            message.setSubject("임시 패스워드");
+            message.setText("임시 패스워드는 " + value + " 입니다.\n\n 패스워드를 변경해주시기 바랍니다.");
             javaMailSender.send(message);
 
-            return new ResponseEntity<>(user.getUsername() + " 메일로 임시 패스워드 전송완료 ", HttpStatus.OK);
+            return new ResponseEntity<>("임시 패스워드가 이메일로 전송되었습니다.", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("계정을 찾을 수 없습니다.", HttpStatus.BAD_GATEWAY);
         }

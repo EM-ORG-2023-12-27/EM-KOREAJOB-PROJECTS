@@ -2,53 +2,57 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Find Password</title>
+    <title>임시 비밀번호 요청</title>
 
     <!-- link -->
     <th:block th:insert="~{fragments/link :: linkFragment}" />
 
-    <!-- find_password.css -->
-    <link rel="stylesheet" href="/css/user/find_password.css">
+    <!-- confirmId.css -->
+    <link rel="stylesheet" href="/css/user/confirmId.css">
 
-    <!-- find_password.js -->
-    <script src="/js/user/find_password.js" defer></script>
+    <!-- confirmPw.js -->
+    <script src="/js/user/confirmPw.js" defer></script>
 </head>
 <body>
 <div class="wrapper">
-    <header>
-        <!-- header -->
-        <th:block th:insert="~{fragments/top_header :: topHeaderFragment}" />
-        <!-- nav -->
-        <th:block th:insert="~{fragments/nav :: navFragment}" />
-    </header>
-    <main>
-        <section class="breadcrum-block layout-150">
-            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">홈</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">패스워드 찾기</li>
-                </ol>
-            </nav>
-        </section>
+    <!-- header -->
+    <th:block th:insert="~{fragments/top_header :: topHeaderFragment}" />
+
+    <!-- nav -->
+    <th:block th:insert="~{fragments/nav :: navFragment}" />
+
+    <main class="container-xxl">
         <section>
-            <div class="main-block">
-                <form>
-                    <div class="m-2">
-                        <h2>패스워드 찾기</h2>
-                    </div>
-                    <div class="m-2">
-                        <label for="email">이메일 : </label>
-                        <input type="email" name="email" class="form-control" required/>
-                    </div>
-                    <div class="m-2">
-                        <button class="btn btn-success w-100" type="submit">패스워드 찾기</button>
-                    </div>
-                </form>
+            <div class="confirm_block">
+                <div class="header">
+                    <h3>임시 PW 요청</h3>
+                </div>
+                <div class="body">
+                    <form class="checkPwform" name="checkPwform" method="post">
+                        <div class="mb-2">
+                            <label>아이디</label>&nbsp;&nbsp;<span th:text="${username}" style="font-size:0.7rem;color:orange;"></span>
+                            <input type="text" name="username" class="form-control" placeholder="계정을 입력하세요" required>
+                        </div>
+                        <div class="mb-2">
+                            <label>이메일</label>&nbsp;&nbsp;<span th:text="${email}" style="font-size:0.7rem;color:orange;"></span>
+                            <input type="email" name="email" class="form-control" placeholder="이메일을 입력하세요" required>
+                        </div>
+                        <div class="mb-2">
+                            <a href="javascript:void(0)" class="btn btn-success w-100 confirmPw_btn">PW 발송요청</a>
+                        </div>
+                        <div class="mb-2">
+                            <a href="/login" class="btn btn-secondary w-100">이전으로</a>
+                        </div>
+                    </form>
+                </div>
             </div>
         </section>
     </main>
-    <!-- footer -->
-    <th:block th:insert="~{fragments/footer :: footerFragment}" />
+
+    <!-- Footer -->
+    <footer>
+        <th:block th:insert="~{fragments/footer :: footerFragment}" />
+    </footer>
 </div>
 </body>
 </html>
