@@ -116,9 +116,15 @@ public class CommunityController {
     }
 
 
+
     @GetMapping("/read")
-    public void read(){
-        log.info("GET /community/read...");
+    public void read(@RequestParam("no") Long no , @RequestParam("pageNo") Long pageNo,Model model){
+        log.info("GET /community/read...no : " + no + " pageNo :" + pageNo);
+        Community community =  communityService.getCommunity(no);
+
+        model.addAttribute("community",community);
+
+
     }
 
     @GetMapping("/update")

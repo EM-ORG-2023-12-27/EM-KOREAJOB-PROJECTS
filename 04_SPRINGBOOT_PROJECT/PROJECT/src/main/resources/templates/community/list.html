@@ -89,7 +89,7 @@
                                         <td th:text="${communityDto.no}"></td>
                                         <td><a th:href="@{/community/read(no=${communityDto.no},pageNo=${pageNo})}"  th:text="${communityDto.title}">  </a> </td>
                                         <td th:text="${communityDto.username}"></td>
-                                        <td th:text="${communityDto.regdate}"></td>
+                                        <td th:text="${#temporals.format(communityDto.regdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
                                         <td th:text="${communityDto.count}"></td>
                                     </tr>
                                 </th:block>

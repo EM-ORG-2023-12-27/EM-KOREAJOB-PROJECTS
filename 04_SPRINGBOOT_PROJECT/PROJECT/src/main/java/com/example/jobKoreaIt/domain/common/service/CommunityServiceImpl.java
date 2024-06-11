@@ -108,5 +108,9 @@ public class CommunityServiceImpl {
 
         return returns;
     }
+    @Transactional(rollbackFor = Exception.class)
+    public Community getCommunity(Long no) {
+        return communityRepository.findById(no).get();
 
+    }
 }
