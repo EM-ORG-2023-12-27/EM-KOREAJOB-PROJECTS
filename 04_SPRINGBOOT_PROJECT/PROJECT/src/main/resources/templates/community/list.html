@@ -34,7 +34,7 @@
             </nav>
         </section>
 
-        <section class="community-block layout-150 w-75">
+        <section class="community-block layout-150 w-100">
             <!--
              SEARCH
             -->
@@ -63,12 +63,12 @@
                 <!-- title -->
                 <div class="title">
                     <h3>전체 커뮤니티</h3>
-                    <div>총 : <span>1000</span> 건</div>
+                    <div>총 : <span th:text="${total}"></span> 건</div>
                 </div>
 
                 <div class="contents-block">
                     <div class="board-header">
-                        Page No (1 / 100 Page)
+                        Page No (<span th:text="${pageNo}"></span> / <span th:text="${pageDto.totalpage}"></span> Page)
                     </div>
                     <div class="board-body">
                         <!-- body -->
@@ -83,79 +83,16 @@
                             </tr>
                             </thead>
                             <tbody>
-
-                            <!-- BOARD LIST ITEMS -->
-                                <tr>
-                                    <td>1</td>
-                                    <td><a href="javascript:void(0)">제목</a></td>
-                                    <td>user@naver.com</td>
-                                    <td>2024-01-01</td>
-                                    <td>1</td>
-                                </tr>
-                            <tr>
-                                <td>1</td>
-                                <td><a href="javascript:void(0)">제목</a></td>
-                                <td>user@naver.com</td>
-                                <td>2024-01-01</td>
-                                <td>1</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td><a href="javascript:void(0)">제목</a></td>
-                                <td>user@naver.com</td>
-                                <td>2024-01-01</td>
-                                <td>1</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td><a href="javascript:void(0)">제목</a></td>
-                                <td>user@naver.com</td>
-                                <td>2024-01-01</td>
-                                <td>1</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td><a href="javascript:void(0)">제목</a></td>
-                                <td>user@naver.com</td>
-                                <td>2024-01-01</td>
-                                <td>1</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td><a href="javascript:void(0)">제목</a></td>
-                                <td>user@naver.com</td>
-                                <td>2024-01-01</td>
-                                <td>1</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td><a href="javascript:void(0)">제목</a></td>
-                                <td>user@naver.com</td>
-                                <td>2024-01-01</td>
-                                <td>1</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td><a href="javascript:void(0)">제목</a></td>
-                                <td>user@naver.com</td>
-                                <td>2024-01-01</td>
-                                <td>1</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td><a href="javascript:void(0)">제목</a></td>
-                                <td>user@naver.com</td>
-                                <td>2024-01-01</td>
-                                <td>1</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td><a href="javascript:void(0)">제목</a></td>
-                                <td>user@naver.com</td>
-                                <td>2024-01-01</td>
-                                <td>1</td>
-                            </tr>
-
+                                <!-- BOARD LIST ITEMS -->
+                                <th:block >
+                                    <tr th:each="communityDto : ${list}">
+                                        <td th:text="${communityDto.no}"></td>
+                                        <td><a th:href="@{/community/read(no=${communityDto.no},pageNo=${pageNo})}"  th:text="${communityDto.title}">  </a> </td>
+                                        <td th:text="${communityDto.username}"></td>
+                                        <td th:text="${communityDto.regdate}"></td>
+                                        <td th:text="${communityDto.count}"></td>
+                                    </tr>
+                                </th:block>
                             </tbody>
                         </table>
 
@@ -168,36 +105,26 @@
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination">
 
+
                                     <!-- PREV -->
-                                    <li class="page-item" >
-                                        <a class="page-link"  aria-label="Previous">
+                                    <li class="page-item" th:if="${pageDto.prev}">
+                                        <a class="page-link" th:href="@{/community/list(pageNo=${pageDto.nowBlock * pageDto.pagePerBlock - pageDto.pagePerBlock*2 + 1} )}" aria-label="Previous">
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>
                                     </li>
 
 
                                     <!-- PAGENATION -->
-                                    <li class="page-item">
-                                        <a class="page-link" > <span>1</span> </a>
+                                    <li class="page-item" th:each="i : ${#numbers.sequence(pageDto.startPage, pageDto.endPage)}"  >
+                                        <a class="page-link" th:href="@{/community/list(pageNo=${i})}" > <span th:text="${i}"></span> </a>
                                     </li>
-                                    <li class="page-item">
-                                        <a class="page-link" > <span>2</span> </a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" > <span>3</span> </a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" > <span>4</span> </a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" > <span>5</span> </a>
-                                    </li>
+
 
 
                                     <!-- NEXT -->
-                                    <li class="page-item" >
+                                    <li class="page-item"  th:if="${pageDto.next}">
 
-                                        <a class="page-link"  aria-label="Next">
+                                        <a class="page-link" th:href="@{/community/list(pageNo=${pageDto.nowBlock*pageDto.pagePerBlock+1} )}" aria-label="Next">
                                             <span aria-hidden="true">&raquo;</span>
                                         </a>
 

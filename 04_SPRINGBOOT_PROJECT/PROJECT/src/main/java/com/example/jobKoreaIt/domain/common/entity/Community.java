@@ -34,5 +34,6 @@ public class Community {
     private String dirpath;
     private String filename;
     private String filesize;
-    //
+
+
 }

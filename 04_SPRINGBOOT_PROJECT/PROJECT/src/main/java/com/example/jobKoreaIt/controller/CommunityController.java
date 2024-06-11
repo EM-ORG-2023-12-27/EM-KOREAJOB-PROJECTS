@@ -2,20 +2,27 @@ package com.example.jobKoreaIt.controller;
 
 
 import com.example.jobKoreaIt.domain.common.dto.CommunityDto;
+import com.example.jobKoreaIt.domain.common.dto.Criteria;
+import com.example.jobKoreaIt.domain.common.dto.PageDto;
+import com.example.jobKoreaIt.domain.common.entity.Community;
 import com.example.jobKoreaIt.domain.common.service.CommunityServiceImpl;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import jakarta.websocket.DeploymentException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -56,9 +63,58 @@ public class CommunityController {
     }
 
     @GetMapping("/list")
-    public void list(){
-        log.info("GET /community/list...");
+    public String list(@RequestParam(value = "pageNo" ,required = false)Integer pageNo, Model model, HttpServletResponse response) throws Exception {
+        log.info("GET /community/list... " + pageNo + " " );
+
+        //----------------
+        //PageDto  Start
+        //----------------
+        Criteria criteria = null;
+        if(pageNo==null) {
+            //최초 /board/list 접근
+            pageNo=1;
+            criteria = new Criteria();  //pageno=1 , amount=10
+        }
+        else {
+            criteria = new Criteria(pageNo,10); //페이지이동 요청 했을때
+        }
+        //--------------------
+        //Search
+        //--------------------
+//        criteria.setType(type);
+//        criteria.setKeyword(keyword);
+
+
+        //서비스 실행
+        Map<String,Object> map = communityService.GetCommunityList(criteria);
+
+        PageDto pageDto = (PageDto) map.get("pageDto");
+        int total = (int)map.get("total");
+
+        List<Community> list = (List<Community>) map.get("list");
+
+
+        //Entity -> Dto
+//        List<Community>  communityList =  list.stream().map(community -> Community.Of(community)).collect(Collectors.toList());
+//        System.out.println(communityList);
+
+        //View 전달
+        model.addAttribute("list",list);
+        model.addAttribute("total",total);
+        model.addAttribute("pageNo",pageNo);
+        model.addAttribute("pageDto",pageDto);
+
+        //--------------------------------
+        //COUNT UP - //쿠키 생성(/board/read.do 새로고침시 조회수 반복증가를 막기위한용도)
+        //--------------------------------
+//        Cookie init = new Cookie("reading","true");
+//        response.addCookie(init);
+
+
+
+        return "community/list";
     }
+
 
     @GetMapping("/read")
     public void read(){

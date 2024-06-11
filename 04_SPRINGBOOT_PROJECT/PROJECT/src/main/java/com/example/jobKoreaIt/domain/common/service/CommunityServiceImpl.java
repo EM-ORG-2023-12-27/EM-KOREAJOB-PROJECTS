@@ -2,6 +2,8 @@ package com.example.jobKoreaIt.domain.common.service;
 
 
 import com.example.jobKoreaIt.domain.common.dto.CommunityDto;
+import com.example.jobKoreaIt.domain.common.dto.Criteria;
+import com.example.jobKoreaIt.domain.common.dto.PageDto;
 import com.example.jobKoreaIt.domain.common.entity.Community;
 import com.example.jobKoreaIt.domain.common.repository.CommunityRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -13,9 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -84,5 +84,29 @@ public class CommunityServiceImpl {
 
 
 
+    @Transactional(rollbackFor = Exception.class)
+    public Map<String, Object> GetCommunityList(Criteria criteria) {
+        Map<String,Object> returns = new HashMap<String,Object>();
+
+        int totalcount = (int) communityRepository.count();
+        System.out.println("COUNT  :" + totalcount);
+        //PageDto 만들기
+        PageDto pagedto = new PageDto(totalcount,criteria);
+
+        //시작 게시물 번호 구하기(수정) - OFFSET
+        int offset =(criteria.getPageno()-1) * criteria.getAmount();    //1page = 0, 2page = 10
+
+
+        List<Community> list = null;
+
+        list  =  communityRepository.findCommunityAmountStart(pagedto.getCriteria().getAmount(),offset);
+
+        returns.put("list",list);
+        returns.put("pageDto",pagedto);
+        returns.put("total",totalcount);
+
+
+        return returns;
+    }
 
 }

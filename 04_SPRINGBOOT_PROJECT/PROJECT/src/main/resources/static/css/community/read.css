@@ -165,3 +165,19 @@ section.reply .control-block .reply-button{
     width : 150px;
     height : 100%;
 }
+
+.filter{
+
+}
+
+.reply{
+
+}
+.reply .content {
+    margin :15px auto;
+    font-size : .9rem;
+}
+.reply .footer{
+
+}
+
