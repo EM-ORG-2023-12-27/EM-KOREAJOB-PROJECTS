@@ -3,6 +3,8 @@ package com.example.jobKoreaIt.controller.user;
 import com.example.jobKoreaIt.domain.common.dto.UserDto;
 import com.example.jobKoreaIt.domain.common.entity.User;
 import com.example.jobKoreaIt.domain.common.service.UserService;
+import com.example.jobKoreaIt.domain.seeker.dto.SeekerDto;
+import com.example.jobKoreaIt.domain.seeker.entity.JobSeeker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +13,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.StringUtils;
 
@@ -79,42 +82,39 @@ public class UserController {
 //        }
 //    }
 
+
     @PostMapping("/confirmId")
-    public @ResponseBody ResponseEntity<String> confirmId_post(
+    public String confirmId_post(
             @RequestParam("nickname") String nickname,
             @RequestParam("phone") String phone,
-            @RequestParam("type") String type
+            @RequestParam("type") String type,
+            Model model
     )
 
     {
         log.info("POST /user/confirmId.." + nickname + " phone : " + phone + " type : " + type);
 
-        UserDto userDto = new UserDto();
-        userDto.setNickname(nickname);
-        userDto.setPhone(phone);
-        User user =  userService.getUser(userDto,type);
+        //구직자 ID확인
+        if(type.equals("seekerUser"))
+        {
+            SeekerDto seekerDto = new SeekerDto();
+            seekerDto.setNickname(nickname);
+            seekerDto.setTel(phone);
 
-//        if(StringUtils.equals(type,"seerUser")){
-//
-//
-//        }else{
-//
-//
-//        }
 
-        if(user!=null){
-            String username = user.getUsername();
-            username = username.substring(0, username.indexOf("@")-2);
-            username = username+"**";
-            log.info("USERNAME : " + username);
-            return new ResponseEntity(username, HttpStatus.OK);
-        }
-        else{
-            return new ResponseEntity("일치하는 계정을 찾을수 없습니다.", HttpStatus.BAD_GATEWAY);
+           JobSeeker user =  userService.getSeeker(seekerDto);
+            System.out.println("REUTNED USER : " + user);
+            if(user!=null){
+                String username = user.getUsername();
+                username = username.substring(0, username.indexOf("@")-2);
+                username = username+"**";
+                log.info("USERNAME : " + username);
+                model.addAttribute("username",username);
+            }
+
         }
 
-
-
+        return "user/confirmId";
     }
 
 

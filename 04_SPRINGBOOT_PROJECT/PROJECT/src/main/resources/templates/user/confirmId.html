@@ -8,10 +8,27 @@
     <th:block th:insert="~{fragments/link :: linkFragment}" />
 
     <!-- confirmId.css -->
-    <link rel="stylesheet" href="/css/user/confirm.css">
+    <link rel="stylesheet" href="/css/user/confirmId.css">
+
+
+    <!--  MODEL 속성가져오기  -->
+    <script th:inline="javascript">
+        const  username = /*[[${username}]]*/
+        if(username==null){
+            console.log(username);
+            console.log(typeof username);
+        }
+        else{
+            alert(username);
+        }
+
+    </script>
+
 
     <!-- confirmId.js -->
     <script src="/js/user/confirmId.js" defer></script>
+
+
 </head>
 <body>
 <div class="wrapper">
@@ -33,17 +50,20 @@
         </section>
         <section>
             <div class="main-block">
-                <form class="checkIdform" name="checkIdform" method="post">
+                <form class="checkIdform"  action="/user/confirmId"  name="checkIdform" method="post" >
                     <div class="m-2">
                         <h2>아이디 찾기</h2>
                     </div>
                     <div class="m-2">
                         <label for="email">이름 : </label>&nbsp;&nbsp;<span th:text="${email}" style="font-size:0.7rem;color:orange;"></span>
-                        <input type="email" id="email" name="nickname" class="form-control" required/>
+                        <input type="text" id="email" name="nickname" class="form-control" required/>
                     </div>
                     <div class="m-2">
                         <label for="phone">휴대전화번호 : </label>&nbsp;&nbsp;<span th:text="${email}" style="font-size:0.7rem;color:orange;"></span>
                         <input type="tel" id="phone" name="phone" class="form-control" required/>
+                    </div>
+                    <div>
+                        <input type="hidden" name="type" value="seekerUser" />
                     </div>
                     <div class="m-2">
                         <button class="btn btn-success w-100 confirmId_btn" type="submit">아이디 찾기</button>

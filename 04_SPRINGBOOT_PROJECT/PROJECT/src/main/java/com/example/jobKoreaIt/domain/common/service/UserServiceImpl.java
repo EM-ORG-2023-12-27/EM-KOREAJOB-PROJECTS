@@ -5,6 +5,8 @@ import com.example.jobKoreaIt.domain.common.dto.UserDto;
 import com.example.jobKoreaIt.domain.common.entity.User;
 import com.example.jobKoreaIt.domain.common.repository.UserRepository;
 import com.example.jobKoreaIt.domain.offer.repository.JobOfferRepository;
+import com.example.jobKoreaIt.domain.seeker.dto.SeekerDto;
+import com.example.jobKoreaIt.domain.seeker.entity.JobSeeker;
 import com.example.jobKoreaIt.domain.seeker.repository.JobSeekerRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,19 +31,20 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
 
 
-    @Override// 단일로만 받게끔 추가
-    public User getUser(UserDto userDto,String type) {
 
-        if(StringUtils.equals(type,"seekerUser")){
 
-            Optional<User> userOptional = jobSeekerRepository.findFirstByNicknameAndTel(userDto.getNickname(),userDto.getPhone());
-            return userOptional.orElse(null);
 
-        }else{
+    @Override
+    public JobSeeker getSeeker(SeekerDto seekerDto) {
+        Optional<JobSeeker> op =  jobSeekerRepository.findFirstByNicknameAndTel(seekerDto.getNickname(),seekerDto.getTel());
 
-        }
+        return op.get();
+    }
+
+
+    @Override
+    public User getUser(SeekerDto userDto, String type) {
         return null;
-
     }
 
     @Override
@@ -69,5 +72,6 @@ public class UserServiceImpl implements UserService {
     public void saveUser(User user) {
         userRepository.save(user);
     }
+
 }
 

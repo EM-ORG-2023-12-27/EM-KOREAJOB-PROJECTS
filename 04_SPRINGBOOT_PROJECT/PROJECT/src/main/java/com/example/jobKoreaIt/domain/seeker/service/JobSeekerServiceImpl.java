@@ -72,7 +72,7 @@ public class JobSeekerServiceImpl {
             seeker.setUsername(seekerDto.getUsername());
             seeker.setPassword(seekerDto.getPassword());
 
-            seeker.setUsername(seekerDto.getUsename());
+            seeker.setUsername(seekerDto.getUsername());
             seeker.setPassword(seekerDto.getPassword());
             seeker.setTel(seekerDto.getTel());
             seeker.setNickname(seekerDto.getNickname());
