@@ -1,5 +1,6 @@
 package com.example.jobKoreaIt.controller.user;
 
+import com.example.jobKoreaIt.domain.common.dto.UserDto;
 import com.example.jobKoreaIt.domain.common.entity.User;
 import com.example.jobKoreaIt.domain.common.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -58,6 +59,24 @@ public class UserController {
             return new ResponseEntity<>("계정을 찾을 수 없습니다.", HttpStatus.BAD_GATEWAY);
         }
     }
+
+//    //음수 indexof 에서 음수 발생으로인해 오류 
+//    @PostMapping("/confirmId")
+//    public @ResponseBody ResponseEntity<String> confirmId_post(@RequestParam("email") String email) {
+//        log.info("POST /user/confirmId.. email: " + email);
+//
+//        User user = userService.getUserByEmail(email);
+//
+//        if (user != null) {
+//            String username = user.getUsername();
+//            username = username.substring(0, username.indexOf("@") - 0);
+//            username = username + "**";
+//            log.info("USERNAME : " + username);
+//            return new ResponseEntity("사용자 이름은 "+ username + "입니다." ,HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity("일치하는 계정을 찾을수 없습니다.", HttpStatus.BAD_GATEWAY);
+//        }
+//    }
 
     @GetMapping("/confirmPw")
     public String confirmPw() {
