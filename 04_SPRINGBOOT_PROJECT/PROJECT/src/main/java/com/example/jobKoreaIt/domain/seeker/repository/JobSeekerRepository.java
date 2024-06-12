@@ -11,5 +11,5 @@ import java.util.Optional;
 @Repository
 public interface JobSeekerRepository extends JpaRepository<JobSeeker,Long> {
 
-    Optional<JobSeeker> findFirstByNicknameAndTel(String nickname, String phone);
+    Optional<JobSeeker> findFirstByNicknameAndTel(String nickname, String tel);
 }

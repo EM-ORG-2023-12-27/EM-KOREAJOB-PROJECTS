@@ -3,6 +3,8 @@ package com.example.jobKoreaIt.controller.user;
 import com.example.jobKoreaIt.domain.common.dto.UserDto;
 import com.example.jobKoreaIt.domain.common.entity.User;
 import com.example.jobKoreaIt.domain.common.service.UserService;
+import com.example.jobKoreaIt.domain.offer.dto.OfferDto;
+import com.example.jobKoreaIt.domain.offer.entity.JobOffer;
 import com.example.jobKoreaIt.domain.seeker.dto.SeekerDto;
 import com.example.jobKoreaIt.domain.seeker.entity.JobSeeker;
 import lombok.extern.slf4j.Slf4j;
@@ -89,11 +91,8 @@ public class UserController {
             @RequestParam("phone") String phone,
             @RequestParam("type") String type,
             Model model
-    )
-
-    {
+    ) {
         log.info("POST /user/confirmId.." + nickname + " phone : " + phone + " type : " + type);
-
         //구직자 ID확인
         if(type.equals("seekerUser"))
         {
@@ -102,7 +101,7 @@ public class UserController {
             seekerDto.setTel(phone);
 
 
-           JobSeeker user =  userService.getSeeker(seekerDto);
+            JobSeeker user =  userService.getSeeker(seekerDto);
             System.out.println("REUTNED USER : " + user);
             if(user!=null){
                 String username = user.getUsername();
@@ -111,9 +110,22 @@ public class UserController {
                 log.info("USERNAME : " + username);
                 model.addAttribute("username",username);
             }
+        }else if(type.equals("offerUser"))
+        {
+            OfferDto offerDto = new OfferDto();
+            offerDto.setOffername(nickname);
+            offerDto.setOffertel(phone);
 
+            JobOffer offer = userService.getOffer(offerDto);
+            System.out.println("REUTNED USER :" + offer);
+            if(offer!=null){
+                String username = offer.getOffername();
+                username = username.substring(0, username.indexOf("@")-2);
+                username = username+"**";
+                log.info("OFFERNAME : " + username);
+                model.addAttribute("offername",username);
+            }
         }
-
         return "user/confirmId";
     }
 

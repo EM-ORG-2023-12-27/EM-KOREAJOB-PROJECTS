@@ -4,6 +4,8 @@ package com.example.jobKoreaIt.domain.common.service;
 import com.example.jobKoreaIt.domain.common.dto.UserDto;
 import com.example.jobKoreaIt.domain.common.entity.User;
 import com.example.jobKoreaIt.domain.common.repository.UserRepository;
+import com.example.jobKoreaIt.domain.offer.dto.OfferDto;
+import com.example.jobKoreaIt.domain.offer.entity.JobOffer;
 import com.example.jobKoreaIt.domain.offer.repository.JobOfferRepository;
 import com.example.jobKoreaIt.domain.seeker.dto.SeekerDto;
 import com.example.jobKoreaIt.domain.seeker.entity.JobSeeker;
@@ -41,9 +43,21 @@ public class UserServiceImpl implements UserService {
         return op.get();
     }
 
+    @Override
+    public JobOffer getOffer(OfferDto offerDto) {
+        Optional<JobOffer> jp =jobOfferRepository.findFirstByOffernameAndOffertel(offerDto.getOffername(),offerDto.getOffertel());
+
+        return jp.get();
+    }
+
 
     @Override
     public User getUser(SeekerDto userDto, String type) {
+        return null;
+    }
+
+    @Override
+    public User getUser(OfferDto userDto, String type) {
         return null;
     }
 
