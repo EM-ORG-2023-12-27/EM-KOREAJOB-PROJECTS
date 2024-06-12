@@ -5,7 +5,7 @@ import com.example.jobKoreaIt.domain.common.dto.UserDto;
 import com.example.jobKoreaIt.domain.common.entity.User;
 
 public interface UserService {
-    User getUser(UserDto userDto);
+    User getUser(UserDto userDto,String type);
 
     boolean confirmIdPw(String username, String password);
 

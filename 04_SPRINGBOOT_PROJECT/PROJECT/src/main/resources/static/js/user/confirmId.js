@@ -5,15 +5,17 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
         
         const check_id_form = document.checkIdform;
-        const email = check_id_form.email.value;
+        const nickname = check_id_form.nickname.value;
+        const phone = check_id_form.phone.value;
 
         const formData = new FormData();
-        formData.append('email', email);
+        formData.append('nickname', nickname);
+        formData.append('phone', phone);
 
         axios.post('/user/confirmId', formData, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
             .then(resp => {
                 console.log(resp);
-                alert("EMAIL : " + resp.data);
+                alert("USERNAME : " + resp.data);
             })
             .catch(err => {
                 console.log(err);

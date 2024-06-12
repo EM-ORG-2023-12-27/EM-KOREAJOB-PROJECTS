@@ -19,6 +19,7 @@ public class UserDto {
 	private String role;
 	private String phone;
 	private String Email;
+	private String nickname;
 
 	//OAUTH2
 	private String provider;

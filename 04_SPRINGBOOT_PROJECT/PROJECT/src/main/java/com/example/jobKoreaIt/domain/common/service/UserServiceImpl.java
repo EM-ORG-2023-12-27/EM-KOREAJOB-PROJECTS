@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.Optional;
 
@@ -27,10 +28,20 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+
     @Override// 단일로만 받게끔 추가
-    public User getUser(UserDto userDto) {
-        Optional<User> userOptional = userRepository.findFirstByUsername(userDto.getUsername());
-        return userOptional.orElse(null);
+    public User getUser(UserDto userDto,String type) {
+
+        if(StringUtils.equals(type,"seekerUser")){
+
+            Optional<User> userOptional = jobSeekerRepository.findFirstByNicknameAndTel(userDto.getNickname(),userDto.getPhone());
+            return userOptional.orElse(null);
+
+        }else{
+
+        }
+        return null;
+
     }
 
     @Override

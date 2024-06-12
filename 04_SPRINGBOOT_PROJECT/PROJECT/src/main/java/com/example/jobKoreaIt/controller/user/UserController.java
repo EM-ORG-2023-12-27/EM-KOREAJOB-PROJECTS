@@ -12,6 +12,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.Random;
 
@@ -35,32 +36,32 @@ public class UserController {
         return "user/confirmId";
     }
 
-    @PostMapping("/confirmId")
-    public @ResponseBody ResponseEntity<String> confirmId_post(@RequestParam("email") String email) {
-        log.info("POST /user/confirmId.. email: " + email);
+//    @PostMapping("/confirmId")
+//    public @ResponseBody ResponseEntity<String> confirmId_post(@RequestParam("email") String email) {
+//        log.info("POST /user/confirmId.. email: " + email);
+//
+//        User user = userService.getUserByEmail(email);
+//
+//        if (user != null) {
+//            String username = user.getUsername();
+//            int atIndex = username.indexOf("@");
+//
+//            if (atIndex > 2) {
+//                username = username.substring(0, atIndex - 2) + "**";
+//            } else if (atIndex > 0) {
+//                username = username.substring(0, 1) + "*";
+//            } else {
+//                username = username + "**";
+//            }
+//
+//            log.info("USERNAME : " + username);
+//            return new ResponseEntity<>("사용자 이름은 " + username + "입니다.", HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>("계정을 찾을 수 없습니다.", HttpStatus.BAD_GATEWAY);
+//        }
+//    }
 
-        User user = userService.getUserByEmail(email);
-
-        if (user != null) {
-            String username = user.getUsername();
-            int atIndex = username.indexOf("@");
-
-            if (atIndex > 2) {
-                username = username.substring(0, atIndex - 2) + "**";
-            } else if (atIndex > 0) {
-                username = username.substring(0, 1) + "*";
-            } else {
-                username = username + "**";
-            }
-
-            log.info("USERNAME : " + username);
-            return new ResponseEntity<>("사용자 이름은 " + username + "입니다.", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("계정을 찾을 수 없습니다.", HttpStatus.BAD_GATEWAY);
-        }
-    }
-
-//    //음수 indexof 에서 음수 발생으로인해 오류 
+//    //음수 indexof 에서 음수 발생으로인해 오류
 //    @PostMapping("/confirmId")
 //    public @ResponseBody ResponseEntity<String> confirmId_post(@RequestParam("email") String email) {
 //        log.info("POST /user/confirmId.. email: " + email);
@@ -77,6 +78,46 @@ public class UserController {
 //            return new ResponseEntity("일치하는 계정을 찾을수 없습니다.", HttpStatus.BAD_GATEWAY);
 //        }
 //    }
+
+    @PostMapping("/confirmId")
+    public @ResponseBody ResponseEntity<String> confirmId_post(
+            @RequestParam("nickname") String nickname,
+            @RequestParam("phone") String phone,
+            @RequestParam("type") String type
+    )
+
+    {
+        log.info("POST /user/confirmId.." + nickname + " phone : " + phone + " type : " + type);
+
+        UserDto userDto = new UserDto();
+        userDto.setNickname(nickname);
+        userDto.setPhone(phone);
+        User user =  userService.getUser(userDto,type);
+
+//        if(StringUtils.equals(type,"seerUser")){
+//
+//
+//        }else{
+//
+//
+//        }
+
+        if(user!=null){
+            String username = user.getUsername();
+            username = username.substring(0, username.indexOf("@")-2);
+            username = username+"**";
+            log.info("USERNAME : " + username);
+            return new ResponseEntity(username, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity("일치하는 계정을 찾을수 없습니다.", HttpStatus.BAD_GATEWAY);
+        }
+
+
+
+    }
+
+
 
     @GetMapping("/confirmPw")
     public String confirmPw() {
