@@ -41,49 +41,6 @@ public class UserController {
         return "user/confirmId";
     }
 
-//    @PostMapping("/confirmId")
-//    public @ResponseBody ResponseEntity<String> confirmId_post(@RequestParam("email") String email) {
-//        log.info("POST /user/confirmId.. email: " + email);
-//
-//        User user = userService.getUserByEmail(email);
-//
-//        if (user != null) {
-//            String username = user.getUsername();
-//            int atIndex = username.indexOf("@");
-//
-//            if (atIndex > 2) {
-//                username = username.substring(0, atIndex - 2) + "**";
-//            } else if (atIndex > 0) {
-//                username = username.substring(0, 1) + "*";
-//            } else {
-//                username = username + "**";
-//            }
-//
-//            log.info("USERNAME : " + username);
-//            return new ResponseEntity<>("사용자 이름은 " + username + "입니다.", HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>("계정을 찾을 수 없습니다.", HttpStatus.BAD_GATEWAY);
-//        }
-//    }
-
-//    //음수 indexof 에서 음수 발생으로인해 오류
-//    @PostMapping("/confirmId")
-//    public @ResponseBody ResponseEntity<String> confirmId_post(@RequestParam("email") String email) {
-//        log.info("POST /user/confirmId.. email: " + email);
-//
-//        User user = userService.getUserByEmail(email);
-//
-//        if (user != null) {
-//            String username = user.getUsername();
-//            username = username.substring(0, username.indexOf("@") - 0);
-//            username = username + "**";
-//            log.info("USERNAME : " + username);
-//            return new ResponseEntity("사용자 이름은 "+ username + "입니다." ,HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity("일치하는 계정을 찾을수 없습니다.", HttpStatus.BAD_GATEWAY);
-//        }
-//    }
-
 
     @PostMapping("/confirmId")
     public String confirmId_post(
