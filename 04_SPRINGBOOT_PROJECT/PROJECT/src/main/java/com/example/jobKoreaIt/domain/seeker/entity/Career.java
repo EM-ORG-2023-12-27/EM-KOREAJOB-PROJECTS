@@ -14,15 +14,15 @@ public class Career {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public String companyName;
-    public String position;
-    public String startDate;
-    public String endDate;
+    private  String companyName;
+    private String position;
+    private String startDate;
+    private String endDate;
 
     @ManyToOne
     @JoinColumn(name = "resume_id",foreignKey = @ForeignKey(name="FK_Resume_Carrer",
             foreignKeyDefinition ="FOREIGN KEY(resume_id) REFERENCES resume(id) ON DELETE CASCADE ON UPDATE CASCADE" ))
-    public Resume resume;
+    private Resume resume;
 
 
 }

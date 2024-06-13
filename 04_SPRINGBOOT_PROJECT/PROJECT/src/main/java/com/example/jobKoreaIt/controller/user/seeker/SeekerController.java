@@ -65,12 +65,12 @@ public class SeekerController {
             System.out.println("/resume/update/{id} resume : " + resume);
 
             model.addAttribute("resume", resume);
-            log.info("UPDATE 페이지로 이동성공!");
+
 
             //------------------------
             List<Career> list =  careerRepository.findAllByResume(resume);
 
-            System.out.println("!" + list);
+            System.out.println("Career list ! " + list);
             model.addAttribute("list",list);
             //------------------------
 

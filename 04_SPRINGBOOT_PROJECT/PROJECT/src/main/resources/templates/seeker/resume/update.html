@@ -57,11 +57,22 @@
             border-top: 1px solid #eee;
             margin: 20px 0;
         }
-        .career-item {
-            margin-bottom: 15px;
-        }
-        .career-item label, .career-item input {
-            width: 100%;
+
+      .career-item {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: 10px;
+            }
+
+      .career-item label {
+                margin-right: 5px;
+            }
+
+       .career-item input {
+                margin-right: 20px;
+                padding: 5px;
+                width: 150px; /* 원하는 너비로 조정 가능 */
         }
     </style>
 
@@ -84,16 +95,16 @@
                 <div class="career-item">
                     <label for="companyName_${index}">회사이름:</label>
                     <input type="text" id="companyName_${index}" name="careers[${index}].companyName" required />
-                </div>
-                <div class="career-item">
+
+
                     <label for="position_${index}">직책:</label>
                     <input type="text" id="position_${index}" name="careers[${index}].position" required />
-                </div>
-                <div class="career-item">
+
+
                     <label for="startDate_${index}">근무시작일:</label>
                     <input type="text" id="startDate_${index}" name="careers[${index}].startDate" required />
-                </div>
-                <div class="career-item">
+
+
                     <label for="endDate_${index}">근무종료일:</label>
                     <input type="text" id="endDate_${index}" name="careers[${index}].endDate" required />
                 </div>
@@ -112,10 +123,7 @@
         <h1>이력서 수정</h1>
     </header>
     <main>
-        <section>
-            <div th:text="${list}"></div>
 
-        </section>
         <section>
             <form action="/seeker/resume/update" method="post" id="updateForm">
                 <!-- 기본 정보 폼 -->
@@ -153,19 +161,16 @@
                     <th:block th:each="career,listStat : ${list}">
                         <div class="career-item">
                             <label for="">회사이름:</label>
-                            <input type="text"  th:name="careers[__${listStat.index}__].companyName" th:value="${career.companyName}" required />
-                        </div>
-                        <div class="career-item">
+                            <input type="text" th:name="careers[__${listStat.index}__].companyName" th:value="${career.companyName}" required />
+
                             <label for="">직책:</label>
-                            <input type="text"  th:name="careers[__${listStat.index}__].position" th:value="${career.position}" required />
-                        </div>s
-                        <div class="career-item">
-                            <label >근무시작일:</label>
-                            <input type="text"  th:name="careers[__${listStat.index}__].startDate" th:value="${career.startDate}" required />
-                        </div>
-                        <div class="career-item">
-                            <label >근무종료일:</label>
-                            <input type="text"  th:name="careers[__${listStat.index}__].endDate" th:value="${career.endDate}" required />
+                            <input type="text" th:name="careers[__${listStat.index}__].position" th:value="${career.position}" required />
+
+                            <label>근무시작일:</label>
+                            <input type="text" th:name="careers[__${listStat.index}__].startDate" th:value="${career.startDate}" required />
+
+                            <label>근무종료일:</label>
+                            <input type="text" th:name="careers[__${listStat.index}__].endDate" th:value="${career.endDate}" required />
                         </div>
                         <hr>
                     </th:block>

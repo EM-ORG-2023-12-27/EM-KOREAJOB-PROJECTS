@@ -125,10 +125,10 @@ public class JobSeekerServiceImpl {
         // 이력서 업데이트 처리
         Optional<Resume> optionalResume = resumeRepository.findById(id);
 
-
         if (optionalResume.isPresent()) {
             Resume resume = optionalResume.get();
             Resume updatedResumeDto = updatedResume.getResume();
+            System.out.println("updatedResumeDto : "+ updatedResumeDto);
 
             // 수정된 내용 업데이트
             resume.setName(updatedResumeDto.getName());
@@ -140,11 +140,14 @@ public class JobSeekerServiceImpl {
             resume.setSummary(updatedResumeDto.getSummary());
             resume.setHobbies(updatedResumeDto.getHobbies());
 
-
             // 기존 경력 사항 업데이트
             List<Career> existingCareers = resume.getCareers();
-            List<Career> updatedCareers = updatedResumeDto.getCareers();
-            for (int i = 0; i < existingCareers.size(); i++) {
+            System.out.println("existingCareers : "+existingCareers);
+            List<Career> updatedCareers = updatedResume.getCareers();
+            System.out.println("updatedCareers : "+updatedCareers);
+
+            int minSize = Math.min(existingCareers.size(), updatedCareers.size());
+            for (int i = 0; i < minSize; i++) {
                 Career existingCareer = existingCareers.get(i);
                 Career updatedCareer = updatedCareers.get(i);
                 existingCareer.setCompanyName(updatedCareer.getCompanyName());
@@ -154,11 +157,15 @@ public class JobSeekerServiceImpl {
             }
 
             // 새 경력 사항 추가
-            for (Career career : updatedResumeDto.getCareers()) {
-                resume.addCareer(career);
+            if (updatedCareers.size() > existingCareers.size()) {
+                for (int i = existingCareers.size(); i < updatedCareers.size(); i++) {
+                    resume.addCareer(updatedCareers.get(i));
+                }
             }
-            log.info("resume : "+resume);
-            log.info("getCareers : "+resume.getCareers());
+
+            log.info("resume : " + resume);
+            log.info("getCareers : " + resume.getCareers());
+
             // 수정된 이력서 저장
             resumeRepository.save(resume);
             log.info("Resume with id {} updated successfully", id);
@@ -166,6 +173,7 @@ public class JobSeekerServiceImpl {
             log.info("Resume with id {} not found", id);
         }
     }
+
 }
 
 
