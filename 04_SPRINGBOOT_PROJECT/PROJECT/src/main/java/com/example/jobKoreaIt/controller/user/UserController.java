@@ -7,6 +7,8 @@ import com.example.jobKoreaIt.domain.offer.dto.OfferDto;
 import com.example.jobKoreaIt.domain.offer.entity.JobOffer;
 import com.example.jobKoreaIt.domain.seeker.dto.SeekerDto;
 import com.example.jobKoreaIt.domain.seeker.entity.JobSeeker;
+import com.example.jobKoreaIt.domain.seeker.repository.JobSeekerRepository;
+import com.example.jobKoreaIt.domain.seeker.service.JobSeekerServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.StringUtils;
 
+import java.util.Optional;
 import java.util.Random;
 
 @Controller
@@ -34,6 +37,12 @@ public class UserController {
 
     @Autowired
     private JavaMailSender javaMailSender;
+
+    @Autowired
+    private JobSeekerRepository jobSeekerRepository;
+
+    @Autowired
+    private JobSeekerServiceImpl jobSeekerService;
 
     @GetMapping("/confirmId")
     public String confirmId_get() {
@@ -53,6 +62,8 @@ public class UserController {
         //구직자 ID확인
         if(type.equals("seekerUser"))
         {
+
+            log.info("!");
             SeekerDto seekerDto = new SeekerDto();
             seekerDto.setNickname(nickname);
             seekerDto.setTel(phone);
@@ -95,20 +106,27 @@ public class UserController {
     }
 
     @PostMapping("/confirmPw")
-    public @ResponseBody ResponseEntity<String> confirmPw_post(@RequestParam("email") String email, @RequestParam("username") String username) {
-        log.info("POST /user/confirmPw.. email: " + email + ", username: " + username);
+    public @ResponseBody ResponseEntity<String> confirmPw_post(
+            @RequestParam("phone") String phone,
+            @RequestParam("username") String username,
+            @RequestParam("nickname") String nickname
 
-        User user = userService.getUserByEmail(email);
+    ) {
+        log.info("POST /user/confirmPw.. phone: " + phone + ", username: " + username + " nickname : " +  nickname);
 
-        if (user != null && user.getUsername().equals(username)) {
+        Optional<JobSeeker> seekerOptional = jobSeekerRepository.findByUsernameAndTelAndNickname(username,phone,nickname);
+
+        if (seekerOptional.isPresent()) {
             Random rand = new Random();
             int value = (int) (rand.nextDouble() * 100000);
 
-            user.setPassword(passwordEncoder.encode(String.valueOf(value)));
-            userService.saveUser(user);
+            JobSeeker seeker = seekerOptional.get();
+            seeker.setPassword(passwordEncoder.encode(String.valueOf(value)));
+            jobSeekerRepository.save(seeker);
+
 
             SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo(user.getEmail());
+            message.setTo(seeker.getUsername());
             message.setSubject("임시 패스워드");
             message.setText("임시 패스워드는 " + value + " 입니다.\n\n 패스워드를 변경해주시기 바랍니다.");
             javaMailSender.send(message);
