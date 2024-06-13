@@ -5,6 +5,8 @@ import com.example.jobKoreaIt.domain.common.entity.User;
 import com.example.jobKoreaIt.domain.common.service.UserService;
 import com.example.jobKoreaIt.domain.offer.dto.OfferDto;
 import com.example.jobKoreaIt.domain.offer.entity.JobOffer;
+import com.example.jobKoreaIt.domain.offer.repository.JobOfferRepository;
+import com.example.jobKoreaIt.domain.offer.service.JobOfferServiceImpl;
 import com.example.jobKoreaIt.domain.seeker.dto.SeekerDto;
 import com.example.jobKoreaIt.domain.seeker.entity.JobSeeker;
 import com.example.jobKoreaIt.domain.seeker.repository.JobSeekerRepository;
@@ -44,12 +46,23 @@ public class UserController {
     @Autowired
     private JobSeekerServiceImpl jobSeekerService;
 
+    @Autowired
+    private JobOfferRepository jobOfferRepository;
+
+    @Autowired
+    private JobOfferServiceImpl jobOfferService;
+
+    @GetMapping("/confirmIdOffer")
+    public String confirmIdOffer_get() {
+        log.info("GET /user/confirmIdOffer..");
+        return "user/confirmId";
+    }
+
     @GetMapping("/confirmId")
     public String confirmId_get() {
         log.info("GET /user/confirmId..");
         return "user/confirmId";
     }
-
 
     @PostMapping("/confirmId")
     public String confirmId_post(
@@ -59,45 +72,42 @@ public class UserController {
             Model model
     ) {
         log.info("POST /user/confirmId.." + nickname + " phone : " + phone + " type : " + type);
-        //구직자 ID확인
-        if(type.equals("seekerUser"))
-        {
 
-            log.info("!");
+        if (type.equals("seekerUser")) {
             SeekerDto seekerDto = new SeekerDto();
             seekerDto.setNickname(nickname);
             seekerDto.setTel(phone);
 
-
-            JobSeeker user =  userService.getSeeker(seekerDto);
+            JobSeeker user = userService.getSeeker(seekerDto);
             System.out.println("REUTNED USER : " + user);
-            if(user!=null){
+            if (user != null) {
                 String username = user.getUsername();
-                username = username.substring(0, username.indexOf("@")-2);
-                username = username+"**";
+                username = username.substring(0, username.indexOf("@") - 2);
+                username = username + "**";
                 log.info("USERNAME : " + username);
-                model.addAttribute("username",username);
+                model.addAttribute("username", username);
             }
-        }else if(type.equals("offerUser"))
-        {
+            return "user/confirmId";
+        } else if (type.equals("offerUser")) {
+            log.info("POST /user/confirmIdOffer.." + nickname + " phone : " + phone + " type : " + type);
+
             OfferDto offerDto = new OfferDto();
             offerDto.setOffername(nickname);
             offerDto.setOffertel(phone);
 
             JobOffer offer = userService.getOffer(offerDto);
             System.out.println("REUTNED USER :" + offer);
-            if(offer!=null){
+            if (offer != null) {
                 String username = offer.getOffername();
-                username = username.substring(0, username.indexOf("@")-2);
-                username = username+"**";
+                username = username.substring(0, username.indexOf("@") - 2);
+                username = username + "**";
                 log.info("OFFERNAME : " + username);
-                model.addAttribute("offername",username);
+                model.addAttribute("offername", username);
             }
+            return "user/confirmIdOffer";
         }
         return "user/confirmId";
     }
-
-
 
     @GetMapping("/confirmPw")
     public String confirmPw() {
@@ -110,11 +120,10 @@ public class UserController {
             @RequestParam("phone") String phone,
             @RequestParam("username") String username,
             @RequestParam("nickname") String nickname
-
     ) {
-        log.info("POST /user/confirmPw.. phone: " + phone + ", username: " + username + " nickname : " +  nickname);
+        log.info("POST /user/confirmPw.. phone: " + phone + ", username: " + username + " nickname : " + nickname);
 
-        Optional<JobSeeker> seekerOptional = jobSeekerRepository.findByUsernameAndTelAndNickname(username,phone,nickname);
+        Optional<JobSeeker> seekerOptional = jobSeekerRepository.findByUsernameAndTelAndNickname(username, phone, nickname);
 
         if (seekerOptional.isPresent()) {
             Random rand = new Random();
@@ -123,7 +132,6 @@ public class UserController {
             JobSeeker seeker = seekerOptional.get();
             seeker.setPassword(passwordEncoder.encode(String.valueOf(value)));
             jobSeekerRepository.save(seeker);
-
 
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(seeker.getUsername());

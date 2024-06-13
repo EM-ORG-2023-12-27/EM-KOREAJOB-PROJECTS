@@ -44,15 +44,15 @@
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">홈</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">개인 회원 아이디 찾기</li>
+                    <li class="breadcrumb-item active" aria-current="page">기업회원 아이디 찾기</li>
                 </ol>
             </nav>
         </section>
         <section>
             <div class="main-block">
-                <form class="checkIdform"  action="/user/confirmId"  name="checkIdform" method="post" >
+                <form class="checkIdOfferform"  action="/user/confirmOfferId"  name="checkIdOfferform" method="post" >
                     <div class="m-2">
-                        <h2>개인 회원 아이디 찾기</h2>
+                        <h2>아이디 찾기</h2>
                     </div>
                     <div class="m-2">
                         <label for="email">이름 : </label>&nbsp;&nbsp;<span th:text="${email}" style="font-size:0.7rem;color:orange;"></span>
@@ -63,7 +63,7 @@
                         <input type="tel" id="phone" name="phone" class="form-control" required/>
                     </div>
                     <div>
-                        <input type="hidden" name="type" value="seekerUser" />
+                        <input type="hidden" name="type" value="offerUser" />
                     </div>
                     <div class="m-2">
                         <button class="btn btn-success w-100 confirmId_btn" type="submit">아이디 찾기</button>
