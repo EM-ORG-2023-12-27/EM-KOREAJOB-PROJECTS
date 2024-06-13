@@ -87,31 +87,28 @@
             alert("수정이 완료되었습니다!");
         }
 
-        function addCareer() {
-            const careerContainer = document.getElementById('careerContainer');
-            const index = careerContainer.children.length;
-            const newCareer = document.createElement('div');
-            newCareer.innerHTML = `
-                <div class="career-item">
-                    <label for="companyName_${index}">회사이름:</label>
-                    <input type="text" id="companyName_${index}" name="careers[${index}].companyName" required />
+       function addCareer() {
+    const careerContainer = document.getElementById('careerContainer');
+    const index = careerContainer.querySelectorAll('.career-item').length; // .career-item 요소 개수를 정확히 계산
+    const newCareer = document.createElement('div');
+    newCareer.classList.add('career-item');
+    newCareer.innerHTML = `
+        <label for="companyName_${index}">회사이름:</label>
+        <input type="text" id="companyName_${index}" name="careers[${index}].companyName" required />
 
+        <label for="position_${index}">직책:</label>
+        <input type="text" id="position_${index}" name="careers[${index}].position" required />
 
-                    <label for="position_${index}">직책:</label>
-                    <input type="text" id="position_${index}" name="careers[${index}].position" required />
+        <label for="startDate_${index}">근무시작일:</label>
+        <input type="text" id="startDate_${index}" name="careers[${index}].startDate" required />
 
+        <label for="endDate_${index}">근무종료일:</label>
+        <input type="text" id="endDate_${index}" name="careers[${index}].endDate" required />
+        <hr>
+    `;
+    careerContainer.appendChild(newCareer);
+}
 
-                    <label for="startDate_${index}">근무시작일:</label>
-                    <input type="text" id="startDate_${index}" name="careers[${index}].startDate" required />
-
-
-                    <label for="endDate_${index}">근무종료일:</label>
-                    <input type="text" id="endDate_${index}" name="careers[${index}].endDate" required />
-                </div>
-                <hr>
-            `;
-            careerContainer.appendChild(newCareer);
-        }
 
 
 
@@ -176,7 +173,7 @@
                     </th:block>
                 </div>
                 <div>
-                    <button onclick="addCareer()" class="" >경력 추가</button>
+                    <button type="button" onclick="addCareer()" >경력 추가</button>
                 </div>
                 <hr>
                 <h3>기술 및 자격증</h3>
