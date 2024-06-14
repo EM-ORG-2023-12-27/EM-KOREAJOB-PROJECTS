@@ -1,10 +1,7 @@
 package com.example.jobKoreaIt.domain.Notification.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +21,10 @@ public class NotifiEntity {
     private String title;
     private String author;
 
+    @Column(name = "contents", columnDefinition = "LONGTEXT")
+    private String contents;
+
     private LocalDateTime createAt;
-    private LocalDateTime updateAt;
+
 
 }

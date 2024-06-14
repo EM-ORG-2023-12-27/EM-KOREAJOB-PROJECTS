@@ -1,19 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>공지사항</title>
 
     <!--  link   -->
     <th:block th:insert="~{fragments/link :: linkFragment}" />
 
-    <!-- join.css -->
-    <link rel="stylesheet" href="/css/user/join.css" />
-
-    <!--list.css-->
     <link rel="stylesheet" href="/css/Notification/list.css"/>
-    <!-- user/join.js -->
-    <script src="/js/user/join.js" defer></script>
 </head>
 <body>
 
@@ -23,32 +17,37 @@
         <th:block th:insert="~{fragments/top_header :: topHeaderFragment}" />
         <!-- nav       -->
         <th:block th:insert="~{fragments/nav :: navFragment}" />
-
     </header>
     <main>
-    <h2>공지사항!</h2>
+        <h2>공지사항</h2>
         <div class="wrap_body">
-
-        <div class="wrap_board">
-            <ul class="tabList">
-                <li>
-                    <button type="button" class="inTab" >
-                        <span>전체</span>
-                    </button>
-                </li>
-                <li>
-                    <button type="button" class="inTab">
-                        <span>개인회원</span>
-                    </button>
-                </li>
-                <li>
-                    <button type="button" class="inTab">
-                        <span>기업회원</span>
-                    </button>
-                </li>
-            </ul>
-            <div class="serch_area"></div>
-
+            <div class="wrap_board">
+                <ul class="tabList">
+                    <li><button type="button" class="inTab"><span>전체</span></button></li>
+                    <li><button type="button" class="inTab"><span>개인회원</span></button></li>
+                    <li><button type="button" class="inTab"><span>기업회원</span></button></li>
+                </ul>
+                <div class="search_area"></div>
+                <div class="notice_list">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>공지</th>
+                            <th class="title">제목</th>
+                            <th>작성일</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="notification : ${notifications}">
+                            <td th:text="${notification.id}"></td>
+                            <td>
+                                <a th:href="@{/Notification/read/{id}(id=${notification.id})}" th:text="${notification.title}"></a>
+                            </td>
+                            <td th:text="${notification.createAt}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </main>

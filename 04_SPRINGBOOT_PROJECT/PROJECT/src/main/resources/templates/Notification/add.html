@@ -25,22 +25,22 @@
     <main>
         <h2>공지사항 작성</h2>
         <div class="wrap_body">
-            <form th:action="@{/notifi/add}" class="noticeForm" method="post" enctype="multipart/form-data">
+            <form th:action="@{/Notification/add}" class="noticeForm" method="post" enctype="multipart/form-data">
                 <div class="form_group">
                     <label for="title">제목</label>
-                    <input type="text" id="title" name="notifiEntity.title" placeholder="제목을 입력하세요">
+                    <input type="text" id="title" name="title" placeholder="제목을 입력하세요">
                 </div>
                 <div class="form_group">
                     <label for="content">내용</label>
-                    <textarea id="content" name="notifiEntity.content" rows="10" placeholder="내용을 입력하세요"></textarea>
+                    <textarea id="content" name="contents" rows="10" placeholder="내용을 입력하세요"></textarea>
                 </div>
                 <div class="form_group">
                     <label for="author">작성자</label>
-                    <input type="text" id="author" name="notifiEntity.author" placeholder="작성자를 입력하세요">
+                    <input type="text" id="author" name="author" placeholder="작성자를 입력하세요">
                 </div>
                 <div class="form_group">
                     <label for="author">작성날짜</label>
-                    <input type="text" id="createAt" name="notifiEntity.createAt" placeholder="날짜를 입력하세요.">
+                    <input type="text" id="createAt" name="createAt" placeholder="날짜를 입력하세요.">
                 </div>
                 <div class="form_group">
                     <button type="submit">저장</button>
