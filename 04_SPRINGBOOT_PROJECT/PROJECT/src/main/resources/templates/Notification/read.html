@@ -33,6 +33,11 @@
                 </div>
             </div>
         </div>
+        <a class="go_List" th:href="@{/Notification/list}">목록으로 돌아가기</a>
+        <form id="deleteForm" th:action="@{Notification/delete/{id}(id=${entity.id}}">
+            <input type="hidden" name="method" value="delete">
+            <button type="submit" class="delete_button">삭제</button>
+        </form>
     </main>
     <!-- footer -->
     <th:block th:insert="~{fragments/footer :: footerFragment}" />

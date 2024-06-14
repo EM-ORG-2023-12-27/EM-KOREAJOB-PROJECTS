@@ -62,3 +62,19 @@ h2 {
     background-color: #fff;
     height:400px;
 }
+.go_List{
+    display:button;
+      padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-right: 10px;
+        margin-left: 30px;
+       background-color:00ffff;
+}
+.delete_button{
+    padding:10px;
+    border-radius:5px;
+    margin-left:30px;
+    margin-top:20px;
+}
