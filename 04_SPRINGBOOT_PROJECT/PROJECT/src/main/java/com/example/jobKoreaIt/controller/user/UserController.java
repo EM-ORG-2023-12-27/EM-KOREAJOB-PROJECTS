@@ -14,6 +14,7 @@ import com.example.jobKoreaIt.domain.seeker.service.JobSeekerServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -55,7 +56,7 @@ public class UserController {
     @GetMapping("/confirmIdOffer")
     public String confirmIdOffer_get() {
         log.info("GET /user/confirmIdOffer..");
-        return "user/confirmId";
+        return "user/confirmIdOffer";
     }
 
     @GetMapping("/confirmId")
@@ -64,8 +65,8 @@ public class UserController {
         return "user/confirmId";
     }
 
-    @PostMapping("/confirmId")
-    public String confirmId_post(
+    @PostMapping(value="/confirmId",produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<String> confirmId_post(
             @RequestParam("nickname") String nickname,
             @RequestParam("phone") String phone,
             @RequestParam("type") String type,
@@ -80,15 +81,16 @@ public class UserController {
 
             JobSeeker user = userService.getSeeker(seekerDto);
             System.out.println("REUTNED USER : " + user);
+            String username = null;
             if (user != null) {
-                String username = user.getUsername();
-                username = username.substring(0, username.indexOf("@") - 2);
-                username = username + "**";
+                username = user.getUsername();
+
+
                 log.info("USERNAME : " + username);
-                model.addAttribute("username", username);
+                model.addAttribute(username, username);
             }
-            return "user/confirmId";
-        } else if (type.equals("offerUser")) {
+            return new ResponseEntity<>(username,HttpStatus.OK);
+        } else  {
             log.info("POST /user/confirmIdOffer.." + nickname + " phone : " + phone + " type : " + type);
 
             OfferDto offerDto = new OfferDto();
@@ -97,16 +99,15 @@ public class UserController {
 
             JobOffer offer = userService.getOffer(offerDto);
             System.out.println("REUTNED USER :" + offer);
+            String username = null;
             if (offer != null) {
-                String username = offer.getOffername();
-                username = username.substring(0, username.indexOf("@") - 2);
-                username = username + "**";
-                log.info("OFFERNAME : " + username);
+                username = offer.getOffername();
+
                 model.addAttribute("offername", username);
             }
-            return "user/confirmIdOffer";
+            return new ResponseEntity<>(username,HttpStatus.OK);
         }
-        return "user/confirmId";
+
     }
 
     @GetMapping("/confirmPw")
