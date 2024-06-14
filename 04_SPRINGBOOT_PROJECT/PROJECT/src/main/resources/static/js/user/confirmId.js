@@ -1,27 +1,23 @@
-//document.addEventListener('DOMContentLoaded', function() {
-//    const confirmId_btn = document.querySelector('.confirmId_btn');
-//
-//    confirmId_btn.addEventListener('click', function(event) {
-//        event.preventDefault();
-//
-//        const check_id_form = document.checkIdform;
-//        const nickname = check_id_form.nickname.value;
-//        const phone = check_id_form.phone.value;
-//
-//        const formData = new FormData();
-//        formData.append('nickname', nickname);
-//        formData.append('phone', phone);
-//
-//        axios.post('/user/confirmId', formData, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
-//            .then(resp => {
-//                console.log(resp);
-//                alert("USERNAME : " + resp.data);
-//            })
-//            .catch(err => {
-//                console.log(err);
-//                alert(err.response.data);
-//            });
-//
-//        console.log("confirmId_btn clicked..");
-//    });
-//});
+const confirmIdBtn = document.querySelector('.confirmId_btn');
+confirmIdBtn.addEventListener('click',function(){
+
+    const form = document.confirmForm;
+
+    const nickname = form.nickname.value;
+    const phone = form.phone.value;
+    const type = form.phone.type;
+
+    let formData = new FormData();
+    formData.append('nickname',nickname);
+    formData.append('phone',phone);
+    formData.append('type',type);
+
+    axios.post("/user/confirmId",formData)
+    .then(resp=>{
+            console.log(resp);
+            alert(resp.data);
+        }
+    )
+    .catch(err=>{console.log(err);})
+
+})

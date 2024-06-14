@@ -86,8 +86,7 @@ public class UserController {
                 username = user.getUsername();
 
 
-                log.info("USERNAME : " + username);
-                model.addAttribute(username, username);
+                model.addAttribute("seekername", username);
             }
             return new ResponseEntity<>(username,HttpStatus.OK);
         } else  {
@@ -101,7 +100,7 @@ public class UserController {
             System.out.println("REUTNED USER :" + offer);
             String username = null;
             if (offer != null) {
-                username = offer.getOffername();
+                username = offer.getUsername();
 
                 model.addAttribute("offername", username);
             }

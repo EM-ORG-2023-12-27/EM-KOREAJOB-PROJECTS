@@ -10,23 +10,8 @@
     <!-- confirmId.css -->
     <link rel="stylesheet" href="/css/user/confirmId.css">
 
-
-    <!--  MODEL 속성가져오기  -->
-    <script th:inline="javascript">
-        const  username = /*[[${username}]]*/
-        if(username==null){
-            console.log(username);
-            console.log(typeof username);
-        }
-        else{
-            alert(username);
-        }
-
-    </script>
-
-
-<!--    &lt;!&ndash; confirmId.js &ndash;&gt;-->
-<!--    <script src="/js/user/confirmId.js" defer></script>-->
+    <!-- confirmIdOffer.js   -->
+    <script src="/js/user/confirmId.js" defer></script>
 
 
 </head>
@@ -50,7 +35,7 @@
         </section>
         <section>
             <div class="main-block">
-                <form class="checkIdform"  action="/user/confirmId"  name="checkIdform" method="post" >
+                <form name="confirmForm"  onsubmit="return false" class="checkIdform" action="/user/confirmId" method="post" >
                     <div class="m-2">
                         <h2>개인 회원 아이디 찾기</h2>
                     </div>
