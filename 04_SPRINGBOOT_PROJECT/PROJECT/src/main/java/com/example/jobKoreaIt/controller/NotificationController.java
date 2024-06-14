@@ -53,6 +53,7 @@ public class NotificationController {
         if(notification.isPresent()){
             NotifiEntity entity=notification.get();
             model.addAttribute("entity",entity);
+            log.info("entity : "+entity);
         }else{
             model.addAttribute("notFound","공지사항을 못찾았습니다");
         }

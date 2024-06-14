@@ -60,6 +60,7 @@ public class NotifiService {
 
     @Transactional(rollbackFor = Exception.class)
     public Optional<NotifiEntity> notifi_read(Long id) {
+        log.info("Notifi_read_id : "+id);
         log.info("notifiService/notifi_read...!");
         return notifiRepository.findById(id);
     }
