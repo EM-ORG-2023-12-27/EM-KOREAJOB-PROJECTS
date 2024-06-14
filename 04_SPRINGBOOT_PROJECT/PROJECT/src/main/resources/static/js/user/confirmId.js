@@ -5,7 +5,7 @@ confirmIdBtn.addEventListener('click',function(){
 
     const nickname = form.nickname.value;
     const phone = form.phone.value;
-    const type = form.phone.type;
+    const type = form.type.value;
 
     let formData = new FormData();
     formData.append('nickname',nickname);
