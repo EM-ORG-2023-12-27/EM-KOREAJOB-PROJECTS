@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,7 @@ public class NotifiService {
     public NotifiService(NotifiRepository notifiRepository) {
         this.notifiRepository = notifiRepository;
     }
+    //공지사항 작성=========================================
     @Transactional(rollbackFor = Exception.class)
     public void addNotification(notificationDto dto) {
         log.info("Received notification DTO: {}", dto);
@@ -40,6 +42,8 @@ public class NotifiService {
 
         log.info("Saved notification entity: {}", savedEntity);
     }
+
+    //공지사항 조회=================================================
     @Transactional(rollbackFor = Exception.class)
     public List<notificationDto> notifi_list() {
         log.info("NotifiService/notifi_list..");
@@ -58,11 +62,45 @@ public class NotifiService {
                 return dtos;
     }
 
+    //공지사항 상세읽기========================================
     @Transactional(rollbackFor = Exception.class)
     public Optional<NotifiEntity> notifi_read(Long id) {
         log.info("Notifi_read_id : "+id);
         log.info("notifiService/notifi_read...!");
         return notifiRepository.findById(id);
+    }
+
+    //공지사항 삭제======================================
+    @Transactional(rollbackFor=Exception.class)
+    public void notifi_delete(long id){
+        log.info("NotificationSergviceImpl/notifi_delete... "+id);
+        Optional<NotifiEntity> notifiEntity=notifiRepository.findById(id);
+        if(notifiEntity.isPresent()){
+            NotifiEntity notifientity=notifiEntity.get();
+            notifiRepository.delete(notifientity);
+            log.info("공지사항 삭제 완료!");
+        }else{
+            log.info("공지사항 삭제 실패!");
+
+        }
+
+    }
+    //공지사항 수정================
+    @Transactional(rollbackFor = Exception.class)
+    public void notifi_update(Long id, notificationDto notificationDto){
+        Optional<NotifiEntity> notifiEntity=notifiRepository.findById(id);
+
+        if(notifiEntity.isPresent()){
+            NotifiEntity update_notifi=notifiEntity.get();
+
+
+            update_notifi.setContents(notificationDto.getContents());
+            update_notifi.setAuthor(notificationDto.getAuthor());
+            update_notifi.setId(notificationDto.getId());
+            update_notifi.setTitle(notificationDto.getTitle());
+//            update_notifi.setCreateAt(notificationDto.getCreateAt());
+            log.info("update_notifi : "+update_notifi);
+        }
     }
 }
 

@@ -29,15 +29,18 @@
                     <p><strong>작성자:</strong> <span th:text="${entity.author}">작성자 없음</span></p>
                     <p><strong>작성일:</strong> <span th:text="${entity.createAt}">날짜 없음</span></p>
                     <p><strong>내용:</strong></p>
-                    <div th:text="${entity.contents}">내용 없음</div>
+                    <div th:utext="${entity.contents}">내용 없음</div>
                 </div>
             </div>
         </div>
-        <a class="go_List" th:href="@{/Notification/list}">목록으로 돌아가기</a>
-        <form id="deleteForm" th:action="@{Notification/delete/{id}(id=${entity.id}}">
-            <input type="hidden" name="method" value="delete">
-            <button type="submit" class="delete_button">삭제</button>
-        </form>
+        <div class="buttons">
+            <a class="go_List" th:href="@{/Notification/list}">목록으로 돌아가기</a>
+
+            <form id="deleteForm" th:action="@{/Notification/read/delete/{id}(id=${entity.id})}" method="post">
+                <button type="submit" class="delete_button">삭제</button>
+            </form>
+            <a class="go_update" th:href="@{/Notification/update/{id}(id=${entity.id})}">수정하기</a>
+        </div>
     </main>
     <!-- footer -->
     <th:block th:insert="~{fragments/footer :: footerFragment}" />

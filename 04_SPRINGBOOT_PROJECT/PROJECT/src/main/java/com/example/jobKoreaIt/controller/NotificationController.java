@@ -59,4 +59,46 @@ public class NotificationController {
         }
         return "Notification/read";
     }
+
+    //공지사항 삭제========================================
+    @GetMapping("/read/delete/{id}")
+    public String notification_delete(@PathVariable("id") Long id) {
+        log.info("GET /notification_delete...");
+        return "redirect:/Notification/list";
+    }
+
+    @PostMapping("/read/delete/{id}")
+    public String notification_post_delete(@PathVariable("id") Long id) {
+        log.info("POST /notification_delete...");
+        notifiService.notifi_delete(id);
+        return "redirect:/Notification/list";
+    }
+
+    //공지사항 수정=======================
+    @GetMapping("/update/{id}")
+    public String notificaition_update(@PathVariable("id")Long id,Model model){
+        log.info("Get/notificaition_update " +id);
+       Optional <NotifiEntity> notifiEntity=notifiService.notifi_read(id);
+
+       if(notifiEntity.isPresent()){
+           NotifiEntity updateNotifi=notifiEntity.get();
+           System.out.println("updateNotifi : "+updateNotifi);
+
+           model.addAttribute("updateNotifi",updateNotifi);
+           return "Notification/update";
+       }
+       else {
+           return "error";
+
+       }
+    }
+    @PostMapping("/update")
+    public String notification_post_update(@ModelAttribute notificationDto notificationDto){
+        log.info("notificationDto : "+notificationDto);
+        long id=notificationDto.getId();
+        log.info("notificationDto.id : " + id);
+
+        notifiService.notifi_update(id,notificationDto);
+    return "redirect:/Notification/list";
+    }
 }
