@@ -7,13 +7,16 @@
     <!--  link   -->
     <th:block th:insert="~{fragments/link :: linkFragment}" />
 
-
     <!-- login.css   -->
     <link rel="stylesheet" href="/css/user/login.css">
 
     <!--  login.js  -->
     <script src="/js/user/login.js" defer></script>
-
+    <script>
+        function kakaoLogin() {
+            window.location.href = "/kakao/getCode";
+        }
+    </script>
 </head>
 <body>
 
@@ -42,8 +45,6 @@
             <div class="main-block">
                 <!--
                 <aside class=left>
-
-
                 </aside>
                 -->
                 <div class=right>
@@ -81,7 +82,7 @@
                             <button class="btn btn-success w-100">로그인</button>
                         </div>
                         <div class="m-2">
-                            <button class="btn btn-warning w-100 mb-2 text-white">카카오 로그인</button>
+                            <button type="button" class="btn btn-warning w-100 mb-2 text-white" onclick="kakaoLogin()">카카오 로그인</button>
                             <button class="btn w-100 mb-2" style="border : 1px solid lightgray;">GOOGLE 로그인</button>
                         </div>
                         <div>
@@ -117,7 +118,7 @@
                             <button class="btn btn-success w-100">로그인</button>
                         </div>
                         <div class="m-2">
-                            <button class="btn btn-warning w-100 mb-2 text-white">카카오 로그인</button>
+                            <button type="button" class="btn btn-warning w-100 mb-2 text-white" onclick="kakaoLogin()">카카오 로그인</button>
                             <button class="btn w-100 mb-3" style="border : 1px solid lightgray;">GOOGLE 로그인</button>
                         </div>
                         <div>
