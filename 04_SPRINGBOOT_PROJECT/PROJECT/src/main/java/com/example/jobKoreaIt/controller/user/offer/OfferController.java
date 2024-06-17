@@ -28,7 +28,7 @@ public class OfferController {
     public void companyRead(){}
     @GetMapping("/company/list")
     public void companyList(){}
-    @GetMapping("/company/delete")
+    @GetMapping("/company/delete.css")
     public void compayDelete(){}
     @GetMapping("/company/update")
     public void companyUpdate(){}

@@ -113,4 +113,21 @@ public class CommunityServiceImpl {
         return communityRepository.findById(no).get();
 
     }
+    @Transactional(rollbackFor = Exception.class)
+    public boolean updateCommunity(CommunityDto dto) {
+        Community community = new Community();
+        community.setNo(dto.getNo());
+        community.setTitle(dto.getTitle());
+        community.setContent(dto.getContent());
+        community.setUsername(dto.getUsername());
+        community.setCount(dto.getCount());
+        community.setRegdate(dto.getRegdate());
+        community.setCategory(dto.getCategory());
+        communityRepository.save(community);
+        return true;
+    }
+    @Transactional(rollbackFor = Exception.class)
+    public void removeCommunity(Long no) {
+        communityRepository.deleteById(no);
+    }
 }

@@ -1,22 +1,30 @@
 package com.example.jobKoreaIt.controller;
 
 
+import com.example.jobKoreaIt.config.auth.PrincipalDetails;
 import com.example.jobKoreaIt.domain.common.dto.CommunityDto;
 import com.example.jobKoreaIt.domain.common.dto.Criteria;
 import com.example.jobKoreaIt.domain.common.dto.PageDto;
+import com.example.jobKoreaIt.domain.common.dto.UserDto;
 import com.example.jobKoreaIt.domain.common.entity.Community;
 import com.example.jobKoreaIt.domain.common.service.CommunityServiceImpl;
+import com.example.jobKoreaIt.domain.common.service.UserServiceImpl;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import jakarta.websocket.DeploymentException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.util.StringUtils;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -32,6 +40,11 @@ public class CommunityController {
     @Autowired
     private CommunityServiceImpl communityService;
 
+    @Autowired
+    private UserServiceImpl userService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @GetMapping("/index")
     public void index(){
         log.info("GET /community/index...");
@@ -41,6 +54,7 @@ public class CommunityController {
     public void add(){
         log.info("GET /community/add.css...");
     }
+
 
 
     @PostMapping("/add")
@@ -123,13 +137,51 @@ public class CommunityController {
         Community community =  communityService.getCommunity(no);
 
         model.addAttribute("community",community);
+        model.addAttribute("pageNo",pageNo);
+
 
 
     }
 
     @GetMapping("/update")
-    public void update(){
-        log.info("GET /community/update...");
+    public void update(@RequestParam("no") Long no, @RequestParam("pageNo") Long pageNo,Model model){
+        Community community =  communityService.getCommunity(no);
+        model.addAttribute("community",community);
+        model.addAttribute("pageNo",pageNo);
+    }
+    @PostMapping("/update")
+    public @ResponseBody ResponseEntity<String> update_post(@ModelAttribute CommunityDto dto){
+        log.info("POST /community/update..." + dto);
+        boolean isUpdated =  communityService.updateCommunity(dto);
+
+        if(!isUpdated) {
+            return new ResponseEntity("fail.", HttpStatus.BAD_GATEWAY);
+        }
+        return new ResponseEntity("success", HttpStatus.OK);
+    }
+
+    @GetMapping("/delete")
+    public void confirmIdPw_get(@RequestParam("no") Long no, @RequestParam("pageNo") Long pageNo,Model model)
+    {
+        log.info("GET /community/delete..");
+        model.addAttribute("no",no);
+        model.addAttribute("pageNo",pageNo);
+    }
+
+    //게시글의 ID/PW 확인
+    @PostMapping("/delete")
+    public @ResponseBody ResponseEntity<String> confirmIdPw(@RequestParam("no") Long no, @RequestParam("pageNo") Long pageNo,@RequestParam("password") String password,@AuthenticationPrincipal PrincipalDetails principalDetails )
+    {
+
+        log.info("POST /community/delete.." + no + " " + pageNo +" " + password);
+        //UserDto userDto = principalDetails.getUserDto();
+        //boolean ismatched =  passwordEncoder.matches(password,userDto.getPassword());
+
+//        if(!ismatched){
+//            return new ResponseEntity(false,HttpStatus.BAD_GATEWAY);
+//        }
+        communityService.removeCommunity(no);
+        return new ResponseEntity(true,HttpStatus.OK);
     }
 
 }

@@ -65,9 +65,9 @@
                 </div>
             </div>
             <div>
-                <div class="form-control text" th:text="${community.content}">
-                    <!--ADD 에서 엔터키에 대한 이벤트 처리가 필요함 -->
-                </div>
+                <textarea class="form-control text" th:text="${community.content}" readonly>
+
+                </textarea>
             </div>
             <div class="imogi">
                 <div class="one">
@@ -87,11 +87,16 @@
                     <div>1</div>
                 </div>
             </div>
+
+            <div class="btn-group">
+                <a th:href="@{/community/update(no=${community.no},pageNo=${pageNo})}"  class="btn btn-primary">수정하기</a>
+                <a th:href="@{/community/delete(no=${community.no},pageNo=${pageNo})}"  class="btn btn-primary">삭제하기</a>
+            </div>
         </section>
+
         <section class="reply layout-150">
 
             <form action="">
-
                 <div class="reply-text">
                     <label>댓글작성 : </label>
                     <textarea class="form-control"></textarea>

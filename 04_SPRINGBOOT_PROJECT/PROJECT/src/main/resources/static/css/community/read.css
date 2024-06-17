@@ -223,3 +223,13 @@ section.reply .control-block .reply-button{
 .reply .foot a:hover{
     color : royalblue;
 }
+
+.btn-group{
+    display:flex;
+    justify-content : right;
+    align-items : center;
+}
+.btn-group a{
+    margin : 5px;
+    width : 120px;
+}
