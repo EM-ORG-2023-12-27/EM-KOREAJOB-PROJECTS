@@ -5,12 +5,15 @@ import com.example.jobKoreaIt.config.auth.exceptionHandler.CustomAccessDeniedHan
 import com.example.jobKoreaIt.config.auth.exceptionHandler.CustomAuthenticationEntryPoint;
 import com.example.jobKoreaIt.config.auth.jwt.JwtAuthorizationFilter;
 import com.example.jobKoreaIt.config.auth.jwt.JwtProperties;
+import com.example.jobKoreaIt.config.auth.jwt.JwtTokenProvider;
 import com.example.jobKoreaIt.config.auth.loginHandler.CustomAuthenticationFailureHandler;
 import com.example.jobKoreaIt.config.auth.loginHandler.CustomLoginSuccessHandler;
 import com.example.jobKoreaIt.config.auth.loginHandler.Oauth2JwtLoginSuccessHandler;
 import com.example.jobKoreaIt.config.auth.logoutHandler.CustomLogoutHandler;
 import com.example.jobKoreaIt.config.auth.logoutHandler.CustomLogoutSuccessHandler;
+import com.example.jobKoreaIt.domain.common.repository.UserRepository;
 import com.zaxxer.hikari.HikariDataSource;
+import io.jsonwebtoken.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,10 +25,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
 
     @Autowired
     private HikariDataSource dataSource;
@@ -86,6 +96,20 @@ public class SecurityConfig {
             oauth2.successHandler(oauth2JwtLoginSuccessHandler());
             oauth2.defaultSuccessUrl("/", true); // 로그인 성공 시 메인 페이지로 리디렉트
         });
+
+        //SESSION INVALIDATE...
+        http.sessionManagement(
+                httpSecuritySessionManagementConfigurer ->
+                        httpSecuritySessionManagementConfigurer.sessionCreationPolicy(
+                                SessionCreationPolicy.STATELESS
+                        )
+        );
+
+        //JWT ADDED
+        http.addFilterBefore(
+                new JwtAuthorizationFilter(userRepository,jwtTokenProvider),
+                BasicAuthenticationFilter.class
+        );
 
         return http.build();
     }

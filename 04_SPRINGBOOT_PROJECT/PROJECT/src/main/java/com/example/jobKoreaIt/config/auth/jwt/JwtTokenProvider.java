@@ -2,6 +2,7 @@ package com.example.jobKoreaIt.config.auth.jwt;
 
 
 import com.example.jobKoreaIt.config.auth.PrincipalDetails;
+import com.example.jobKoreaIt.domain.common.dto.UserDto;
 import com.example.jobKoreaIt.properties.DBCONN;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -73,12 +74,26 @@ public class JwtTokenProvider {
         long now = (new Date()).getTime();
 
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        UserDto userDto = principalDetails.getUserDto();
 
         // Access Token 생성
         Date accessTokenExpiresIn = new Date(now + 60*5*1000);    // 60*5 초후 만료
         String accessToken = Jwts.builder()
-                .setSubject("TITLE")
-                .claim("null",null)                         //정보저장
+                .setSubject(authentication.getName())
+                .claim("username",authentication.getName())                         //정보저장
+                .claim("phone",userDto.getPhone())
+                .claim("nickname",userDto.getNickname())
+                .claim("password",userDto.getPassword())
+                .claim("role",userDto.getRole())
+
+                .claim("auth", authorities)
+                .claim("princiapl",authentication.getPrincipal())
+                .claim("credentials", authentication.getCredentials())
+                .claim("details", authentication.getDetails())
+                .claim("provider",userDto.getProvider())
+                .claim("providerId",userDto.getProviderId())
+
+                .claim("accessToken", principalDetails.getAccessToken())
                 .setExpiration(accessTokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
@@ -103,8 +118,9 @@ public class JwtTokenProvider {
         // Access Token 생성
         Date accessTokenExpiresIn = new Date(now + 60*5*1000);    // 60*5 초후 만료
         String accessToken = Jwts.builder()
-                .setSubject("TITLE")
-                .claim(null,null)             //정보저장
+                .setSubject(Claimkey+"JWT TOKEN")
+                .claim(Claimkey,isAuth)             //정보저장
+                .claim("id",id)
                 .setExpiration(accessTokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
@@ -143,15 +159,33 @@ public class JwtTokenProvider {
 
         String username = claims.getSubject(); //username
 
+        //JWT Added
+
 
         String provider =  (String)claims.get("provider");
+        String providerId = (String)claims.get("providerId");
         String password = (String)claims.get("password");
         String auth = (String)claims.get("auth");
         String oauthAccessToken = (String)claims.get("accessToken");
+        String phone = (String)claims.get("phone");
+        String nickname = (String)claims.get("nickname");
+
+        UserDto userDto =new UserDto();
+        userDto.setUsername(username);
+        userDto.setPassword(password);
+        userDto.setProvider(provider);
+        userDto.setProviderId(providerId);
+        userDto.setPhone(phone);
+        userDto.setNickname(nickname);
+
+        userDto.setRole(auth);
+
 
         PrincipalDetails principalDetails = new PrincipalDetails();
+        principalDetails.setUserDto(userDto);
         principalDetails.setAccessToken(oauthAccessToken);   //Oauth AccessToken
 
+        System.out.println("JWT GETAUTHENTICATION DTO : "+  userDto);
 
         //JWT + NO REMEMBERME
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
