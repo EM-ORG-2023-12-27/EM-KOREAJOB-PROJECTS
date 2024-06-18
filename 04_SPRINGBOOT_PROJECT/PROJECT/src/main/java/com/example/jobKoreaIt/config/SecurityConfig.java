@@ -13,7 +13,6 @@ import com.example.jobKoreaIt.config.auth.logoutHandler.CustomLogoutHandler;
 import com.example.jobKoreaIt.config.auth.logoutHandler.CustomLogoutSuccessHandler;
 import com.example.jobKoreaIt.domain.common.repository.UserRepository;
 import com.zaxxer.hikari.HikariDataSource;
-import io.jsonwebtoken.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +22,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -32,72 +32,75 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 public class SecurityConfig {
 
     @Autowired
+    private HikariDataSource dataSource;
+
+    //JWT ADDED
+    @Autowired
     private UserRepository userRepository;
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
 
-    @Autowired
-    private HikariDataSource dataSource;
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-        // CSRF 비활성화
-        http.csrf(csrf -> csrf.disable());
-
-        // 요청 URL별 접근 제한
-        http.authorizeHttpRequests(authorize -> {
-            authorize.requestMatchers("/js/**", "/css/**", "/images/**", "/templates", "/assets/**").permitAll();
-            authorize.requestMatchers("/", "/user/login", "/user/join").permitAll();
-            authorize.requestMatchers("/", "/login", "/oauth2/**", "/css/**", "/js/**").permitAll();
-            authorize.requestMatchers("/**").permitAll(); // 임시 모든 URL 허용
-            authorize.anyRequest().authenticated();
-        });
-
-        // 로그인
-        http.formLogin(login -> {
+        http.csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(authorize -> {
+                    authorize.requestMatchers("/js/**", "/css/**", "/images/**", "/templates", "/assets/**").permitAll();
+                    authorize.requestMatchers("/", "/user/login", "/user/join").permitAll();
+                    authorize.requestMatchers("/oauth2/**").permitAll();
+                    authorize.anyRequest().authenticated();
+                });
+        //로그인
+        http.formLogin(login->{
             login.permitAll();
-            login.loginPage("/user/login");
+            login.loginPage("/login");
             login.successHandler(customLoginSuccessHandler());
             login.failureHandler(new CustomAuthenticationFailureHandler());
+
         });
 
-        // 로그아웃
-        http.logout(logout -> {
-            logout.permitAll();
-            logout.logoutUrl("/logout");
-            logout.addLogoutHandler(customLogoutHandler());
-            logout.logoutSuccessHandler(customLogoutSuccessHandler());
-            // JWT Added
-            logout.deleteCookies("JSESSIONID", JwtProperties.COOKIE_NAME);
-            logout.invalidateHttpSession(true);
-        });
+        //로그아웃
+        http.logout(
+                (logout)->{
+                    logout.permitAll();
+                    logout.logoutUrl("/logout");
+                    logout.addLogoutHandler(customLogoutHandler());
+                    logout.logoutSuccessHandler( customLogoutSuccessHandler() );
+                    //JWT Added
+                    logout.deleteCookies("JSESSIONID", JwtProperties.COOKIE_NAME);
+                    logout.invalidateHttpSession(true);
+                }
+        );
+        //Session
 
-        // 예외 처리
-        http.exceptionHandling(ex -> {
-            ex.authenticationEntryPoint(new CustomAuthenticationEntryPoint());
-            ex.accessDeniedHandler(new CustomAccessDeniedHandler());
-        });
+        //예외처리
+        http.exceptionHandling(
+                ex->{
+                    ex.authenticationEntryPoint(new CustomAuthenticationEntryPoint());
+                    ex.accessDeniedHandler(new CustomAccessDeniedHandler());
+                }
+        );
 
-        // RememberMe
-        http.rememberMe(rm -> {
-            rm.key("rememberMeKey");
-            rm.rememberMeParameter("remember-me");
-            rm.alwaysRemember(false);
-            rm.tokenValiditySeconds(3600);  // 60*60
-            rm.tokenRepository(tokenRepository());
-        });
+        //RememberMe
+        http.rememberMe(
+                rm->{
+                    rm.key("rememberMeKey");
+                    rm.rememberMeParameter("remember-me");
+                    rm.alwaysRemember(false);
+                    rm.tokenValiditySeconds(3600);  //60*60
+                    rm.tokenRepository(tokenRepository());
+                }
+        );
 
-        // OAuth2 로그인 설정
-        http.oauth2Login(oauth2 -> {
-            oauth2.loginPage("/user/login");
-            oauth2.userInfoEndpoint().userService(principalDetailsOAuth2Service());
-            oauth2.successHandler(oauth2JwtLoginSuccessHandler());
-            oauth2.defaultSuccessUrl("/", true); // 로그인 성공 시 메인 페이지로 리디렉트
-        });
+        //Oauth2
+        http.oauth2Login(
+                oauth2->{
+                    oauth2.loginPage("/login");
+                    oauth2.successHandler(oauth2JwtLoginSuccessHandler());
+                }
+        );
 
-        //SESSION INVALIDATE...
+        //SESSION INVALIDATE..
         http.sessionManagement(
                 httpSecuritySessionManagementConfigurer ->
                         httpSecuritySessionManagementConfigurer.sessionCreationPolicy(
@@ -114,46 +117,47 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // REMEMBER ME 처리 BEAN
-    @Bean
-    public PersistentTokenRepository tokenRepository() {
-        JdbcTokenRepositoryImpl repo = new JdbcTokenRepositoryImpl();
-        repo.setDataSource(dataSource);
-        return repo;
-    }
 
-    // CUSTOMLOGOUTSUCCESS BEAN
+    //CUSTOMLOGOUTSUCCESS BEAN
     @Bean
-    public CustomLogoutSuccessHandler customLogoutSuccessHandler() {
+    public CustomLogoutSuccessHandler customLogoutSuccessHandler(){
         return new CustomLogoutSuccessHandler();
     }
-
-    // CUSTOMLOGOUTHANDLER BEAN
+    //CUSTOMLOGOUTHANDLER BEAN
     @Bean
-    public CustomLogoutHandler customLogoutHandler() {
+    public CustomLogoutHandler customLogoutHandler(){
         return new CustomLogoutHandler();
     }
 
-    // CUSTOMLOGINSUCCESSHANDLER BEAN
-    @Bean
-    public CustomLoginSuccessHandler customLoginSuccessHandler() {
-        return new CustomLoginSuccessHandler();
-    }
 
-    // Oauth2JwtLoginSuccessHandler BEAN
-    @Bean
-    public Oauth2JwtLoginSuccessHandler oauth2JwtLoginSuccessHandler() {
-        return new Oauth2JwtLoginSuccessHandler();
-    }
-
-    // BCryptPasswordEncoder Bean 등록 - 패스워드 검증에 사용
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    //REMEMBER ME 처리 BEAN
+    @Bean
+    public PersistentTokenRepository tokenRepository(){
+        JdbcTokenRepositoryImpl repo = new JdbcTokenRepositoryImpl();
+        //repo.setCreateTableOnStartup(true);
+        repo.setDataSource(dataSource);
+        return repo;
+    }
     @Bean
     public PrincipalDetailsOAuth2Service principalDetailsOAuth2Service() {
         return new PrincipalDetailsOAuth2Service();
     }
+    @Bean
+
+    public Oauth2JwtLoginSuccessHandler oauth2JwtLoginSuccessHandler(){
+        return new Oauth2JwtLoginSuccessHandler();
+    }
+
+    //CUSTOMLOGINSUCCESSHANDLER BEAN
+
+    @Bean
+    public CustomLoginSuccessHandler customLoginSuccessHandler(){
+        return new CustomLoginSuccessHandler();
+    }
 }
+
