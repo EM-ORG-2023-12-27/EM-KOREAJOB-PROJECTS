@@ -3,19 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>공지사항</title>
-
-    <!--  link   -->
     <th:block th:insert="~{fragments/link :: linkFragment}" />
-
     <link rel="stylesheet" href="/css/Notification/list.css"/>
 </head>
 <body>
-
 <div class="wrapper">
     <header>
-        <!-- header   -->
         <th:block th:insert="~{fragments/top_header :: topHeaderFragment}" />
-        <!-- nav       -->
         <th:block th:insert="~{fragments/nav :: navFragment}" />
     </header>
     <main>
@@ -36,7 +30,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="notification : ${notifications}">
+                        <tr th:each="notification : ${list}">
                             <td th:text="${notification.id}"></td>
                             <td>
                                 <a th:href="@{/Notification/read/{id}(id=${notification.id})}" th:text="${notification.title}"></a>
@@ -49,9 +43,31 @@
                 </div>
             </div>
         </div>
+        <div class="board-footer row position-relative">
+            <div class="pagenation col-9">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <!-- PREV -->
+                        <li class="page-item" th:if="${pageDto.prev}">
+                            <a class="page-link" th:href="@{/Notification/list(pageNo=${pageDto.nowBlock * pageDto.pagePerBlock - pageDto.pagePerBlock*2 + 1})}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <!-- PAGENATION -->
+                        <li class="page-item" th:each="i : ${#numbers.sequence(pageDto.startPage, pageDto.endPage)}">
+                            <a class="page-link" th:href="@{/Notification/list(pageNo=${i})}"><span th:text="${i}"></span></a>
+                        </li>
+                        <!-- NEXT -->
+                        <li class="page-item" th:if="${pageDto.next}">
+                            <a class="page-link" th:href="@{/Notification/list(pageNo=${pageDto.nowBlock * pageDto.pagePerBlock + 1})}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
     </main>
-
-    <!-- footer       -->
     <th:block th:insert="~{fragments/footer :: footerFragment}" />
 </div>
 </body>

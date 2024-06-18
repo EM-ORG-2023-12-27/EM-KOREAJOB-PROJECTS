@@ -1,5 +1,7 @@
 package com.example.jobKoreaIt.controller;
 
+import com.example.jobKoreaIt.domain.Notification.dto.Criteria;
+import com.example.jobKoreaIt.domain.Notification.dto.PageDto;
 import com.example.jobKoreaIt.domain.Notification.dto.notificationDto;
 import com.example.jobKoreaIt.domain.Notification.entity.NotifiEntity;
 import com.example.jobKoreaIt.domain.Notification.service.NotifiService;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -43,10 +46,32 @@ public class NotificationController {
     }
 //공지사항 전체조회---------------
     @GetMapping("/list")
-    public String notification_Get(Model model){
-        log.info("GET/notificaiton/....");
+    public String notification_Get(@RequestParam(value="pageNo",required = false)Integer pageNo ,Model model){
+        log.info("GET /community/list... " + pageNo + " " );
+
+        Criteria criteria=null;
+        if(pageNo==null){
+
+            pageNo=1;
+            criteria=new Criteria();
+        }
+        else {
+            criteria=new Criteria(pageNo,10);
+        }
+        //서비스 실행
+        Map<String, Object> map = notifiService.NotificationBlock(criteria);
+        PageDto pageDto = (PageDto) map.get("pageDto");
+        int total = (int) map.get("totalcount");
+        List<NotifiEntity> list = (List<NotifiEntity>) map.get("list");
+
         List<notificationDto> notifications=notifiService.notifi_list();
+
+        model.addAttribute("list",list);
+        model.addAttribute("total",total);
+        model.addAttribute("pageNo",pageNo);
+        model.addAttribute("pageDto",pageDto);
         model.addAttribute("notifications",notifications);
+
         return "Notification/list";
     }
 
