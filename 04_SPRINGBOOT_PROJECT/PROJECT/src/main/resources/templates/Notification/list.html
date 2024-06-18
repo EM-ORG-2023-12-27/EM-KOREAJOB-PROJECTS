@@ -15,23 +15,24 @@
     <main>
         <h2>공지사항</h2>
         <div class="wrap_body">
+            <div class="board-header">
+                현재 페이지 : (<span th:text="${pageNo}"></span> / <span th:text="${pageDto.totalpage}"></span> Page)
+            </div>
             <div class="wrap_board">
-                <ul class="tabList">
-                    <li><button type="button" class="inTab"><span>전체</span></button></li>
-                </ul>
+
                 <div class="search_area"></div>
                 <div class="notice_list">
                     <table>
                         <thead>
                         <tr>
-                            <th>공지</th>
+                            <th>번호</th>
                             <th class="title">제목</th>
                             <th>작성일</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="notification : ${list}">
-                            <td th:text="${notification.id}"></td>
+                        <tr th:each="notification, index : ${list}" >
+                            <td th:text="${(pageNo - 1) * pageDto.criteria.amount + index.index + 1}"></td>
                             <td>
                                 <a th:href="@{/Notification/read/{id}(id=${notification.id})}" th:text="${notification.title}"></a>
                             </td>
@@ -44,7 +45,7 @@
             </div>
         </div>
         <div class="board-footer row position-relative">
-            <div class="pagenation col-9">
+            <div class="pagenation col-9" th:if="${not #lists.isEmpty(list)}">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
                         <!-- PREV -->
