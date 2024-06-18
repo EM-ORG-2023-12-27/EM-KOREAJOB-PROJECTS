@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.HtmlUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +33,11 @@ public class NotificationController {
     public String notification_post(@ModelAttribute notificationDto notidto){
         log.info("Post/notification_post...");
         log.info("notidto : "+notidto);
+
+        String originalContents = notidto.getContents();
+        String convertedContents = HtmlUtils.htmlEscape(originalContents).replace("\n", "<br>");
+        notidto.setContents(convertedContents);
+
         notifiService.addNotification(notidto);
         return "redirect:/Notification/list";
     }
@@ -98,7 +104,13 @@ public class NotificationController {
         long id=notificationDto.getId();
         log.info("notificationDto.id : " + id);
 
+        String originalContents = notificationDto.getContents();
+        String convertedContents = HtmlUtils.htmlEscape(originalContents).replace("\n", "<br>");
+        notificationDto.setContents(convertedContents);
+
+
         notifiService.notifi_update(id,notificationDto);
     return "redirect:/Notification/list";
     }
 }
+
