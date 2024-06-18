@@ -35,5 +35,4 @@ public class Community {
     private String filename;
     private String filesize;
 
-
 }

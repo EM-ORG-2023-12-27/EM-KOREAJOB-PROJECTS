@@ -2,12 +2,11 @@ package com.example.jobKoreaIt.controller;
 
 
 import com.example.jobKoreaIt.config.auth.PrincipalDetails;
-import com.example.jobKoreaIt.domain.common.dto.CommunityDto;
-import com.example.jobKoreaIt.domain.common.dto.Criteria;
-import com.example.jobKoreaIt.domain.common.dto.PageDto;
-import com.example.jobKoreaIt.domain.common.dto.UserDto;
+import com.example.jobKoreaIt.domain.common.dto.*;
 import com.example.jobKoreaIt.domain.common.entity.Community;
+import com.example.jobKoreaIt.domain.common.entity.Reply;
 import com.example.jobKoreaIt.domain.common.service.CommunityServiceImpl;
+import com.example.jobKoreaIt.domain.common.service.ReplyServiceImpl;
 import com.example.jobKoreaIt.domain.common.service.UserServiceImpl;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,6 +15,7 @@ import jakarta.websocket.DeploymentException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,6 +28,7 @@ import org.thymeleaf.util.StringUtils;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -41,9 +42,14 @@ public class CommunityController {
     private CommunityServiceImpl communityService;
 
     @Autowired
+    private ReplyServiceImpl replyService;
+
+    @Autowired
     private UserServiceImpl userService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+
 
     @GetMapping("/index")
     public void index(){
@@ -54,6 +60,8 @@ public class CommunityController {
     public void add(){
         log.info("GET /community/add.css...");
     }
+
+
 
 
 
@@ -129,8 +137,6 @@ public class CommunityController {
         return "community/list";
     }
 
-
-
     @GetMapping("/read")
     public void read(@RequestParam("no") Long no , @RequestParam("pageNo") Long pageNo,Model model){
         log.info("GET /community/read...no : " + no + " pageNo :" + pageNo);
@@ -138,9 +144,6 @@ public class CommunityController {
 
         model.addAttribute("community",community);
         model.addAttribute("pageNo",pageNo);
-
-
-
     }
 
     @GetMapping("/update")
@@ -182,6 +185,29 @@ public class CommunityController {
 //        }
         communityService.removeCommunity(no);
         return new ResponseEntity(true,HttpStatus.OK);
+    }
+
+
+    @GetMapping("/reply/add")
+    public @ResponseBody ResponseEntity<String> reply_add(@RequestParam("cno") Long cno , @RequestParam("content")String content ){
+        log.info("GET /community/reply/add..." + cno + " " + content);
+
+        boolean isadded = replyService.addReply(cno,content);
+        return new ResponseEntity("SUCCESS",HttpStatus.OK);
+
+    }
+    @GetMapping(value = "/reply/get/{cno}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody Map<String,Object> reply_get(@PathVariable("cno") Long cno){
+        log.info("GET /community/reply/get..." + cno);
+        List<Reply> list  = replyService.getAllReplyByCommunityNo(cno);
+        Long totalReply = replyService.getCountReplyByCommunityNo(cno);
+
+        Map<String,Object> result = new HashMap();
+        result.put("list",list);
+        result.put("count",totalReply);
+        return result;
+
+
     }
 
 }
