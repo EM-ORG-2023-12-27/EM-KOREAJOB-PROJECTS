@@ -6,48 +6,89 @@
     <!-- link -->
     <th:block th:insert="~{fragments/link :: linkFragment}" />
     <style>
-        /* 스타일링 */
-        .resume-details {
-            margin-top: 20px;
-            padding: 20px;
-            border: 1px solid #dddddd;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
-        .resume-details h2 {
-            margin-bottom: 10px;
-        }
-        .resume-details dl {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .resume-details dt {
-            font-weight: bold;
-        }
-        .resume-details dd {
-            margin-left: 0;
-        }
-        .update {
-            background: #5cb85c;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 4px;
-            margin-top: 20px;
-        }
-        .update{
-            display:button
-            margin-top: 20px;
-            background: #5cb85c;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 4px;
+        /* 공통 스타일 */
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
         }
 
+        .wrapper {
+            max-width: 100%
+            margin: 0 auto;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        header, footer {
+            background-color: #f8f9fa;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        main {
+            padding: 20px 0;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .resume-details {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-top: 20px;
+
+            justify-contents:center;
+        }
+
+        dl {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 10px;
+        }
+        .carrers{
+           display:flex;
+           margin-10px;
+        }
+
+        dt {
+            font-weight: bold;
+        }
+
+        .update {
+            display: inline-block;
+            background-color: #5cb85c;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+
+        .update:hover {
+            background-color: #4cae4c;
+        }
     </style>
 </head>
 <body>
@@ -83,7 +124,7 @@
                 </dl>
 
                 <h2>경력</h2>
-                <dl th:each="career : ${resume.careers}">
+                <dl th:each="career : ${resume.careers}" class="carrers">
                     <dt>회사명</dt>
                     <dd th:text="${career.companyName}"></dd>
                     <dt>직급</dt>
