@@ -9,6 +9,7 @@ import com.example.jobKoreaIt.domain.common.service.CommunityServiceImpl;
 import com.example.jobKoreaIt.domain.common.service.ReplyServiceImpl;
 import com.example.jobKoreaIt.domain.common.service.UserServiceImpl;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import jakarta.websocket.DeploymentException;
@@ -85,8 +86,16 @@ public class CommunityController {
     }
 
     @GetMapping("/list")
-    public String list(@RequestParam(value = "pageNo" ,required = false)Integer pageNo, Model model, HttpServletResponse response) throws Exception {
+    public String list(
+            @RequestParam(value = "pageNo" ,required = false)Integer pageNo,
+            @RequestParam(value="category") String category,
+            @RequestParam(value="type") String type,
+            @RequestParam(value="keyword") String keyword,
+            Model model,
+            HttpServletResponse response
+    ) throws Exception {
         log.info("GET /community/list... " + pageNo + " " );
+
 
         //----------------
         //PageDto  Start
@@ -103,9 +112,9 @@ public class CommunityController {
         //--------------------
         //Search
         //--------------------
-//        criteria.setType(type);
-//        criteria.setKeyword(keyword);
-
+        criteria.setType(type);
+        criteria.setKeyword(keyword);
+        criteria.setCategory(category);
 
         //서비스 실행
         Map<String,Object> map = communityService.GetCommunityList(criteria);
@@ -129,21 +138,49 @@ public class CommunityController {
         //--------------------------------
         //COUNT UP - //쿠키 생성(/board/read.do 새로고침시 조회수 반복증가를 막기위한용도)
         //--------------------------------
-//        Cookie init = new Cookie("reading","true");
-//        response.addCookie(init);
-
+        Cookie init = new Cookie("reading","true");
+        response.addCookie(init);
 
 
         return "community/list";
     }
 
     @GetMapping("/read")
-    public void read(@RequestParam("no") Long no , @RequestParam("pageNo") Long pageNo,Model model){
+    public String read(@RequestParam("no") Long no , @RequestParam("pageNo") Long pageNo, Model model, HttpServletRequest request, HttpServletResponse response){
         log.info("GET /community/read...no : " + no + " pageNo :" + pageNo);
         Community community =  communityService.getCommunity(no);
 
         model.addAttribute("community",community);
         model.addAttribute("pageNo",pageNo);
+
+
+        //-------------------
+        // COUNTUP
+        //-------------------
+
+        //쿠키 확인 후  CountUp(/board/read.do 새로고침시 조회수 반복증가를 막기위한용도)
+        Cookie[] cookies = request.getCookies();
+        if(cookies!=null)
+        {
+            for(Cookie cookie:cookies)
+            {
+                if(cookie.getName().equals("reading"))
+                {
+                    if(cookie.getValue().equals("true"))
+                    {
+                        //CountUp
+                        System.out.println("COOKIE READING TRUE | COUNT UP");
+                        communityService.count(no);
+                        //쿠키 value 변경
+                        cookie.setValue("false");
+                        response.addCookie(cookie);
+                    }
+                }
+            }
+        }
+
+        return "community/read";
+
     }
 
     @GetMapping("/update")
