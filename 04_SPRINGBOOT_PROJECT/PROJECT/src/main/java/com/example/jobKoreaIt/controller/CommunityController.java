@@ -88,9 +88,9 @@ public class CommunityController {
     @GetMapping("/list")
     public String list(
             @RequestParam(value = "pageNo" ,required = false)Integer pageNo,
-            @RequestParam(value="category") String category,
-            @RequestParam(value="type") String type,
-            @RequestParam(value="keyword") String keyword,
+            @RequestParam(value="category",required = false) String category,
+            @RequestParam(value="type",required = false) String type,
+            @RequestParam(value="keyword",required = false) String keyword,
             Model model,
             HttpServletResponse response
     ) throws Exception {
