@@ -4,12 +4,18 @@ import com.example.jobKoreaIt.config.auth.PrincipalDetails;
 import com.example.jobKoreaIt.config.auth.jwt.JwtProperties;
 import com.example.jobKoreaIt.config.auth.jwt.JwtTokenProvider;
 import com.example.jobKoreaIt.domain.common.repository.UserRepository;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -18,13 +24,25 @@ import java.util.Arrays;
 public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 
     @Value("${spring.security.oauth2.client.registration.kakao.client-id}")
-    private String kakaoClientid;
+    private String kakaoClientId;
 
-    private final String REDIRECT_URI = "http://localhost:8080/login";
+    @Value("${spring.security.oauth2.client.registration.google.client-id}")
+    private String googleClientId;
 
-    private JwtTokenProvider jwtTokenProvider;
+    @Value("${spring.security.oauth2.client.registration.google.client-secret}")
+    private String googleClientSecret;
 
-    private UserRepository userRepository;
+    @Value("${app.redirect-uri:http://localhost:8080/login}")  // 기본 리다이렉트 URI 설정
+    private String redirectUri;
+
+    private final JwtTokenProvider jwtTokenProvider;
+    private final UserRepository userRepository;
+
+    @Autowired
+    public CustomLogoutSuccessHandler(JwtTokenProvider jwtTokenProvider, UserRepository userRepository) {
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth) throws IOException {
@@ -34,23 +52,56 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
         String token = Arrays.stream(request.getCookies())
                 .filter(cookie -> cookie.getName().equals(JwtProperties.COOKIE_NAME))
                 .findFirst()
-                .map(cookie -> cookie.getValue())
+                .map(Cookie::getValue)
                 .orElse(null);
-        Authentication authentication = jwtTokenProvider.getAuthentication(token);
 
-        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-        String provider = principalDetails.getUserDto().getProvider();
-        System.out.println("[CustomLogoutSuccessHandler] onlogoutSucces() provider : " + provider);
+        if (token != null && jwtTokenProvider.validateToken(token)) {
+            Authentication authentication = jwtTokenProvider.getAuthentication(token);
 
-        if (provider != null && provider.equals("kakao")) {
-            String url = "http://kauth.kakao.com/oauth/logout?client_id=" + kakaoClientid + "&logout_redirect_uri=" + REDIRECT_URI;
-            response.sendRedirect(url);
-            return;
-        } else if (provider != null && provider.equals("google")) {
-            String url = "http://accounts.google.com/logout";
-            response.sendRedirect(url);
-            return;
+            if (authentication != null) {
+                PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+                String provider = principalDetails.getUserDto().getProvider();
+                System.out.println("[CustomLogoutSuccessHandler] onLogoutSuccess() provider : " + provider);
+
+                if ("kakao".equals(provider)) {
+                    String url = "https://kauth.kakao.com/oauth/logout?client_id=" + kakaoClientId + "&logout_redirect_uri=" + redirectUri;
+                    response.sendRedirect(url);
+                    return;
+                } else if ("google".equals(provider)) {
+                    String url = "https://oauth2.googleapis.com/revoke";
+                    RestTemplate restTemplate = createRestTemplate();
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+                    String requestBody = "token=" + token;
+                    HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+
+                    try {
+                        restTemplate.postForObject(url, requestEntity, String.class);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Google 로그아웃 실패. 다시 시도해주세요.");
+                        return;
+                    }
+                    clearAuthCookie(request, response);
+                    response.sendRedirect(redirectUri);
+                    return;
+                }
+            }
         }
+
+        clearAuthCookie(request, response);
         response.sendRedirect("/");
+    }
+
+    private RestTemplate createRestTemplate() {
+        return new RestTemplate();
+    }
+
+    private void clearAuthCookie(HttpServletRequest request, HttpServletResponse response) {
+        Cookie cookie = new Cookie(JwtProperties.COOKIE_NAME, null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        response.addCookie(cookie);
     }
 }

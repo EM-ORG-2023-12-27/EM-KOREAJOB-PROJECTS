@@ -62,10 +62,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 System.out.println("[JWTAUTHORIZATIONFILTER] : ExpiredJwtException : " + e.getMessage());
 
                 // 토큰 만료 시 처리(쿠키에서 제거)
-                Cookie cookie = new Cookie(JwtProperties.COOKIE_NAME, null);
-                cookie.setMaxAge(0);
-                cookie.setPath("/");
-                response.addCookie(cookie);
+                clearAuthCookie(request, response);
 
                 // 만료된 토큰에 대한 추가 처리
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT token has expired. Please log in again.");
@@ -79,15 +76,30 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         chain.doFilter(request, response);
     }
 
+    private void clearAuthCookie(HttpServletRequest request, HttpServletResponse response) {
+        Cookie cookie = new Cookie(JwtProperties.COOKIE_NAME, null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+    }
+
     /**
      * JWT 토큰으로 User를 찾아서 UsernamePasswordAuthenticationToken를 만들어서 반환한다.
      * User가 없다면 null
      */
     private Authentication getUsernamePasswordAuthenticationToken(String token) {
-        Authentication authentication = jwtTokenProvider.getAuthentication(token);
-        String username = authentication.getName();
-        Optional<User> user = Optional.ofNullable(memberRepository.findByUsername(username));
-        System.out.println("JwtAuthorizationFilter.getUsernamePasswordAuthenticationToken..authentication : " + authentication);
-        return user.map(u -> authentication).orElse(null);
+        try {
+            Authentication authentication = jwtTokenProvider.getAuthentication(token);
+            String username = authentication.getName();
+            Optional<User> user = Optional.ofNullable(memberRepository.findByUsername(username));
+            System.out.println("JwtAuthorizationFilter.getUsernamePasswordAuthenticationToken..authentication : " + authentication);
+            return user.map(u -> authentication).orElse(null);
+        } catch (ExpiredJwtException e) {
+            System.out.println("Token expired while trying to authenticate: " + e.getMessage());
+            return null;
+        } catch (Exception e) {
+            System.out.println("An error occurred while trying to authenticate: " + e.getMessage());
+            return null;
+        }
     }
 }
