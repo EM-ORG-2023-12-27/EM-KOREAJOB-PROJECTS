@@ -29,7 +29,9 @@ public class Oauth2JwtLoginSuccessHandler implements AuthenticationSuccessHandle
         //-------------------------------------
         //JWT ADD
         //-------------------------------------
-        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        System.out.println("authentiction : " + authentication);
+
+
 
         TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
         //쿠키생성
@@ -46,11 +48,11 @@ public class Oauth2JwtLoginSuccessHandler implements AuthenticationSuccessHandle
 
             try{
                 if(role_str.equals("ROLE_SEEKER")){
-                    response.sendRedirect("/seeker");
+                    response.sendRedirect("/");
                 } else if (role_str.equals("ROLE_OFFER")) {
-                    response.sendRedirect("/offer");
+                    response.sendRedirect("/");
                 } else if (role_str.equals("ROLE_ADMIN")) {
-                    response.sendRedirect("/admin");
+                    response.sendRedirect("/");
                 }
             } catch (IOException e) {
                 e.printStackTrace();

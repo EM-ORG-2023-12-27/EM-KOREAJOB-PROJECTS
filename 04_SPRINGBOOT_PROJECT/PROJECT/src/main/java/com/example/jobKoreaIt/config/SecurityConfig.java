@@ -21,9 +21,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -35,12 +33,11 @@ public class SecurityConfig {
     @Autowired
     private HikariDataSource dataSource;
 
-    //JWT ADDED
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
-
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -51,74 +48,57 @@ public class SecurityConfig {
                     authorize.requestMatchers("/oauth2/**").permitAll();
                     authorize.anyRequest().authenticated();
                 });
-        //로그인
-        http.formLogin(login->{
+
+        // 로그인
+        http.formLogin(login -> {
             login.permitAll();
             login.loginPage("/login");
             login.successHandler(customLoginSuccessHandler());
             login.failureHandler(new CustomAuthenticationFailureHandler());
-
         });
 
-        //로그아웃
-        http.logout(
-                (logout)->{
-                    logout.permitAll();
-                    logout.logoutUrl("/logout");
-                    logout.addLogoutHandler(customLogoutHandler());
-                    logout.logoutSuccessHandler( customLogoutSuccessHandler() );
-                    //JWT Added
-                    logout.deleteCookies("JSESSIONID", JwtProperties.COOKIE_NAME);
-                    logout.invalidateHttpSession(true);
-                }
-        );
-        //Session
+        // 로그아웃
+        http.logout(logout -> {
+            logout.permitAll();
+            logout.logoutUrl("/logout");
+            logout.addLogoutHandler(customLogoutHandler());
+            logout.logoutSuccessHandler(customLogoutSuccessHandler());
+            // JWT Added
+            logout.deleteCookies("JSESSIONID", JwtProperties.COOKIE_NAME);
+            logout.invalidateHttpSession(true);
+        });
 
-        //예외처리
-        http.exceptionHandling(
-                ex->{
-                    ex.authenticationEntryPoint(new CustomAuthenticationEntryPoint());
-                    ex.accessDeniedHandler(new CustomAccessDeniedHandler());
-                }
-        );
+        // 예외 처리
+        http.exceptionHandling(ex -> {
+            ex.authenticationEntryPoint(customAuthenticationEntryPoint());
+            ex.accessDeniedHandler(new CustomAccessDeniedHandler());
+        });
 
-        //RememberMe
-        http.rememberMe(
-                rm->{
-                    rm.key("rememberMeKey");
-                    rm.rememberMeParameter("remember-me");
-                    rm.alwaysRemember(false);
-                    rm.tokenValiditySeconds(3600);  //60*60
-                    rm.tokenRepository(tokenRepository());
-                }
-        );
+        // RememberMe
+        http.rememberMe(rm -> {
+            rm.key("rememberMeKey");
+            rm.rememberMeParameter("remember-me");
+            rm.alwaysRemember(false);
+            rm.tokenValiditySeconds(3600);  // 60*60
+            rm.tokenRepository(tokenRepository());
+        });
 
-        //Oauth2
-        http.oauth2Login(
-                oauth2->{
-                    oauth2.loginPage("/login");
-                    oauth2.successHandler(oauth2JwtLoginSuccessHandler());
-                }
-        );
+        // Oauth2
+        http.oauth2Login(oauth2 -> {
+            oauth2.loginPage("/login");
+            oauth2.successHandler(oauth2JwtLoginSuccessHandler());
+        });
 
-        //SESSION INVALIDATE..
-        http.sessionManagement(
-                httpSecuritySessionManagementConfigurer ->
-                        httpSecuritySessionManagementConfigurer.sessionCreationPolicy(
-                                SessionCreationPolicy.STATELESS
-                        )
-        );
+        // Session Management
+        http.sessionManagement(session -> {
+            session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        });
 
-        //JWT ADDED
-        http.addFilterBefore(
-                new JwtAuthorizationFilter(userRepository,jwtTokenProvider),
-                BasicAuthenticationFilter.class
-        );
+        // JWT Filter
+        http.addFilterBefore(new JwtAuthorizationFilter(userRepository, jwtTokenProvider), BasicAuthenticationFilter.class);
 
         return http.build();
     }
-
-
 
     @Bean
     public CustomLogoutSuccessHandler customLogoutSuccessHandler() {

@@ -30,13 +30,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain chain
-    ) throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
-        System.out.println("[JWTAUTHORIZATIONFILTER] doFiilterInternal");
+        System.out.println("[JWTAUTHORIZATIONFILTER] doFilterInternal");
 
         String token = null;
 
@@ -44,30 +40,38 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             if (request.getCookies() != null) {
                 // cookie 에서 JWT token을 가져옴
                 token = Arrays.stream(request.getCookies())
-                        .filter(c -> c.getName().equals(JwtProperties.COOKIE_NAME))
+                        .filter(c -> JwtProperties.COOKIE_NAME.equals(c.getName()))
                         .map(Cookie::getValue)
                         .findFirst()
                         .orElse(null);
             }
         } catch (Exception ignored) {
-            //일반적으로 접근 요청 URI에 대한 쿠키 예외는 무시
+            // 일반적으로 접근 요청 URI에 대한 쿠키 예외는 무시
         }
 
         if (token != null) {
             try {
                 if (jwtTokenProvider.validateToken(token)) {
                     Authentication authentication = getUsernamePasswordAuthenticationToken(token);
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                    System.out.println("[JWTAUTHORIZATIONFILTER] : " + authentication);
+                    if (authentication != null) {
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
+                        System.out.println("[JWTAUTHORIZATIONFILTER] : " + authentication);
+                    }
                 }
             } catch (ExpiredJwtException e) { // 토큰 만료 시 예외 처리 (쿠키 제거)
-                System.out.println("[JWTAUTHORIZATIONFILTER] : ...ExpiredJwtException ...  " + e.getMessage());
+                System.out.println("[JWTAUTHORIZATIONFILTER] : ExpiredJwtException : " + e.getMessage());
 
-                // 토큰 만료 시 처리(Refresh-token으로 갱신 처리는 안 함 - 쿠키에서 제거)
+                // 토큰 만료 시 처리(쿠키에서 제거)
                 Cookie cookie = new Cookie(JwtProperties.COOKIE_NAME, null);
                 cookie.setMaxAge(0);
+                cookie.setPath("/");
                 response.addCookie(cookie);
+
+                // 만료된 토큰에 대한 추가 처리
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT token has expired. Please log in again.");
+                return;
             } catch (Exception e2) {
+                System.out.println("[JWTAUTHORIZATIONFILTER] : Token validation failed : " + e2.getMessage());
                 e2.printStackTrace();
             }
         }
@@ -81,8 +85,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
      */
     private Authentication getUsernamePasswordAuthenticationToken(String token) {
         Authentication authentication = jwtTokenProvider.getAuthentication(token);
-        Optional<User> user = Optional.ofNullable(memberRepository.findByUsername(authentication.getName()));
+        String username = authentication.getName();
+        Optional<User> user = Optional.ofNullable(memberRepository.findByUsername(username));
         System.out.println("JwtAuthorizationFilter.getUsernamePasswordAuthenticationToken..authentication : " + authentication);
-        return user.orElse(null) != null ? authentication : null;
+        return user.map(u -> authentication).orElse(null);
     }
 }

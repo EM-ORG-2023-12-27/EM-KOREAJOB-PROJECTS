@@ -35,7 +35,7 @@ public class PrincipalDetailsOAuth2Service extends DefaultOAuth2UserService {
 
         // provider 선별하기
         String provider = userRequest.getClientRegistration().getRegistrationId();
-
+        String accessToken = userRequest.getAccessToken().getTokenValue();
         OAuth2UserInfo oauth2UserInfo = null;
         if ("kakao".equals(provider)) {
             oauth2UserInfo = new KakaoUserInfo(oAuthUser.getAttributes());
@@ -75,9 +75,12 @@ public class PrincipalDetailsOAuth2Service extends DefaultOAuth2UserService {
         }
 
         // PRINCIPALDETAILS 생성/반환
-        return new DefaultOAuth2User(
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")),
-                oauth2UserInfo.getAttributes(),
-                oauth2UserInfo.getNameAttributeKey());
+        PrincipalDetails principalDetails = new PrincipalDetails();
+        principalDetails.setUserDto(userDto);
+        principalDetails.setAccessToken(accessToken);
+        principalDetails.setAttributes(oauth2UserInfo.getAttributes());
+
+
+        return principalDetails;
     }
 }
