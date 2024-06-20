@@ -21,6 +21,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
@@ -118,46 +119,46 @@ public class SecurityConfig {
     }
 
 
-    //CUSTOMLOGOUTSUCCESS BEAN
+
     @Bean
-    public CustomLogoutSuccessHandler customLogoutSuccessHandler(){
+    public CustomLogoutSuccessHandler customLogoutSuccessHandler() {
         return new CustomLogoutSuccessHandler();
     }
-    //CUSTOMLOGOUTHANDLER BEAN
+
     @Bean
-    public CustomLogoutHandler customLogoutHandler(){
+    public CustomLogoutHandler customLogoutHandler() {
         return new CustomLogoutHandler();
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    //REMEMBER ME 처리 BEAN
     @Bean
-    public PersistentTokenRepository tokenRepository(){
+    public PersistentTokenRepository tokenRepository() {
         JdbcTokenRepositoryImpl repo = new JdbcTokenRepositoryImpl();
-        //repo.setCreateTableOnStartup(true);
         repo.setDataSource(dataSource);
         return repo;
     }
+
     @Bean
     public PrincipalDetailsOAuth2Service principalDetailsOAuth2Service() {
         return new PrincipalDetailsOAuth2Service();
     }
-    @Bean
 
-    public Oauth2JwtLoginSuccessHandler oauth2JwtLoginSuccessHandler(){
+    @Bean
+    public Oauth2JwtLoginSuccessHandler oauth2JwtLoginSuccessHandler() {
         return new Oauth2JwtLoginSuccessHandler();
     }
 
-    //CUSTOMLOGINSUCCESSHANDLER BEAN
-
     @Bean
-    public CustomLoginSuccessHandler customLoginSuccessHandler(){
+    public CustomLoginSuccessHandler customLoginSuccessHandler() {
         return new CustomLoginSuccessHandler();
     }
-}
 
+    @Bean
+    public CustomAuthenticationEntryPoint customAuthenticationEntryPoint() {
+        return new CustomAuthenticationEntryPoint();
+    }
+}
