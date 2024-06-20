@@ -40,7 +40,7 @@ public class SecurityConfig {
     private JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    private CustomLoginSuccessHandler customLoginSuccessHandler; // 추가된 부분
+    private CustomLoginSuccessHandler customLoginSuccessHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -57,7 +57,7 @@ public class SecurityConfig {
         http.formLogin(login -> {
             login.permitAll();
             login.loginPage("/user/login");
-            login.loginProcessingUrl("/user/login"); // 로그인 폼의 action URL과 일치해야 합니다
+            login.loginProcessingUrl("/user/login");
             login.successHandler(customLoginSuccessHandler());
             login.failureHandler(new CustomAuthenticationFailureHandler());
         });
