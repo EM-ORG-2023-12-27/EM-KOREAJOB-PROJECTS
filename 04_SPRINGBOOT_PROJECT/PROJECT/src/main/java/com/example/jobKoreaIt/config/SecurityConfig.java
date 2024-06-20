@@ -14,7 +14,6 @@ import com.example.jobKoreaIt.config.auth.logoutHandler.CustomLogoutSuccessHandl
 import com.example.jobKoreaIt.domain.common.repository.UserRepository;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -40,8 +39,8 @@ public class SecurityConfig {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
-    @Value("${app.redirect-uri:http://localhost:8080/login}")  // 기본 리다이렉트 URI 설정
-    private String redirectUri;
+    @Autowired
+    private CustomLoginSuccessHandler customLoginSuccessHandler; // 추가된 부분
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -57,7 +56,8 @@ public class SecurityConfig {
         // 로그인
         http.formLogin(login -> {
             login.permitAll();
-            login.loginPage("/login");
+            login.loginPage("/user/login");
+            login.loginProcessingUrl("/user/login"); // 로그인 폼의 action URL과 일치해야 합니다
             login.successHandler(customLoginSuccessHandler());
             login.failureHandler(new CustomAuthenticationFailureHandler());
         });
@@ -68,10 +68,8 @@ public class SecurityConfig {
             logout.logoutUrl("/logout");
             logout.addLogoutHandler(customLogoutHandler());
             logout.logoutSuccessHandler(customLogoutSuccessHandler());
-            // JWT 추가
             logout.deleteCookies("JSESSIONID", JwtProperties.COOKIE_NAME);
             logout.invalidateHttpSession(true);
-            logout.logoutSuccessUrl(redirectUri);  // 로그아웃 성공 후 URL 설정
         });
 
         // 예외 처리
@@ -91,7 +89,7 @@ public class SecurityConfig {
 
         // Oauth2
         http.oauth2Login(oauth2 -> {
-            oauth2.loginPage("/login");
+            oauth2.loginPage("/user/login");
             oauth2.successHandler(oauth2JwtLoginSuccessHandler());
         });
 
@@ -100,7 +98,7 @@ public class SecurityConfig {
             session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         });
 
-        // JWT 필터 추가
+        // JWT Filter
         http.addFilterBefore(new JwtAuthorizationFilter(userRepository, jwtTokenProvider), BasicAuthenticationFilter.class);
 
         return http.build();

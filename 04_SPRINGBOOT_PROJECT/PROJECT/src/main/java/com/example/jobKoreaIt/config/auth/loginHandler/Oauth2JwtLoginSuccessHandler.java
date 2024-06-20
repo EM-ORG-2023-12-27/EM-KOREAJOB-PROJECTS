@@ -24,7 +24,7 @@ public class Oauth2JwtLoginSuccessHandler implements AuthenticationSuccessHandle
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        System.out.println("[CustomLoginSuccessHandler] onAuthenticationSuccess()");
+        System.out.println("[onAuthenticationSuccess] onAuthenticationSuccess()");
 
         //-------------------------------------
         //JWT ADD
@@ -43,19 +43,14 @@ public class Oauth2JwtLoginSuccessHandler implements AuthenticationSuccessHandle
 
         Collection<? extends GrantedAuthority> collection = authentication.getAuthorities();
         collection.forEach( (role->{
-            System.out.println("[CustomLoginSuccesshandler] onAuthenticationSuccess() role : " + role);
+            System.out.println("[onAuthenticationSuccess] onAuthenticationSuccess() role : " + role);
             String role_str = role.getAuthority();
 
-            try{
-                if(role_str.equals("ROLE_SEEKER")){
-                    response.sendRedirect("/");
-                } else if (role_str.equals("ROLE_OFFER")) {
-                    response.sendRedirect("/");
-                } else if (role_str.equals("ROLE_ADMIN")) {
-                    response.sendRedirect("/");
-                }
+
+            try {
+                response.sendRedirect("/");
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
 
 

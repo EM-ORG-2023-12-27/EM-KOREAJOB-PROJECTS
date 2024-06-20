@@ -65,8 +65,6 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 
                 if ("kakao".equals(provider)) {
                     String url = "https://kauth.kakao.com/oauth/logout?client_id=" + kakaoClientId + "&logout_redirect_uri=" + redirectUri;
-                    response.sendRedirect(url);
-                    return;
                 } else if ("google".equals(provider)) {
                     String url = "https://oauth2.googleapis.com/revoke";
                     RestTemplate restTemplate = createRestTemplate();
@@ -83,9 +81,6 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
                         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Google 로그아웃 실패. 다시 시도해주세요.");
                         return;
                     }
-                    clearAuthCookie(request, response);
-                    response.sendRedirect(redirectUri);
-                    return;
                 }
             }
         }

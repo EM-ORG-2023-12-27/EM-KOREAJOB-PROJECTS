@@ -47,18 +47,10 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler  
             System.out.println("[CustomLoginSuccessHandler] onAAuthentationSuccess() role " + role );
             String role_str = role.getAuthority();
 
-            try {
-                response.sendRedirect("/");
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-
         });
 
-
-
         response.sendRedirect("/");
+
     }
 
 
