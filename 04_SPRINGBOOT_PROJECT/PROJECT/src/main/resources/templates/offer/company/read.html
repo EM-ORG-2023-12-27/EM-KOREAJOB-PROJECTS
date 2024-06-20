@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Company Information</title>
+
+    <!-- Link -->
+    <th:block th:insert="~{fragments/link :: linkFragment}"/>
+    <style>
+        .add {
+    width: 600px;
+    height: 450px;
+    border: 1px solid pink;
+    text-align: center;
+    position: relative;
+    left: 600px;
+    top: 0px;
+    font-size: 24px;
+}
+
+.add p {
+    margin: 10px 0;
+}
+
+.add strong {
+    font-weight: bold;
+}
+
+.company-explanation {
+    word-wrap: break-word; /* Allows long words to break and wrap to the next line */
+    white-space: pre-wrap; /* Preserves whitespace and allows wrapping */
+}
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <header>
+        <!-- Header -->
+        <th:block th:insert="~{fragments/top_header :: topHeaderFragment}"/>
+        <!-- Nav -->
+        <th:block th:insert="~{fragments/nav :: navFragment}"/>
+    </header>
+    <main>
+        <section>
+            <div class="add">
+                <h1>회사정보 조회</h1>
+                <p><strong>회사 이름:</strong> <span th:text="${companyName}"></span></p>
+                <p><strong>회사 주소:</strong> <span th:text="${companyaddr}"></span></p>
+                <p><strong>회사 이메일:</strong> <span th:text="${companyEmail}"></span></p>
+                <p><strong>회사 전화번호: </strong> <span th:text="${companyPhone}"></span></p>
+                <p><strong>업종: </strong> <span th:text="${companyIndustry}"></span></p>
+                <p><strong>회사 설명: </strong><span th:text="${companyexplanation}" class="company-explanation"></span></p>
+                <button>수정</button>
+            </div>
+        </section>
+    </main>
+    <!-- Footer -->
+    <th:block th:insert="~{fragments/footer :: footerFragment}"/>
+</div>
+</body>
+</html>

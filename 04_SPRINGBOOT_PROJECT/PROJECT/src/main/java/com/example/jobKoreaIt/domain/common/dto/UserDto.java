@@ -16,7 +16,6 @@ public class UserDto {
 	private String username;
 	private String password;
 	private String repassword;
-	private String nickname;
 	private String role;
 
 	//OAUTH2

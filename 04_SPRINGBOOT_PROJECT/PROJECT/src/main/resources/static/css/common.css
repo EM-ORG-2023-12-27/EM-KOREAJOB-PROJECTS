@@ -232,11 +232,10 @@ ul{
 
 footer{
     margin-top : 10px;
-    height : 300px;
+    height : 250px;
 
 }
 footer .footer-top{
-    margin-top : 10px;
     width :100%;
     height : 55px;
     /*border : 1px solid;*/
@@ -278,84 +277,6 @@ footer .footer-top >ul>li:last-child{
 }
 footer .footer-bottom{
     width : 100%;
-    font-size : .9rem;
+    font-size : .7rem;
     text-align:left;
-
-    display:flex;
-    justify-content : center;
-    align-items : center;
-}
-
-.footer-main{
-    margin-top : 15px;
-}
-.footer-main>div{
-    margin : 0 auto;
-    display:flex;
-    justify-content : center;
-    align-items : center;
-    margin-top : 35px;
-}
-.footer-main>div>*{
-    margin : 5px 20px;
-
-}
-
-.footer-main .footer-logo{
-    width :200px;
-    height : 150px;
-
-}
-.footer-main .footer-logo img{
-    width : 100%;
-    height : 100%;
-}
-.footer-main .footer-contents{
-    font-size : .8rem;
-
-
-}
-.footer-main .sns{
-    display:flex;
-    justify-content : left;
-    align-items : start;
-}
-.footer-main .sns>*{
-    margin : 5px;
-}
-
-
-
-/* MODAL /*/
-.modal-content{
-    border : 3px solid darkcyan;
-}
-.modal-body{
-
-}
-.modal-body>div{
-    display:flex;
-    justify-content : space-between;
-    align-items : center;
-    border : 1px solid;
-    margin : 5px;
-    padding : 10px;
-    height : 270px;
-}
-.modal-body>div>*{
-    margin-bottom : 5px;
-    border : 1px solid;
-    padding : 5px;
-    height : 100%;
-}
-
-.modal-body>div>* li{
-    height : 35px;
-    line-height : 35px;
-    border : 1px solid;
-    text-align:center;
-    margin-bottom :5px;
-}
-.modal-body>div>h4{
-    text-align:center;
 }
