@@ -18,8 +18,9 @@ import java.time.LocalDateTime;
 @Builder
 public class User {
     @Id
-    private String username;
+    private String username;        //email
     private String password;
+    private String email;
     private String role;
 
     private LocalDateTime createAt;
