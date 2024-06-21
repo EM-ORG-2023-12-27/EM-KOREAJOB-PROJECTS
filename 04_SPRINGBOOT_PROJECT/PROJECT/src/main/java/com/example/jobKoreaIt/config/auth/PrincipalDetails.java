@@ -18,6 +18,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class PrincipalDetails implements UserDetails, OAuth2User {
 
+    private boolean isEmailAuth;
 
     private UserDto userDto;
 
@@ -33,12 +34,11 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 
     @Override
     public Map<String, Object> getAttributes() {
-
-        return attributes;
+        return null;
     }
     @Override
     public String getName() {
-        return userDto.getUsername();
+        return null;
     }
     //OAUTH2---------------------------------------
 
@@ -56,32 +56,32 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 
     @Override
     public String getPassword() {
-        return userDto.getPassword();
+        return null;
     }
 
     @Override
     public String getUsername() {
-        return userDto.getUsername();
+        return null;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return false;
     }
 
 

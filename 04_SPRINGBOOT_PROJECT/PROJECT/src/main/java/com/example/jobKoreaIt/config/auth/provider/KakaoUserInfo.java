@@ -1,17 +1,27 @@
 package com.example.jobKoreaIt.config.auth.provider;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Map;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class KakaoUserInfo implements OAuth2UserInfo {
-    private Map<String, Object> attributes;
 
-    public KakaoUserInfo(Map<String, Object> attributes) {
-        this.attributes = attributes;
+    private String id;
+    private Map<String,Object> attributes;
+
+    @Override
+    public String getName() {
+        return (String)attributes.get("nickname");
     }
 
     @Override
-    public String getProviderId() {
-        return attributes.get("id").toString();
+    public String getEmail() {
+        return (String)attributes.get("email");
     }
 
     @Override
@@ -20,24 +30,9 @@ public class KakaoUserInfo implements OAuth2UserInfo {
     }
 
     @Override
-    public String getEmail() {
-        Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
-        return (String) kakaoAccount.get("email");
+    public String getProviderId() {
+        return this.id;
     }
 
-    @Override
-    public String getName() {
-        Map<String, Object> properties = (Map<String, Object>) attributes.get("properties");
-        return (String) properties.get("nickname");
-    }
 
-    @Override
-    public Map<String, Object> getAttributes() {
-        return attributes;
-    }
-
-    @Override
-    public String getNameAttributeKey() {
-        return "id";
-    }
 }

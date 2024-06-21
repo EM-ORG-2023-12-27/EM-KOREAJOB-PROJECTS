@@ -69,29 +69,12 @@ dependencies {
 	//TEST
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-	//Spotify API(최신버전 : https://github.com/spotify-web-api-java/spotify-web-api-java)
-	implementation 'se.michaelthelin.spotify:spotify-web-api-java:8.0.0'
-
-	//TX
-	implementation 'org.springframework:spring-tx'
-
-	//JWT_TOKEN
-	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
-	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
-	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
-
-	//SSLCONTEXTBUILDER
-	implementation 'org.apache.httpcomponents.client5:httpclient5:5.1.2'
-
+	//spring->정상인자로 받음
 
 	tasks.withType(JavaCompile) {
 		options.compilerArgs << '-parameters'
 	}
-<<<<<<< HEAD
-=======
 
-
->>>>>>> c96d487755f3033defd6534c4af81f9f88418dba
 }
 
 tasks.named('test') {

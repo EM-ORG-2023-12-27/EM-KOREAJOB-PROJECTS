@@ -19,16 +19,9 @@ public class UserDto {
 	private String nickname;
 	private String role;
 
-	//jobSeeker
-	private String nickname;
-    private String phone;
-
 	//OAUTH2
 	private String provider;
 	private String providerId;
-
-
-
 
 //    //날짜
 //    @DateTimeFormat(pattern = "yyyy-MM-dd")
