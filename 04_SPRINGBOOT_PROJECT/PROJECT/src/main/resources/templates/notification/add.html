@@ -8,10 +8,10 @@
     <th:block th:insert="~{fragments/link :: linkFragment}" />
 
     <!-- 추가된 CSS -->
-    <link rel="stylesheet" href="/css/Notification/add.css"/>
+    <link rel="stylesheet" href="/css/notification/add.css"/>
 
     <!-- 공지사항 작성 스크립트 -->
-    <script src="/js/Notification/write.js" defer></script>
+    <script src="/js/notification/write.js" defer></script>
 </head>
 <body>
 
@@ -25,7 +25,7 @@
     <main>
         <h2>공지사항 작성</h2>
         <div class="wrap_body">
-            <form th:action="@{/Notification/add}" class="noticeForm" method="post" enctype="multipart/form-data">
+            <form th:action="@{/notification/add}" class="noticeForm" method="post" enctype="multipart/form-data">
                 <div class="form_group">
                     <label for="title">제목</label>
                     <input type="text" id="title" name="title" placeholder="제목을 입력하세요">

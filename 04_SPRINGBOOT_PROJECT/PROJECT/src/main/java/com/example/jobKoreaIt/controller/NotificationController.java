@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Controller
 @Slf4j
-@RequestMapping("/Notification")
+@RequestMapping("/notification")
 public class NotificationController {
 
     @Autowired

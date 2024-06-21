@@ -7,7 +7,7 @@
     <!--  link   -->
     <th:block th:insert="~{fragments/link :: linkFragment}" />
 
-    <link rel="stylesheet" href="/css/Notification/list.css"/>
+    <link rel="stylesheet" href="/css/notification/list.css"/>
 </head>
 <body>
 
@@ -39,13 +39,13 @@
                         <tr th:each="notification : ${notifications}">
                             <td th:text="${notification.id}"></td>
                             <td>
-                                <a th:href="@{/Notification/read/{id}(id=${notification.id})}" th:text="${notification.title}"></a>
+                                <a th:href="@{nNotification/read/{id}(id=${notification.id})}" th:text="${notification.title}"></a>
                             </td>
                             <td th:text="${notification.createAt}"></td>
                         </tr>
                         </tbody>
                     </table>
-                    <a href="/Notification/add" class="notifi_add">공지작성</a>
+                    <a href="/notification/add" class="notifi_add">공지작성</a>
                 </div>
             </div>
         </div>

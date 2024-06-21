@@ -5,8 +5,8 @@
     <title>Title</title>
     <th:block th:insert="~{fragments/link :: linkFragment}" />
 
-    <link rel="stylesheet" href="/css/Notification/list.css"/>
-    <link rel="stylesheet" href="/css/Notification/update.css"/>
+    <link rel="stylesheet" href="/css/notification/list.css"/>
+    <link rel="stylesheet" href="/css/notification/update.css"/>
 </head>
 <body>
 <div class="wrapper">
@@ -19,7 +19,7 @@
     <main>
         <h2>공지사항 수정</h2>
         <div class="wrap_body">
-            <form th:action="@{/Notification/update}" class="noticeForm" method="post" enctype="multipart/form-data">
+            <form th:action="@{/notification/update}" class="noticeForm" method="post" enctype="multipart/form-data">
                 <input type="hidden" th:field="*{updateNotifi.id}"/>
                 <div class="form_group">
                     <label for="title">제목</label>
