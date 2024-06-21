@@ -26,22 +26,23 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
     @Value("${spring.security.oauth2.client.registration.kakao.client-id}")
     private String kakaoClientId;
 
+
     @Value("${spring.security.oauth2.client.registration.google.client-id}")
     private String googleClientId;
 
     @Value("${spring.security.oauth2.client.registration.google.client-secret}")
     private String googleClientSecret;
 
-    @Value("${app.redirect-uri:http://localhost:8080/login}")  // 기본 리다이렉트 URI 설정
+    @Value("${app.redirect-uri:http://localhost:8080/login}")
     private String redirectUri;
 
-    private final JwtTokenProvider jwtTokenProvider;
-    private final UserRepository userRepository;
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
     @Autowired
+    private UserRepository userRepository;
+
     public CustomLogoutSuccessHandler(JwtTokenProvider jwtTokenProvider, UserRepository userRepository) {
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.userRepository = userRepository;
     }
 
     @Override
@@ -50,8 +51,7 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 
         // JWT
         String token = Arrays.stream(request.getCookies())
-                .filter(cookie -> cookie.getName().equals(JwtProperties.COOKIE_NAME))
-                .findFirst()
+                .filter(cookie -> cookie.getName().equals(JwtProperties.COOKIE_NAME)).findFirst()
                 .map(Cookie::getValue)
                 .orElse(null);
 
@@ -79,12 +79,10 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
                     } catch (Exception e) {
                         e.printStackTrace();
                         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Google 로그아웃 실패. 다시 시도해주세요.");
-                        return;
                     }
                 }
             }
         }
-
         clearAuthCookie(request, response);
         response.sendRedirect("/");
     }

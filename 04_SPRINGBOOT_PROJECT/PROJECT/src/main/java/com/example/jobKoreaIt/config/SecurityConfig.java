@@ -12,6 +12,7 @@ import com.example.jobKoreaIt.config.auth.loginHandler.Oauth2JwtLoginSuccessHand
 import com.example.jobKoreaIt.config.auth.logoutHandler.CustomLogoutHandler;
 import com.example.jobKoreaIt.config.auth.logoutHandler.CustomLogoutSuccessHandler;
 import com.example.jobKoreaIt.domain.common.repository.UserRepository;
+import com.example.jobKoreaIt.domain.common.service.UserService;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,12 +20,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+
+import java.util.ArrayList;
 
 @Configuration
 @EnableWebSecurity
@@ -39,17 +43,17 @@ public class SecurityConfig {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
-    @Autowired
-    private CustomLoginSuccessHandler customLoginSuccessHandler;
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> {
-                    authorize.requestMatchers("/favicon.ico").permitAll();
-                    authorize.requestMatchers("/js/**", "/css/**", "/images/**", "/templates", "/assets/**").permitAll();
-                    authorize.requestMatchers("/", "/user/login", "/user/join").permitAll();
-                    authorize.requestMatchers("/oauth2/**").permitAll();
+                    authorize.requestMatchers("/**").permitAll();
+//                    authorize.requestMatchers("/favicon.ico").permitAll();
+//                    authorize.requestMatchers("/js/**", "/css/**", "/images/**", "/templates", "/assets/**").permitAll();
+//                    authorize.requestMatchers("/", "/user/login", "/user/join").permitAll();
+//                    authorize.requestMatchers("/oauth2/**").permitAll();
                     authorize.anyRequest().authenticated();
                 });
 
@@ -57,6 +61,8 @@ public class SecurityConfig {
         http.formLogin(login -> {
             login.permitAll();
             login.loginPage("/user/login");
+//            login.defaultSuccessUrl("/", true);
+            login.failureUrl("/user/login");  //추가 확인해야할부분
             login.loginProcessingUrl("/user/login");
             login.successHandler(customLoginSuccessHandler());
             login.failureHandler(new CustomAuthenticationFailureHandler());

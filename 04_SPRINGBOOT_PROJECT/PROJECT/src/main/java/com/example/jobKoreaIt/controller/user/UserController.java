@@ -150,11 +150,11 @@ public class UserController {
         return "user/login";
     }
 
-//    @PostMapping("/login")
-//    public String login_post() {
-//        log.info("POST /user/login..");
-//        return "/login";
-//    }
+    @PostMapping("/login")
+    public String login_post() {
+        log.info("POST /user/login..");
+        return "/login";
+    }
 
     @GetMapping("/join")
     public String join_get() {

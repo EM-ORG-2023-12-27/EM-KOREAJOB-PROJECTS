@@ -3,10 +3,14 @@ package com.example.jobKoreaIt.domain.common.service;
 
 import com.example.jobKoreaIt.domain.common.dto.UserDto;
 import com.example.jobKoreaIt.domain.common.entity.User;
+import com.example.jobKoreaIt.domain.common.repository.UserRepository;
 import com.example.jobKoreaIt.domain.offer.dto.OfferDto;
 import com.example.jobKoreaIt.domain.offer.entity.JobOffer;
 import com.example.jobKoreaIt.domain.seeker.dto.SeekerDto;
 import com.example.jobKoreaIt.domain.seeker.entity.JobSeeker;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Optional;
 
 public interface UserService {
     User getUser(SeekerDto userDto,String type);
@@ -24,4 +28,6 @@ public interface UserService {
     JobSeeker getSeeker(SeekerDto seekerDto);
 
     JobOffer getOffer(OfferDto offerDto);
+
+
 }
