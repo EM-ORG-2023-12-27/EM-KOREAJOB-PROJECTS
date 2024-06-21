@@ -1,6 +1,7 @@
 package com.example.jobKoreaIt.domain.common.service;
 
 
+
 import com.example.jobKoreaIt.domain.common.entity.User;
 import com.example.jobKoreaIt.domain.common.repository.UserRepository;
 import com.example.jobKoreaIt.domain.offer.dto.OfferDto;

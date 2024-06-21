@@ -1,6 +1,7 @@
 package com.example.jobKoreaIt.domain.offer.service;
 
 
+<<<<<<< HEAD
 import com.example.jobKoreaIt.domain.common.dto.UserDto;
 import com.example.jobKoreaIt.domain.common.repository.UserRepository;
 import com.example.jobKoreaIt.domain.offer.dto.OfferDto;
@@ -10,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+=======
+>>>>>>> c96d487755f3033defd6534c4af81f9f88418dba
 
 @Service
 @Slf4j
@@ -29,7 +32,12 @@ public class JobOfferServiceImpl {
     //-----------------------
     //박정현 Company CRUD
     //-----------------------
+<<<<<<< HEAD
 
+=======
+    @Autowired
+    private CompanyRepository companyRepository;
+>>>>>>> c96d487755f3033defd6534c4af81f9f88418dba
 
     @Transactional(rollbackFor = Exception.class)
     public void CompanyRegistration(){
@@ -59,6 +67,11 @@ public class JobOfferServiceImpl {
     @Transactional(rollbackFor = Exception.class)
     public boolean memberRegistration(UserDto userDto, OfferDto offerDto) {
         try {
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> c96d487755f3033defd6534c4af81f9f88418dba
             // Offer 엔티티 생성 및 저장
             JobOffer offer = new JobOffer();
             offer.setUsername(offerDto.getUsername());
@@ -83,4 +96,8 @@ public class JobOfferServiceImpl {
     }
 }
 
+<<<<<<< HEAD
+=======
+}
+>>>>>>> c96d487755f3033defd6534c4af81f9f88418dba
 

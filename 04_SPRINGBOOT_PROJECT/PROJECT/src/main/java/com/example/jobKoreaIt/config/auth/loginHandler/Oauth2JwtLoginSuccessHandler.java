@@ -1,9 +1,17 @@
 package com.example.jobKoreaIt.config.auth.loginHandler;
 
 
+<<<<<<< HEAD
 import com.example.jobKoreaIt.config.auth.jwt.JwtProperties;
 import com.example.jobKoreaIt.config.auth.jwt.JwtTokenProvider;
 import com.example.jobKoreaIt.config.auth.jwt.TokenInfo;
+=======
+import com.example.jobKoreaIt.config.auth.PrincipalDetails;
+import com.example.jobKoreaIt.config.auth.jwt.JwtProperties;
+import com.example.jobKoreaIt.config.auth.jwt.JwtTokenProvider;
+import com.example.jobKoreaIt.config.auth.jwt.TokenInfo;
+import jakarta.servlet.ServletException;
+>>>>>>> c96d487755f3033defd6534c4af81f9f88418dba
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,5 +1,6 @@
 package com.example.jobKoreaIt.domain.seeker.dto;
 
+<<<<<<< HEAD
 
 import com.example.jobKoreaIt.domain.common.dto.UserDto;
 import jakarta.validation.constraints.NotBlank;
@@ -11,6 +12,18 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @EqualsAndHashCode(callSuper=false)
+=======
+ 
+import com.example.jobKoreaIt.domain.common.dto.UserDto;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import lombok.*;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+@Getter
+@Setter
+>>>>>>> c96d487755f3033defd6534c4af81f9f88418dba
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

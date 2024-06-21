@@ -1,26 +1,15 @@
 package com.example.jobKoreaIt.controller.user.seeker;
 
-import com.example.jobKoreaIt.domain.seeker.dto.ResumeDto;
-import com.example.jobKoreaIt.domain.seeker.entity.Career;
-import com.example.jobKoreaIt.domain.seeker.entity.Resume;
-import com.example.jobKoreaIt.domain.seeker.dto.ResumeFormDto;
-import com.example.jobKoreaIt.domain.seeker.repository.CareerRepository;
-import com.example.jobKoreaIt.domain.seeker.service.JobSeekerServiceImpl;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
 
 @Controller
 @Slf4j
 @RequestMapping("/seeker")
 public class SeekerController {
 
+
     private final JobSeekerServiceImpl jobSeekerServiceImpl;
+
 
     @Autowired
     public SeekerController(JobSeekerServiceImpl jobSeekerServiceImpl) {
@@ -28,11 +17,33 @@ public class SeekerController {
     }
 
     @GetMapping("/join")
+
+    public String registerForm(Model model) {
+        model.addAttribute("registerRequest", new SeekerDto());
+        model.addAttribute("userRequest", new UserDto());
+        log.info("GET /seeker/join...");
+        return "user/login";
+
     public String join_get(){
         log.info("GET /seeker/join...");
-        return "join"; // return the view name
+
     }
 
+    @PostMapping("/join")
+    public String seekerJoin(
+            @ModelAttribute @Valid SeekerDto seekerDto,
+            BindingResult bindingResult,
+            Model model)
+    {
+        log.info("POST /seeker/join..seekerDto : " + seekerDto + " seekerBindingResult : " + bindingResult);
+
+        if (bindingResult.hasFieldErrors()) {
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                log.info("ErrorField : " + error.getField() + " ErrorMsg : " + error.getDefaultMessage());
+                model.addAttribute(error.getField(), error.getDefaultMessage());
+            }
+            return "/user/join";
+        }
 
 
     //이력서 작성---
@@ -128,14 +139,15 @@ public class SeekerController {
         return "seeker/resume/list"; // return the view name
     }
 
+        boolean isRegistered = jobSeekerServiceImpl.memberRegistration(null, seekerDto);
+        if (!isRegistered) {
+            model.addAttribute("registrationError", "회원가입 중 오류가 발생했습니다.");
+            return "/user/join";
+        }
+
+        return "redirect:/user/login";
 
 
-    //이력서 삭제--------------------------------------------
-    @GetMapping("/resume/delete/{id}")
-    public String resume_get_delete(){
-        log.info("Get/resume/delete/..");
-        return "redirect:/seeker/resume/list";
-    }
 
     @PostMapping("/resume/delete/{id}")
     public String resume_post_delete(@PathVariable("id")long id){

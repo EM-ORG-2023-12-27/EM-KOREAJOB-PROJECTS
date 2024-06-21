@@ -70,6 +70,10 @@ public class JwtTokenProvider {
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim("username", authentication.getName()) // 정보저장
+<<<<<<< HEAD
+=======
+                .claim("phone", userDto.getPhone())
+>>>>>>> c96d487755f3033defd6534c4af81f9f88418dba
                 .claim("nickname", userDto.getNickname())
                 .claim("password", userDto.getPassword())
                 .claim("role", userDto.getRole())
@@ -157,6 +161,10 @@ public class JwtTokenProvider {
         userDto.setPassword(password);
         userDto.setProvider(provider);
         userDto.setProviderId(providerId);
+<<<<<<< HEAD
+=======
+        userDto.setPhone(phone);
+>>>>>>> c96d487755f3033defd6534c4af81f9f88418dba
         userDto.setNickname(nickname);
         userDto.setRole(auth);
 

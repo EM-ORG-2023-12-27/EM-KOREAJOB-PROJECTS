@@ -12,6 +12,10 @@ import com.example.jobKoreaIt.config.auth.loginHandler.Oauth2JwtLoginSuccessHand
 import com.example.jobKoreaIt.config.auth.logoutHandler.CustomLogoutHandler;
 import com.example.jobKoreaIt.config.auth.logoutHandler.CustomLogoutSuccessHandler;
 import com.example.jobKoreaIt.domain.common.repository.UserRepository;
+<<<<<<< HEAD
+=======
+import com.example.jobKoreaIt.domain.common.service.UserService;
+>>>>>>> c96d487755f3033defd6534c4af81f9f88418dba
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,12 +23,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+
+import java.util.ArrayList;
 
 @Configuration
 @EnableWebSecurity

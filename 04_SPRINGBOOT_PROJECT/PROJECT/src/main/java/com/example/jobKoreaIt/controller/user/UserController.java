@@ -1,6 +1,7 @@
 package com.example.jobKoreaIt.controller.user;
 
 
+<<<<<<< HEAD
 import com.example.jobKoreaIt.domain.common.service.UserService;
 import com.example.jobKoreaIt.domain.offer.dto.OfferDto;
 import com.example.jobKoreaIt.domain.offer.entity.JobOffer;
@@ -24,6 +25,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 import java.util.Random;
+=======
+>>>>>>> c96d487755f3033defd6534c4af81f9f88418dba
 
 @Controller
 @Slf4j
@@ -61,6 +64,7 @@ public class UserController {
     public String confirmId_get() {
         log.info("GET /user/confirmId..");
         return "user/confirmId";
+<<<<<<< HEAD
     }
 
 
@@ -106,6 +110,57 @@ public class UserController {
         }
 
 
+=======
+    }
+
+
+    @PostMapping(value="/confirmId",produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<String> confirmId_post(
+            @RequestParam("nickname") String nickname,
+            @RequestParam("phone") String phone,
+            @RequestParam("type") String type,
+            Model model
+    ) {
+        log.info("POST /user/confirmId.." + nickname + " phone : " + phone + " type : " + type);
+
+        if (type.equals("seekerUser")) {
+            SeekerDto seekerDto = new SeekerDto();
+            seekerDto.setNickname(nickname);
+            seekerDto.setTel(phone);
+
+            JobSeeker user = userService.getSeeker(seekerDto);
+            System.out.println("REUTNED USER : " + user);
+            String username = null;
+            if (user != null) {
+                username = user.getUsername();
+
+                model.addAttribute("seekername", username);
+            }
+            return new ResponseEntity<>(username,HttpStatus.OK);
+        } else  {
+            log.info("POST /user/confirmIdOffer.." + nickname + " phone : " + phone + " type : " + type);
+
+            OfferDto offerDto = new OfferDto();
+            offerDto.setOffername(nickname);
+            offerDto.setOffertel(phone);
+
+            JobOffer offer = userService.getOffer(offerDto);
+            System.out.println("REUTNED USER :" + offer);
+            String username = null;
+            if (offer != null) {
+                username = offer.getUsername();
+
+                model.addAttribute("offername", username);
+            }
+            return new ResponseEntity<>(username,HttpStatus.OK);
+        }
+
+    @PostMapping("/user/join")
+    public void join_post(){
+        log.info("POST /join...");
+    }
+
+>>>>>>> c96d487755f3033defd6534c4af81f9f88418dba
     }
 
     @GetMapping("/confirmPw")

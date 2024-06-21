@@ -1,33 +1,29 @@
 package com.example.jobKoreaIt.domain.seeker.service;
 
-import com.example.jobKoreaIt.domain.seeker.dto.ResumeDto;
-import com.example.jobKoreaIt.domain.seeker.entity.Career;
-import com.example.jobKoreaIt.domain.seeker.entity.Resume;
-import com.example.jobKoreaIt.domain.seeker.dto.ResumeFormDto;
-import com.example.jobKoreaIt.domain.seeker.repository.CareerRepository;
-import com.example.jobKoreaIt.domain.seeker.repository.ResumeRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+ 
 
-import javax.swing.text.html.Option;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.stream.Collectors;
+
 
 @Service
 @Slf4j
 public class JobSeekerServiceImpl {
 
+
     @Autowired
-    public void JobSeekerServiceImpl(ResumeRepository resumeRepository, CareerRepository careerRepository) {
+     private JobSeekerRepository jobSeekerRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Transactional(rollbackFor = Exception.class)
+    public void function(){
+        log.info("TEST...");
+
+      
+      public void JobSeekerServiceImpl(ResumeRepository resumeRepository, CareerRepository careerRepository) {
         this.resumeRepository = resumeRepository;
         this.careerRepository = careerRepository;
-    }
+     }
 
     @Autowired
     private ResumeRepository resumeRepository;
@@ -118,6 +114,35 @@ public class JobSeekerServiceImpl {
             log.info("이력서 삭제 실패!", id);
         }
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    public boolean memberRegistration(UserDto userDto, SeekerDto seekerDto) {
+        try {
+
+
+            // Seeker 엔티티 생성 및 저장
+            JobSeeker seeker = new JobSeeker();
+            seeker.setUsername(seekerDto.getUsername());
+            seeker.setPassword(seekerDto.getPassword());
+
+            seeker.setUsername(seekerDto.getUsername());
+            seeker.setPassword(seekerDto.getPassword());
+            seeker.setTel(seekerDto.getTel());
+            seeker.setNickname(seekerDto.getNickname());
+            seeker.setZipcode(seekerDto.getZipcode());
+            seeker.setAddr1(seekerDto.getAddr1());
+            seeker.setAddr2(seekerDto.getAddr2());
+
+            jobSeekerRepository.save(seeker);
+
+            return true;
+        } catch (Exception e) {
+            log.error("회원가입 중 오류 발생: ", e);
+            return false;
+        }
+    }
+}
+
 
 
     @Transactional(rollbackFor = Exception.class)
