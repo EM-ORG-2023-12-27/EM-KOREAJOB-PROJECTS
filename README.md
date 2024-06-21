@@ -9,7 +9,7 @@ DEVELOPMENT MOTIVATION
 
 HISTORY
 ---
-[TOTAL](DOCUMENT/HISTORY/TOTAL) | [나재현](DOCUMENT/HISTORY/나재현) | [이동환](DOCUMENT/HISTORY/이동환) | [박정현](DOCUMENT/HISTORY/박정현) | 
+[TOTAL](DOCUMENT/HISTORY/TOTAL) | [나재현](DOCUMENT/HISTORY/나재현) | [이동환](DOCUMENT/HISTORY/이동환) | [박정현](DOCUMENT/HISTORY/박정현) |  [최원준](DOCUMENT/HISTORY/최원준) | 
 
 
 PLANS
@@ -17,10 +17,9 @@ PLANS
  |LANGUAGE|PLAN|IMPLEMENT|DESCRIPTION|
  |-|-|-|-|
  |JAVA|-|-|-|
- |JSP/SERVLET|2024/04/24 ~ 2024/04/28|-|-|
+ |JSP/SERVLET|2024/04/24 - 2024/04/28|-|-|
  |SPRING STS3|-|-|-|
- |SPRING BOOT|-|-|-|
- 
+ |SPRING BOOT|2024/06/01 - 2024/06/30|-|-|
  
 
 MEMBERERS
@@ -31,6 +30,7 @@ MEMBERERS
 |나재현|BN| OFFER - 회원가입 / 회원탈퇴 / 기업정보 CRUD|---|
 |이동환|BN| 유저공통 - 로그인 / 로그아웃|---|
 |박정현|BN| SEEKER 회원가입 회원탈퇴 이력서 CRUD|---|
+|최원준|FN| 모든 PAGE와 서버간 REQ / RESP |---|
 
 SKILLS
 ---

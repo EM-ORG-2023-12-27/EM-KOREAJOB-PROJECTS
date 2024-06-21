@@ -69,7 +69,6 @@ dependencies {
 	//TEST
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-
 	//Spotify API(최신버전 : https://github.com/spotify-web-api-java/spotify-web-api-java)
 	implementation 'se.michaelthelin.spotify:spotify-web-api-java:8.0.0'
 
@@ -83,6 +82,13 @@ dependencies {
 
 	//SSLCONTEXTBUILDER
 	implementation 'org.apache.httpcomponents.client5:httpclient5:5.1.2'
+
+
+	tasks.withType(JavaCompile) {
+		options.compilerArgs << '-parameters'
+	}
+
+
 }
 
 tasks.named('test') {

@@ -16,6 +16,7 @@ public class JobOffer{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String username;
     private String password;
     private String offertel;
@@ -24,5 +25,10 @@ public class JobOffer{
     private String offernumber;
     private String zipcode;
     private String offeraddress;
+
+    private String offerName;
+    private String offerTuserel;
+    private String offerAddress;
+
 
 }

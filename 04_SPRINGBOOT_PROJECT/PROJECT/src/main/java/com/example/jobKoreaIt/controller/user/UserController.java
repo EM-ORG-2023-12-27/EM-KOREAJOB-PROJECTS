@@ -1,31 +1,6 @@
 package com.example.jobKoreaIt.controller.user;
 
-import com.example.jobKoreaIt.domain.common.dto.UserDto;
-import com.example.jobKoreaIt.domain.common.entity.User;
-import com.example.jobKoreaIt.domain.common.service.UserService;
-import com.example.jobKoreaIt.domain.offer.dto.OfferDto;
-import com.example.jobKoreaIt.domain.offer.entity.JobOffer;
-import com.example.jobKoreaIt.domain.offer.repository.JobOfferRepository;
-import com.example.jobKoreaIt.domain.offer.service.JobOfferServiceImpl;
-import com.example.jobKoreaIt.domain.seeker.dto.SeekerDto;
-import com.example.jobKoreaIt.domain.seeker.entity.JobSeeker;
-import com.example.jobKoreaIt.domain.seeker.repository.JobSeekerRepository;
-import com.example.jobKoreaIt.domain.seeker.service.JobSeekerServiceImpl;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.util.StringUtils;
 
-import java.util.Optional;
-import java.util.Random;
 
 @Controller
 @Slf4j
@@ -64,6 +39,7 @@ public class UserController {
         log.info("GET /user/confirmId..");
         return "user/confirmId";
     }
+
 
     @PostMapping(value="/confirmId",produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<String> confirmId_post(
@@ -105,6 +81,11 @@ public class UserController {
             }
             return new ResponseEntity<>(username,HttpStatus.OK);
         }
+
+    @PostMapping("/user/join")
+    public void join_post(){
+        log.info("POST /join...");
+    }
 
     }
 

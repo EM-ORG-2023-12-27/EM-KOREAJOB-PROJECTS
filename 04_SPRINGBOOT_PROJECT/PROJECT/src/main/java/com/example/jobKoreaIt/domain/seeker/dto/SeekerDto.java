@@ -1,6 +1,6 @@
 package com.example.jobKoreaIt.domain.seeker.dto;
 
-
+ 
 import com.example.jobKoreaIt.domain.common.dto.UserDto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -33,5 +33,6 @@ public class SeekerDto extends UserDto {
     private String zipcode;
     private String addr1;
     private String addr2;
+
 
 }

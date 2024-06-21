@@ -1,11 +1,6 @@
 package com.example.jobKoreaIt.domain.offer.dto;
 
 
-import com.example.jobKoreaIt.domain.common.dto.UserDto;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import lombok.*;
-import lombok.extern.slf4j.Slf4j;
 
 @Getter
 @Setter
@@ -32,7 +27,5 @@ public class OfferDto extends UserDto {
     private String offernumber;
     private String zipcode;
     private String offeraddress;
-
-
 
 }

@@ -1,20 +1,6 @@
 package com.example.jobKoreaIt.domain.common.service;
 
-import com.example.jobKoreaIt.domain.common.dto.UserDto;
-import com.example.jobKoreaIt.domain.common.entity.User;
-import com.example.jobKoreaIt.domain.common.repository.UserRepository;
-import com.example.jobKoreaIt.domain.offer.dto.OfferDto;
-import com.example.jobKoreaIt.domain.offer.entity.JobOffer;
-import com.example.jobKoreaIt.domain.offer.repository.JobOfferRepository;
-import com.example.jobKoreaIt.domain.seeker.dto.SeekerDto;
-import com.example.jobKoreaIt.domain.seeker.entity.JobSeeker;
-import com.example.jobKoreaIt.domain.seeker.repository.JobSeekerRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -28,6 +14,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private JobOfferRepository jobOfferRepository;
+
 
     @Autowired
     private PasswordEncoder passwordEncoder;
