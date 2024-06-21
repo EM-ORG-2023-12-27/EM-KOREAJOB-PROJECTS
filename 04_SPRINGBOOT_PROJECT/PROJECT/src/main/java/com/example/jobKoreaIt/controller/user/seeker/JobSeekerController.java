@@ -48,7 +48,7 @@ public class JobSeekerController {
         }
 
         jobSeekerServiceImpl.addJobSeeker(jobSeekerDto);
-        return "/user/login";
+        return "/user/login";+
     }
 
 
