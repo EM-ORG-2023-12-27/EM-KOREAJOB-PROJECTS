@@ -1,7 +1,6 @@
 package com.example.jobKoreaIt.domain.common.entity;
 
 
-import com.example.jobKoreaIt.domain.common.dto.UserDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -18,8 +17,9 @@ import java.time.LocalDateTime;
 @Builder
 public class User {
     @Id
-    private String username;
+    private String username;        //email
     private String password;
+    private String email;
     private String role;
 
     private LocalDateTime createAt;

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Find ID</title>
+
+    <!-- link -->
+    <th:block th:insert="~{fragments/link :: linkFragment}" />
+
+    <!-- confirmId.css -->
+    <link rel="stylesheet" href="/css/user/confirmId.css">
+
+    <!-- confirmIdOffer.js   -->
+    <script src="/js/user/confirmId.js" defer></script>
+
+
+</head>
+<body>
+<div class="wrapper">
+    <header>
+        <!-- header -->
+        <th:block th:insert="~{fragments/top_header :: topHeaderFragment}" />
+
+        <!-- nav -->
+        <th:block th:insert="~{fragments/nav :: navFragment}" />
+    </header>
+    <main>
+        <section class="breadcrum-block layout-150">
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">홈</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">개인 회원 아이디 찾기</li>
+                </ol>
+            </nav>
+        </section>
+        <section>
+            <div class="main-block">
+                <form name="confirmForm"  onsubmit="return false" class="checkIdform" action="/user/confirmId" method="post" >
+                    <div class="m-2">
+                        <h2>개인 회원 아이디 찾기</h2>
+                    </div>
+                    <div class="m-2">
+                        <label for="email">이름 : </label>&nbsp;&nbsp;<span th:text="${email}" style="font-size:0.7rem;color:orange;"></span>
+                        <input type="text" id="email" name="nickname" class="form-control" required/>
+                    </div>
+                    <div class="m-2">
+                        <label for="phone">휴대전화번호 : </label>&nbsp;&nbsp;<span th:text="${phone}" style="font-size:0.7rem;color:orange;"></span>
+                        <input type="tel" id="phone" name="phone" class="form-control" required/>
+                    </div>
+                    <div>
+                        <input type="hidden" name="type" value="seekerUser" />
+                    </div>
+                    <div class="m-2">
+                        <button class="btn btn-success w-100 confirmId_btn" type="submit">아이디 찾기</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+    <!-- footer -->
+    <th:block th:insert="~{fragments/footer :: footerFragment}" />
+</div>
+</body>
+</html>

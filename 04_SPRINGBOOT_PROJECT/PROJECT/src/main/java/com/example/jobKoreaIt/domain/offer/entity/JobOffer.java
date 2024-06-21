@@ -1,24 +1,33 @@
 package com.example.jobKoreaIt.domain.offer.entity;
 
 
-import com.example.jobKoreaIt.domain.common.entity.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
+@Getter
+@Setter
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="offer")
 public class JobOffer{
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String offerName;
+
+    private String username;
+    private String password;
+    private String offertel;
+    private String nickname;
+
+
+    private String offernumber;
+    private String zipcode;
+    private String offername;
+    private String offeraddress;
     private String offerTuserel;
-    private String offerAddress;
+
+
 
 }
