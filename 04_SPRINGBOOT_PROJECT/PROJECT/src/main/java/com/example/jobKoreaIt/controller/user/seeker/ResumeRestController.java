@@ -1,39 +1,29 @@
 package com.example.jobKoreaIt.controller.user.seeker;
 
 import com.example.jobKoreaIt.domain.seeker.dto.ResumeDto;
+import com.example.jobKoreaIt.domain.seeker.dto.ResumeFormDto;
 import com.example.jobKoreaIt.domain.seeker.entity.Career;
 import com.example.jobKoreaIt.domain.seeker.entity.Resume;
-import com.example.jobKoreaIt.domain.seeker.dto.ResumeFormDto;
 import com.example.jobKoreaIt.domain.seeker.repository.CareerRepository;
-import com.example.jobKoreaIt.domain.seeker.service.JobSeekerServiceImpl;
+import com.example.jobKoreaIt.domain.seeker.service.ResumeServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
 @Slf4j
 @RequestMapping("/seeker")
-public class SeekerController {
-
-    private final JobSeekerServiceImpl jobSeekerServiceImpl;
+public class ResumeRestController {
+    //------------------
+    //이력서 CRUD (이동환)
+    //------------------
 
     @Autowired
-    public SeekerController(JobSeekerServiceImpl jobSeekerServiceImpl) {
-        this.jobSeekerServiceImpl = jobSeekerServiceImpl;
-    }
-
-    @GetMapping("/join")
-    public String join_get(){
-        log.info("GET /seeker/join...");
-        return "join"; // return the view name
-    }
-
-
+    private ResumeServiceImpl jobSeekerServiceImpl;
 
     //이력서 작성---
     @GetMapping("/resume/add")
@@ -94,11 +84,9 @@ public class SeekerController {
 
 
 
-     return "redirect:/seeker/resume/list";
+        return "redirect:/seeker/resume/list";
 
     }
-
-
 
 
 
@@ -143,4 +131,5 @@ public class SeekerController {
         jobSeekerServiceImpl.resume_delete(id);
         return "redirect:/seeker/resume/list";
     }
+
 }
