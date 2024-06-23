@@ -1,5 +1,6 @@
 package com.example.jobKoreaIt.controller.user.seeker;
 
+import com.example.jobKoreaIt.domain.common.dto.UserDto;
 import com.example.jobKoreaIt.domain.seeker.dto.JobSeekerDto;
 import com.example.jobKoreaIt.domain.seeker.dto.ResumeDto;
 import com.example.jobKoreaIt.domain.seeker.entity.Career;
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,20 +37,21 @@ public class JobSeekerController {
     }
 
     @PostMapping("/join")
-    public String seekerJoin(@ModelAttribute JobSeekerDto jobSeekerDto, BindingResult bindingResult, Model model)
+    public String seekerJoin(@ModelAttribute UserDto userDto, @ModelAttribute JobSeekerDto jobSeekerDto, BindingResult bindingResult, Model model)
     {
-        log.info("POST /seeker/join..seekerDto : " + jobSeekerDto + " seekerBindingResult : " + bindingResult);
-        //유효성 검사
-        if (bindingResult.hasFieldErrors()) {
-            for (FieldError error : bindingResult.getFieldErrors()) {
-                log.info("ErrorField : " + error.getField() + " ErrorMsg : " + error.getDefaultMessage());
-                model.addAttribute(error.getField(), error.getDefaultMessage());
-            }
-            return "/user/join";
-        }
+        log.info("POST /seeker/join..userDto : " + userDto + " SeekerDto : " + jobSeekerDto);
+//        //유효성 검사
+//        if (bindingResult.hasFieldErrors()) {
+//            for (FieldError error : bindingResult.getFieldErrors()) {
+//                log.info("ErrorField : " + error.getField() + " ErrorMsg : " + error.getDefaultMessage());
+//                model.addAttribute(error.getField(), error.getDefaultMessage());
+//            }
+//            return "/user/join";
+//        }
 
-        jobSeekerServiceImpl.addJobSeeker(jobSeekerDto);
-        return "/user/login";+
+        jobSeekerServiceImpl.addJobSeeker(userDto,jobSeekerDto);
+
+        return "login";
     }
 
 

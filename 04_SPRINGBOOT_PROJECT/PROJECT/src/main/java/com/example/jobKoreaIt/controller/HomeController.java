@@ -15,4 +15,6 @@ public class HomeController {
         log.info("GET / ...");
         return "index";
     }
+
+
 }

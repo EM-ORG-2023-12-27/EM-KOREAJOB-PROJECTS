@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Slf4j
 public class UserController {
 
-    @GetMapping("/user/login")
+    @GetMapping("/login")
     public void login_get(){
         log.info("GET /login...");
     }
@@ -19,9 +19,15 @@ public class UserController {
     public void join_get(){
         log.info("GET /join...");
     }
-    @PostMapping("/user/join")
-    public void join_post(){
-        log.info("POST /join...");
+
+    @GetMapping("/user/confirm_id")
+    public void confirm_get_id(){
+
+    }
+
+    @GetMapping("/user/confirm_pw")
+    public void confirm_get_pw(){
+
     }
 
     @PostMapping("/user/myinfo")

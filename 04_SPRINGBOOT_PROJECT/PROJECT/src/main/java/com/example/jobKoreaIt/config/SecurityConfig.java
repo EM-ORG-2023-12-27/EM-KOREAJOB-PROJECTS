@@ -7,7 +7,6 @@ import com.example.jobKoreaIt.config.auth.jwt.JwtAuthorizationFilter;
 import com.example.jobKoreaIt.config.auth.jwt.JwtProperties;
 import com.example.jobKoreaIt.config.auth.loginHandler.CustomAuthenticationFailureHandler;
 import com.example.jobKoreaIt.config.auth.loginHandler.CustomLoginSuccessHandler;
-import com.example.jobKoreaIt.config.auth.loginHandler.Oauth2JwtLoginSuccessHandler;
 import com.example.jobKoreaIt.config.auth.logoutHandler.CustomLogoutHandler;
 import com.example.jobKoreaIt.config.auth.logoutHandler.CustomLogoutSuccessHandler;
 import com.zaxxer.hikari.HikariDataSource;
@@ -31,10 +30,6 @@ public class SecurityConfig  {
     @Autowired
     private HikariDataSource dataSource;
 
-
-
-
-
     @Bean
     public SecurityFilterChain config(HttpSecurity http) throws Exception {
 
@@ -48,7 +43,7 @@ public class SecurityConfig  {
         http.authorizeHttpRequests(
                 authorize->{
                     authorize.requestMatchers("/js/**","/css/**","/images/**","/templates","/assets/**").permitAll();
-                    authorize.requestMatchers("/","/user/login","/user/join").permitAll();
+                    authorize.requestMatchers("/","/login","/user/join").permitAll();
                    
                     authorize.requestMatchers("/**").permitAll(); //임시 모든 URL 허용
 
@@ -58,7 +53,7 @@ public class SecurityConfig  {
         //로그인
         http.formLogin(login->{
             login.permitAll();
-            login.loginPage("/user/login");
+            login.usernameParameter("userid");
             login.successHandler(customLoginSuccessHandler());
             login.failureHandler(new CustomAuthenticationFailureHandler());
 
@@ -71,9 +66,9 @@ public class SecurityConfig  {
                     logout.logoutUrl("/logout");
                     logout.addLogoutHandler(customLogoutHandler());
                     logout.logoutSuccessHandler( customLogoutSuccessHandler() );
-                    //JWT Added
-                    logout.deleteCookies("JSESSIONID", JwtProperties.COOKIE_NAME);
-                    logout.invalidateHttpSession(true);
+//                    //JWT Added
+//                    logout.deleteCookies("JSESSIONID", JwtProperties.COOKIE_NAME);
+//                    logout.invalidateHttpSession(true);
                 }
         );
         //Session
@@ -97,13 +92,13 @@ public class SecurityConfig  {
                 }
         );
 
-        //Oauth2
-        http.oauth2Login(
-                oauth2->{
-                    oauth2.loginPage("/user/login");
-                    oauth2.successHandler(oauth2JwtLoginSuccessHandler());
-                }
-        );
+//        //Oauth2
+//        http.oauth2Login(
+//                oauth2->{
+//                    oauth2.loginPage("/user/login");
+//                    oauth2.successHandler(oauth2JwtLoginSuccessHandler());
+//                }
+//        );
 
 
         return http.build();
@@ -139,10 +134,6 @@ public class SecurityConfig  {
 
     //Oauth2JwtLoginSuccessHandler BEAN
 
-    @Bean
-    public Oauth2JwtLoginSuccessHandler oauth2JwtLoginSuccessHandler(){
-        return new Oauth2JwtLoginSuccessHandler();
-    }
 
     // BCryptPasswordEncoder Bean 등록 - 패스워드 검증에 사용
     @Bean

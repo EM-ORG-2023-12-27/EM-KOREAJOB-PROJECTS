@@ -56,42 +56,43 @@
                         </div>
                         <div class="mb-3"></div>
                         <div class="m-2">
-                            <label for="">회원 아이디 : </label>
-                            <input type="text" name="username"  class="form-control" />
+                            <label >회원 아이디 : </label>
+                            <input type="text" name="userid"   class="form-control" />
                         </div>
 
                         <div class="m-2">
-                            <label for="">패스워드 : </label>
+                            <label >패스워드 : </label>
                             <input type="password" name="password" class="form-control" />
                         </div>
                         <div class="m-2">
-                            <label for="">패스워드 확인 : </label>
+                            <label >패스워드 확인 : </label>
                             <input type="password"  name="repassword" class="form-control" />
                         </div>
                         <div class="m-2">
-                            <label for="">우편번호 : </label>
+                            <label >이름 : </label>
+                            <input type="text"  name="username" class="form-control" />
+                        </div>
+                        <div class="m-2">
+                            <label >우편번호 : </label>
                             <div class="" style="display:flex;justify-content:space-between;">
-                                <input type="zipcode"  class="form-control me-2" style="width:250px;" />
+                                <input type="text"  name="zipcode" class="form-control me-2" style="width:250px;" />
                                 <a href="" class="btn btn-secondary" style="width:80px">검색</a>
                             </div>
                         </div>
                         <div class="m-2">
-                            <label for="">주소 : </label>
+                            <label >주소 : </label>
                             <div>
-                                <input type="address"  name="address" class="form-control mb-2"  placeholder="기본주소" />
-                                <input type="addr_details"  name="addr_details"  class="form-control mb-2"  placeholder="상세주소" />
+                                <input type="text"  name="addr1" class="form-control mb-2"  placeholder="기본주소" />
+                                <input type="text"  name="addr2"  class="form-control mb-2"  placeholder="상세주소" />
                             </div>
                         </div>
                         <div class="m-2">
-                            <label for="">연락처 : </label>
+                            <label >연락처 : </label>
                             <input type="text"  class="form-control" name="tel" placeholder="-없이 입력" />
                         </div>
                         <div class="m-2">
                             <button class="btn btn-success w-100 mb-2">회원가입</button>
                             <button class="btn btn-success w-100">이전으로</button>
-                        </div>
-                        <div>
-                            <input type="hidden" name="type" value="seekerUser" />
                         </div>
                     </form>
 
@@ -101,53 +102,67 @@
                         </div>
                         <div class="mb-3"></div>
                         <div class="m-2">
-                            <label for="">기업 아이디 : </label>
-                            <input type="text" name="username"  class="form-control" />
+                            <label >기업 아이디 : </label>
+                            <input type="text" name="userid"  class="form-control" />
                         </div>
 
                         <div class="m-2">
-                            <label for="">패스워드 : </label>
+                            <label >패스워드 : </label>
                             <input type="password" name="password" class="form-control" />
                         </div>
                         <div class="m-2">
-                            <label for="">패스워드 확인 : </label>
+                            <label >패스워드 확인 : </label>
                             <input type="password"  name="repassword" class="form-control" />
                         </div>
                         <div class="m-2">
-                            <label for="">회사명 : </label>
-                            <input type="text"  class="form-control" name="offername" placeholder="-없이 입력" />
+                            <label >회사명 : </label>
+                            <input type="text"  class="form-control" name="companyName" placeholder="-없이 입력" />
                         </div>
                         <div class="m-2">
-                            <label for="">사업자 No. : </label>
-                            <input type="text"  class="form-control" name="offeruumber" placeholder="-없이 입력" />
+                            <label >사업자 No. : </label>
+                            <input type="text"  class="form-control" name="companyNumber" placeholder="-없이 입력" />
                         </div>
                         <div class="m-2">
-                            <label for="">우편번호 : </label>
+                            <label >우편번호 : </label>
                             <div class="" style="display:flex;justify-content:space-between;">
                                 <input type="zipcode" name="zipcode"  class="form-control me-2" style="width:250px;" />
                                 <a href="" class="btn btn-secondary" style="width:80px">검색</a>
                             </div>
                         </div>
                         <div class="m-2">
-                            <label for="">회사 주소 : </label>
+                            <label>회사 주소 : </label>
                             <div>
-                                <input type=text name="offeraddress"  class="form-control mb-2"  placeholder="기본주소" />
-                                <input type="text" name="addr_details" class="form-control mb-2"  placeholder="상세주소" />
+                                <input type=text name="companyAddr1"  class="form-control mb-2"  placeholder="기본주소" />
+                                <input type="text" name="companyAddr2" class="form-control mb-2"  placeholder="상세주소" />
                             </div>
                         </div>
                         <div class="m-2">
-                            <label for="">TEL : </label>
-                            <input type="text"  class="form-control" name="offertel" placeholder="-없이 입력" />
+                            <label >회사 E-MAIL : </label>
+                            <input type="text"  class="form-control" name="companyEmail" placeholder="-없이 입력" />
                         </div>
+                        <div class="m-2">
+                            <label >TEL : </label>
+                            <input type="text"  class="form-control" name="companyPhone" placeholder="-없이 입력" />
+                        </div>
+                        <div class="m-2">
+                            <label >업종 : </label>
+                            <select class="form-select" name="companyIndustry">
+                                <option value="IT">IT</option>
+                                <option value="제조">제조</option>
+                                <option value="유통">유통</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label >회사 설명 : </label>
+                            <textarea class="form-control w-100">
 
-
+                            </textarea>
+                        </div>
                         <div class="m-2">
                             <button class="btn btn-success w-100 mb-3">회원가입</button>
                             <button class="btn btn-success w-100 mb-3">이전으로</button>
                         </div>
-                        <div>
-                            <input type="hidden" name="type" value="offerUser" />
-                        </div>
+
                     </form>
 
                 </div>
@@ -160,5 +175,7 @@
     <!-- footer       -->
     <th:block th:insert="~{fragments/footer :: footerFragment}" />
 </div>
+
+
 </body>
 </html>
