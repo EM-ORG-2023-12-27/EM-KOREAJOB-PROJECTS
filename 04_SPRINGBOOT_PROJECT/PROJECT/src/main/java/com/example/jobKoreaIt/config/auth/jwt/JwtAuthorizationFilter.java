@@ -25,10 +25,10 @@ import java.util.Optional;
  */
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
-    private final UserRepository userRepository;
-    private final JobSeekerRepository jobSeekerRepository;
-    private final JobOfferRepository jobOfferRepository;
-    private final JwtTokenProvider jwtTokenProvider;
+    private  UserRepository userRepository;
+    private  JobSeekerRepository jobSeekerRepository;
+    private  JobOfferRepository jobOfferRepository;
+    private  JwtTokenProvider jwtTokenProvider;
 
     public JwtAuthorizationFilter(
             UserRepository userRepository,
@@ -41,8 +41,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         this.jobOfferRepository = jobOfferRepository;
         this.jwtTokenProvider = jwtTokenProvider;
     }
-
-
 
     @Override
     protected void doFilterInternal(
@@ -62,11 +60,15 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         } catch (Exception ignored) {
             //일반적으로 접근하는 요청 URI에 대한 쿠키 예외는 무시한다..
         }
+
         if (token != null) {
             try {
                 if(jwtTokenProvider.validateToken(token)) {
+
                     Authentication authentication = getUsernamePasswordAuthenticationToken(token);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
+                }else{
+
                 }
             } catch (ExpiredJwtException e)     //토큰만료시 예외처리(쿠키 제거)
             {

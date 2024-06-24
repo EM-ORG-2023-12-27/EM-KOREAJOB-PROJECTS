@@ -45,7 +45,6 @@ public class PrincipalDetailsService implements UserDetailsService {
         userDto.setUserid(user.getUserid());
         userDto.setPassword(user.getPassword());
         userDto.setRole(user.getRole());
-        userDto.setCreateAt(user.getCreateAt());
 
         principalDetails.setUserDto(userDto);
         if(StringUtils.equals(userOptional.get().getRole(),"ROLE_SEEKER")){

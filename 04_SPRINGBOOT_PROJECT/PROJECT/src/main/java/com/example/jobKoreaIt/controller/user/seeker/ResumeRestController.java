@@ -8,13 +8,14 @@ import com.example.jobKoreaIt.domain.seeker.repository.CareerRepository;
 import com.example.jobKoreaIt.domain.seeker.service.ResumeServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-@RestController
+@Controller
 @Slf4j
 @RequestMapping("/seeker")
 public class ResumeRestController {

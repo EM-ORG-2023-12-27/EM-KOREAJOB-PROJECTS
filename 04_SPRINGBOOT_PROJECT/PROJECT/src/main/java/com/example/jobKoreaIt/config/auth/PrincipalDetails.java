@@ -21,8 +21,6 @@ import java.util.Map;
 @AllArgsConstructor
 public class PrincipalDetails implements UserDetails, OAuth2User {
 
-    private boolean isEmailAuth;
-
     private UserDto userDto;
     private JobSeekerDto jobSeekerDto;
     private JobOfferDto jobOfferDto;

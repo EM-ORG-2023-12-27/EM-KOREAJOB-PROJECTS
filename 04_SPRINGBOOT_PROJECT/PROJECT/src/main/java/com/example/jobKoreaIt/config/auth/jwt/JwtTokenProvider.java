@@ -2,10 +2,15 @@ package com.example.jobKoreaIt.config.auth.jwt;
 
 
 import com.example.jobKoreaIt.config.auth.PrincipalDetails;
+import com.example.jobKoreaIt.domain.common.dto.UserDto;
+import com.example.jobKoreaIt.domain.offer.dto.JobOfferDto;
+import com.example.jobKoreaIt.domain.offer.entity.JobOffer;
+import com.example.jobKoreaIt.domain.seeker.dto.JobSeekerDto;
 import com.example.jobKoreaIt.properties.DBCONN;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.ReactiveAdapterRegistry;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,6 +26,7 @@ import java.sql.ResultSet;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -74,35 +80,91 @@ public class JwtTokenProvider {
         long now = (new Date()).getTime();
 
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        UserDto userDto = principalDetails.getUserDto();
 
         String accessToken = null;
         if(StringUtils.equals(authorities,"ROLE_SEEKER")){
+            JobSeekerDto jobSeekerDto = principalDetails.getJobSeekerDto();
             // Access Token 생성
             Date accessTokenExpiresIn = new Date(now + 60*5*1000);    // 60*5 초후 만료
             accessToken = Jwts.builder()
-                    .setSubject("TITLE")
-                    .claim("null",null)                         //정보저장
+                    .setSubject(userDto.getUserid())
+                    .claim("userid",userDto.getUserid())             //정보저장
+                    .claim("password",userDto.getPassword())                //정보저장
+                    .claim("role",userDto.getRole())                      //정보저장
+
+                    .claim("email",jobSeekerDto.getEmail())                      //정보저장
+                    .claim("tel",jobSeekerDto.getTel())                      //정보저장
+                    .claim("username",jobSeekerDto.getUsername())                      //정보저장
+                    .claim("zipcode",jobSeekerDto.getZipcode())                      //정보저장
+                    .claim("addr1",jobSeekerDto.getAddr1())                      //정보저장
+                    .claim("addr2",jobSeekerDto.getAddr2())                      //정보저장
+
+
+                    .claim("authorities", authorities)                             //정보저장
+                    .claim("principal", authentication.getPrincipal())      //정보저장
+                    .claim("credentials", authentication.getCredentials())  //정보저장
+                    .claim("details", authentication.getDetails())          //정보저장
+
+//                    .claim("provider", userDto.getProvider())               //정보저장
+//                    .claim("providerId",userDto.getProviderId())             //정보저장
+//                    .claim("accessToken", principalDetails.getAccessToken())//정보저장                      //정보저장
+
                     .setExpiration(accessTokenExpiresIn)
                     .signWith(key, SignatureAlgorithm.HS256)
                     .compact();
+
+
         }else if(StringUtils.equals(authorities,"ROLE_OFFER")){
+            JobOfferDto jobOfferDto = principalDetails.getJobOfferDto();
             // Access Token 생성
             Date accessTokenExpiresIn = new Date(now + 60*5*1000);    // 60*5 초후 만료
             accessToken = Jwts.builder()
-                    .setSubject("TITLE")
-                    .claim("null",null)                         //정보저장
+                    .setSubject(userDto.getUserid())
+                    .claim("userid",userDto.getUserid())             //정보저장
+                    .claim("password",userDto.getPassword())                //정보저장
+                    .claim("role",userDto.getRole())                      //정보저장
+
+                    .claim("companyEmail",jobOfferDto.getCompanyEmail())                      //정보저장
+                    .claim("companyPhone",jobOfferDto.getCompanyPhone())                      //정보저장
+                    .claim("companyIndustry",jobOfferDto.getCompanyIndustry())                      //정보저장
+                    .claim("zipcode",jobOfferDto.getZipcode())                      //정보저장
+                    .claim("companyAddr1",jobOfferDto.getCompanyAddr1())                      //정보저장
+                    .claim("companyAddr2",jobOfferDto.getCompanyAddr2())                      //정보저장
+                    .claim("companyexplanation",jobOfferDto.getCompanyexplanation())                      //정보저장
+
+                    .claim("authorities", authorities)                             //정보저장
+                    .claim("principal", authentication.getPrincipal())      //정보저장
+                    .claim("credentials", authentication.getCredentials())  //정보저장
+                    .claim("details", authentication.getDetails())          //정보저장
+
+//                    .claim("provider", userDto.getProvider())               //정보저장
+//                    .claim("providerId",userDto.getProviderId())             //정보저장
+//                    .claim("accessToken", principalDetails.getAccessToken())//정보저장
                     .setExpiration(accessTokenExpiresIn)
                     .signWith(key, SignatureAlgorithm.HS256)
                     .compact();
         }else {
             // Access Token 생성
-            Date accessTokenExpiresIn = new Date(now + 60 * 5 * 1000);    // 60*5 초후 만료
+            Date accessTokenExpiresIn = new Date(now + 60*5*1000);    // 60*5 초후 만료
             accessToken = Jwts.builder()
-                    .setSubject("TITLE")
-                    .claim("null", null)                         //정보저장
+                    .setSubject(userDto.getUserid())
+                    .claim("userid",userDto.getUserid())             //정보저장
+                    .claim("password",userDto.getPassword())                //정보저장
+                    .claim("role",userDto.getRole())                      //정보저장
+
+                    .claim("authorities", authorities)                             //정보저장
+                    .claim("principal", authentication.getPrincipal())      //정보저장
+                    .claim("credentials", authentication.getCredentials())  //정보저장
+                    .claim("details", authentication.getDetails())          //정보저장
+
+//                    .claim("provider", userDto.getProvider())               //정보저장
+//                    .claim("providerId",userDto.getProviderId())             //정보저장
+//                    .claim("accessToken", principalDetails.getAccessToken())//정보저장
                     .setExpiration(accessTokenExpiresIn)
                     .signWith(key, SignatureAlgorithm.HS256)
                     .compact();
+
         }
 
         // Refresh Token 생성
@@ -152,33 +214,93 @@ public class JwtTokenProvider {
 
     // JWT 토큰을 복호화하여 토큰에 들어있는 정보를 꺼내는 메서드
     public Authentication getAuthentication(String accessToken) {
-            // 토큰 복호화
+
+        PrincipalDetails principalDetails = new PrincipalDetails();
+
+        // 토큰 복호화
         Claims claims = parseClaims(accessToken);
 
-        if (claims.get("auth") == null) {
-            throw new RuntimeException("권한 정보가 없는 토큰입니다.");
-        }
+
+
         // 클레임에서 권한 정보 가져오기
         Collection<? extends GrantedAuthority> authorities =
-                Arrays.stream(claims.get("auth").toString().split(","))
+                Arrays.stream(claims.get("authorities").toString().split(","))
                         .map(auth -> new SimpleGrantedAuthority(auth))
                         .collect(Collectors.toList());
 
-        String username = claims.getSubject(); //username
+        if (authorities == null) {
+            throw new RuntimeException("권한 정보가 없는 토큰입니다.");
+        }
 
-
-        String provider =  (String)claims.get("provider");
+        String userid = (String)claims.get("userid");
         String password = (String)claims.get("password");
-        String auth = (String)claims.get("auth");
-        String oauthAccessToken = (String)claims.get("accessToken");
+        String role = (String)claims.get("role");
+        UserDto userDto = new UserDto();
+        userDto.setUserid(userid);
+        userDto.setRole(role);
+        userDto.setPassword(password);
+        principalDetails.setUserDto(userDto);
 
-        PrincipalDetails principalDetails = new PrincipalDetails();
-        principalDetails.setAccessToken(oauthAccessToken);   //Oauth AccessToken
 
+
+        if(StringUtils.equals(role,"ROLE_SEEKER")){
+            String email = (String)claims.get("email");
+            String tel = (String)claims.get("tel");
+            String username = (String)claims.get("username");
+            String zipcode = (String)claims.get("zipcode");
+            String addr1 = (String)claims.get("addr1");
+            String addr2 = (String)claims.get("addr2");
+
+            JobSeekerDto jobSeekerDto = new JobSeekerDto();
+            jobSeekerDto.setEmail(email);
+            jobSeekerDto.setTel(tel);
+            jobSeekerDto.setUsername(username);
+            jobSeekerDto.setZipcode(zipcode);
+            jobSeekerDto.setAddr1(addr1);
+            jobSeekerDto.setAddr2(addr2);
+
+            principalDetails.setJobSeekerDto(jobSeekerDto);
+
+
+
+        }else if(StringUtils.equals(role,"ROLE_OFFER")){
+            String companyEmail = (String)claims.get("companyEmail");
+            String companyPhone = (String)claims.get("companyPhone");
+            String companyIndustry = (String)claims.get("companyIndustry");
+            String zipcode = (String)claims.get("zipcode");
+            String companyAddr1 = (String)claims.get("companyAddr1");
+            String companyAddr2 = (String)claims.get("companyAddr2");
+            String companyexplanation = (String)claims.get("companyexplanation");
+
+            JobOfferDto jobOfferDto = new JobOfferDto();
+            jobOfferDto.setCompanyEmail(companyEmail);
+            jobOfferDto.setCompanyPhone(companyPhone);
+            jobOfferDto.setCompanyIndustry(companyIndustry);
+            jobOfferDto.setZipcode(zipcode);
+            jobOfferDto.setCompanyAddr1(companyAddr1);
+            jobOfferDto.setCompanyAddr2(companyAddr2);
+            jobOfferDto.setCompanyexplanation(companyexplanation);
+            principalDetails.setJobOfferDto(jobOfferDto);
+        }
+
+
+
+        LinkedHashMap principal = (LinkedHashMap)claims.get("principal");
+        String credentials = (String)claims.get("credentials");
+        LinkedHashMap details = (LinkedHashMap)claims.get("details");
+
+
+        //OAUTH2
+        //String oauthAccessToken = (String)claims.get("accessToken");
+        //principalDetails.setAccessToken(oauthAccessToken);   //Oauth AccessToken
+        //principalDetails.setAccessToken();//OAUTH2
 
         //JWT + NO REMEMBERME
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                 new UsernamePasswordAuthenticationToken(principalDetails, claims.get("credentials"), authorities);
+        usernamePasswordAuthenticationToken.setDetails(details);
+
+        //System.out.println("JWT TOKEN PROVIDER getAuthentication : " + usernamePasswordAuthenticationToken);
         return usernamePasswordAuthenticationToken;
 
     }

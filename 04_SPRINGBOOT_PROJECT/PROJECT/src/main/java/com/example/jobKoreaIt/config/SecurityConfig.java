@@ -105,7 +105,6 @@ public class SecurityConfig  {
                 BasicAuthenticationFilter.class
         );
 
-
         //RememberMe
         http.rememberMe(
                 rm->{

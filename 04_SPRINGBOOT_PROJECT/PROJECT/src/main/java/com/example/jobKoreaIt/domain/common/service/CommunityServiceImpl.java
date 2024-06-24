@@ -39,42 +39,6 @@ public class CommunityServiceImpl {
         community.setRegdate(LocalDateTime.now());
         community.setCategory(dto.getCategory());
 
-        MultipartFile[] files = dto.getFiles();
-        List<String> filenames = new ArrayList<String>();
-        List<String> filesizes = new ArrayList<String>();
-        if(dto.getFiles().length >= 1 && dto.getFiles()[0].getSize()!=0L)
-        {
-            //Upload Dir 미존재시 생성
-            String path = uploadDir+ File.separator+dto.getUsername()+File.separator+ UUID.randomUUID();
-            File dir = new File(path);
-            if(!dir.exists()) {
-                dir.mkdirs();
-            }
-            //COMMUNITY 경로 추가
-            community.setDirpath(dir.toString());
-
-            for(MultipartFile file  : dto.getFiles())
-            {
-                System.out.println("--------------------");
-                System.out.println("FILE NAME : " + file.getOriginalFilename());
-                System.out.println("FILE SIZE : " + file.getSize() + " Byte");
-                System.out.println("--------------------");
-
-                //파일명 추출
-                String filename = file.getOriginalFilename();
-                //파일객체 생성
-                File fileobj = new File(path,filename);
-                //업로드
-                file.transferTo(fileobj);
-
-                //filenames 저장
-                filenames.add(filename);
-                filesizes.add(file.getSize()+"");
-            }
-            community.setFilename(filenames.toString());
-            community.setFilesize(filesizes.toString());
-        }
-
 
         community  =    communityRepository.save(community);
 

@@ -21,6 +21,5 @@ public class UserDto {
 	private String password;
 	private String repassword;
 	private String role;
-	private LocalDateTime createAt;
 
 }

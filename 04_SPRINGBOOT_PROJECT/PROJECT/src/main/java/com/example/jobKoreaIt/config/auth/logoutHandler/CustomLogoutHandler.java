@@ -23,7 +23,7 @@ public class CustomLogoutHandler implements LogoutHandler {
 
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication auth) {
-        System.out.println("[CustomLogoutHandler] logout()");
+        System.out.println("[CustomLogoutHandler] logout() auth : "+auth);
     }
 
 }
