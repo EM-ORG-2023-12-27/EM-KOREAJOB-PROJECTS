@@ -33,11 +33,6 @@ public class CommunityServiceImpl implements CommunityService{
 
 
     @Transactional(rollbackFor = Exception.class)
-<<<<<<< HEAD
-    public boolean addCommunity(CommunityDto dto){
-        communityRepository.save();
-        return false;
-=======
     public boolean addCommunity(CommunityDto dto) throws IOException {
 
         Community community = new Community();
@@ -54,13 +49,8 @@ public class CommunityServiceImpl implements CommunityService{
         boolean issaved =  communityRepository.existsById(community.getNo());
 
         return issaved;
->>>>>>> dev
     }
 
-
-
-<<<<<<< HEAD
-=======
     @Transactional(rollbackFor = Exception.class)
     public Map<String, Object> GetCommunityList(Criteria criteria) {
         Map<String,Object> returns = new HashMap<String,Object>();
@@ -148,10 +138,4 @@ public class CommunityServiceImpl implements CommunityService{
         communityRepository.save(community);
     }
 
-
-
-
-
-
->>>>>>> dev
 }
