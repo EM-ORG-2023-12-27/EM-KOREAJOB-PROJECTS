@@ -20,6 +20,7 @@ public class JobSeeker {
             foreignKeyDefinition ="FOREIGN KEY(userid) REFERENCES user(userid) ON DELETE CASCADE ON UPDATE CASCADE" ))
     private User user;
     private String username;
+    private String email;
     private String tel;
     private String zipcode;
     private String addr1;

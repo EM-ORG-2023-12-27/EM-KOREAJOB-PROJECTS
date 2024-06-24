@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
+import org.thymeleaf.util.StringUtils;
 
 import java.security.Key;
 import java.sql.Connection;
@@ -74,14 +75,35 @@ public class JwtTokenProvider {
 
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
 
-        // Access Token 생성
-        Date accessTokenExpiresIn = new Date(now + 60*5*1000);    // 60*5 초후 만료
-        String accessToken = Jwts.builder()
-                .setSubject("TITLE")
-                .claim("null",null)                         //정보저장
-                .setExpiration(accessTokenExpiresIn)
-                .signWith(key, SignatureAlgorithm.HS256)
-                .compact();
+        String accessToken = null;
+        if(StringUtils.equals(authorities,"ROLE_SEEKER")){
+            // Access Token 생성
+            Date accessTokenExpiresIn = new Date(now + 60*5*1000);    // 60*5 초후 만료
+            accessToken = Jwts.builder()
+                    .setSubject("TITLE")
+                    .claim("null",null)                         //정보저장
+                    .setExpiration(accessTokenExpiresIn)
+                    .signWith(key, SignatureAlgorithm.HS256)
+                    .compact();
+        }else if(StringUtils.equals(authorities,"ROLE_OFFER")){
+            // Access Token 생성
+            Date accessTokenExpiresIn = new Date(now + 60*5*1000);    // 60*5 초후 만료
+            accessToken = Jwts.builder()
+                    .setSubject("TITLE")
+                    .claim("null",null)                         //정보저장
+                    .setExpiration(accessTokenExpiresIn)
+                    .signWith(key, SignatureAlgorithm.HS256)
+                    .compact();
+        }else {
+            // Access Token 생성
+            Date accessTokenExpiresIn = new Date(now + 60 * 5 * 1000);    // 60*5 초후 만료
+            accessToken = Jwts.builder()
+                    .setSubject("TITLE")
+                    .claim("null", null)                         //정보저장
+                    .setExpiration(accessTokenExpiresIn)
+                    .signWith(key, SignatureAlgorithm.HS256)
+                    .compact();
+        }
 
         // Refresh Token 생성
         String refreshToken = Jwts.builder()
@@ -95,6 +117,7 @@ public class JwtTokenProvider {
                 .refreshToken(refreshToken)
                 .build();
     }
+
 
     public TokenInfo generateToken(String Claimkey,String id,boolean isAuth) {
 

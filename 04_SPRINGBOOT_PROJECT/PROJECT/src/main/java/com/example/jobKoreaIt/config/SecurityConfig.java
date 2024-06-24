@@ -5,10 +5,14 @@ import com.example.jobKoreaIt.config.auth.exceptionHandler.CustomAccessDeniedHan
 import com.example.jobKoreaIt.config.auth.exceptionHandler.CustomAuthenticationEntryPoint;
 import com.example.jobKoreaIt.config.auth.jwt.JwtAuthorizationFilter;
 import com.example.jobKoreaIt.config.auth.jwt.JwtProperties;
+import com.example.jobKoreaIt.config.auth.jwt.JwtTokenProvider;
 import com.example.jobKoreaIt.config.auth.loginHandler.CustomAuthenticationFailureHandler;
 import com.example.jobKoreaIt.config.auth.loginHandler.CustomLoginSuccessHandler;
 import com.example.jobKoreaIt.config.auth.logoutHandler.CustomLogoutHandler;
 import com.example.jobKoreaIt.config.auth.logoutHandler.CustomLogoutSuccessHandler;
+import com.example.jobKoreaIt.domain.common.repository.UserRepository;
+import com.example.jobKoreaIt.domain.offer.repository.JobOfferRepository;
+import com.example.jobKoreaIt.domain.seeker.repository.JobSeekerRepository;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -29,6 +33,16 @@ public class SecurityConfig  {
 
     @Autowired
     private HikariDataSource dataSource;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    private JobOfferRepository jobOfferRepository;
+    @Autowired
+    private JobSeekerRepository jobSeekerRepository;
 
     @Bean
     public SecurityFilterChain config(HttpSecurity http) throws Exception {
@@ -66,13 +80,11 @@ public class SecurityConfig  {
                     logout.logoutUrl("/logout");
                     logout.addLogoutHandler(customLogoutHandler());
                     logout.logoutSuccessHandler( customLogoutSuccessHandler() );
-//                    //JWT Added
-//                    logout.deleteCookies("JSESSIONID", JwtProperties.COOKIE_NAME);
-//                    logout.invalidateHttpSession(true);
+                    //JWT Added
+                    logout.deleteCookies("JSESSIONID", JwtProperties.COOKIE_NAME);
+                    logout.invalidateHttpSession(true);
                 }
         );
-        //Session
-
         //예외처리
         http.exceptionHandling(
                 ex->{
@@ -80,6 +92,19 @@ public class SecurityConfig  {
                     ex.accessDeniedHandler(new CustomAccessDeniedHandler());
                 }
         );
+        //SESSION INVALIDATE..
+        http.sessionManagement(
+                httpSecuritySessionManagementConfigurer ->
+                        httpSecuritySessionManagementConfigurer.sessionCreationPolicy(
+                                SessionCreationPolicy.STATELESS
+                        )
+        );
+        //JWT ADDED
+        http.addFilterBefore(
+                new JwtAuthorizationFilter(userRepository,jobSeekerRepository,jobOfferRepository,jwtTokenProvider),
+                BasicAuthenticationFilter.class
+        );
+
 
         //RememberMe
         http.rememberMe(

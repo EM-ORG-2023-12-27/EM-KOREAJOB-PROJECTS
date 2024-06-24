@@ -13,4 +13,7 @@ import java.util.Optional;
 public interface JobSeekerRepository extends JpaRepository<JobSeeker,String> {
 
     JobSeeker findByUser(User user);
+
+    JobSeeker findByUsernameAndTel(String username, String Tel);
+
 }

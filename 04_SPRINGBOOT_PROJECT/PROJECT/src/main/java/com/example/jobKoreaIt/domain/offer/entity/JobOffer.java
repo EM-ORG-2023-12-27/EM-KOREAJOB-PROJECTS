@@ -24,6 +24,7 @@ public class JobOffer{
 
     //회사정보
     private String companyName;     // 이름
+    private String companyNumber; //// 사업자 번호
     private String zipcode;
     private String companyAddr1;     // 주소
     private String companyAddr2;     // 주소

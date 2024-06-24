@@ -19,4 +19,5 @@ public class JobSeekerDto  {
     private String zipcode;
     private String addr1;
     private String addr2;
+    private String email;
 }
