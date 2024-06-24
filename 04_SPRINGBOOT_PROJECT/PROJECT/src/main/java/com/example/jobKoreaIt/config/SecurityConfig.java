@@ -57,9 +57,16 @@ public class SecurityConfig  {
         http.authorizeHttpRequests(
                 authorize->{
                     authorize.requestMatchers("/js/**","/css/**","/images/**","/templates","/assets/**").permitAll();
-                    authorize.requestMatchers("/","/login","/user/join").permitAll();
+                    authorize.requestMatchers("/","/login","/user/join","/seeker/join","/offer/join").permitAll();
                    
-                    authorize.requestMatchers("/**").permitAll(); //임시 모든 URL 허용
+
+
+                    //SEEKER/OFFER
+                    authorize.requestMatchers("/seeker/**").hasAnyRole("SEEKER"); //임시 모든 URL 허용
+                    authorize.requestMatchers("/offer/**").hasAnyRole("OFFER"); //임시 모든 URL 허용
+
+                    //COMMUNITY
+                    authorize.requestMatchers("/community/**").permitAll(); //임시 모든 URL 허용
 
                     authorize.anyRequest().authenticated();
                 }
