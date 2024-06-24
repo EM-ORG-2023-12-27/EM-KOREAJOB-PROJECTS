@@ -1,23 +1,23 @@
 package com.example.jobKoreaIt.controller;
 
+import com.example.jobKoreaIt.domain.common.entity.Apply;
+import com.example.jobKoreaIt.domain.common.service.ApplyService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @Slf4j
 @RequestMapping("/apply")
 public class ApplyController {
 
-    @GetMapping("/add")
-    public void add(){
-        log.info("GET /apply/add... ");
-    }
+    @Autowired
+    private ApplyService applyService;
 
-    @PostMapping("/add")
-    public void add_post(){
-
+    @PostMapping
+    public ResponseEntity<Apply> applyForJob(@RequestParam Long jobSeekerId, @RequestParam Long resumeId, @RequestParam String jobTitle, @RequestParam String companyName) {
+        Apply apply = applyService.applyForJob(jobSeekerId, resumeId, jobTitle, companyName);
+        return ResponseEntity.ok(apply);
     }
 }
