@@ -37,7 +37,8 @@
         <section class="layout-150">
             <div class="head">
                 <div class="bedge">TITLE</div>
-                <div class="title">사무직 6년차 연봉 얼마가 적당한가요</div>
+                <input type=hidden class="community_no" th:value="${community.no}">
+                <div class="title" th:text="${community.title}"></div>
             </div>
             <div class="info">
                 <div class="left">
@@ -45,8 +46,8 @@
                         <img src="" alt="P" />
                     </div>
                     <div>
-                        <div>username@naver.com</div>
-                        <div>4일전</div>
+                        <div th:text="${community.username}"></div>
+                        <div th:text="${#temporals.format(community.regdate, 'yyyy-MM-dd HH:mm:ss')}"></div>
                     </div>
                 </div>
                 <div class="right">
@@ -65,19 +66,9 @@
                 </div>
             </div>
             <div>
-                <div class="form-control text">
-                    <!--ADD 에서 엔터키에 대한 이벤트 처리가 필요함 -->
-                    <div>안녕하세요!</div>
-                    <div>현재 만26세, 고졸, 건설업 경리 8개월, 무역업 경리 3년 9개월, HR 1년 4개월 그외 다른 경력 총 약 6년 경력이 있습니다.</div>
-                    <div>경리 업무했을 때 프로그램 안쓰는 회사여서 엑셀로만 작업했고 이직 한 회사는 프로그램 사용합니다.</div>
-                    <div>자격증은 정보기술자격증만 있는 상태인데 직전 연봉이 대략 3,480만원 받았습니다.(오후에 일해서 특근 수당,연장 수당, 심야수당 포함해서 많이 받았습니다)</div>
-                    <div>근데 이직 한 곳은 중소기업 생산관리부서여서 입출고 업무 관련으로 이직하게 되었는데 무역업 경리했었을 때 입출고 했던 경험이 있었습니다.</div>
-                    <div>이럴때 연봉 어느정도가 적당한가요?</div>
-                    <div>5월 31일 첫 출근 했으나 윗 분들이 안계셔서 연봉 관련으로 대화를 못했습니다. 회사에서 공고 냈을 때 세전 230만원인데 면접 때 자세한 연봉 관련 얘기를 나누지 못했습니다 눈치로 볼때 2800이하 일것으로 보이는데 경력상으로는 적다고 느끼는데 자격증으로 볼때는 아닌것 같기도해서 질문 남깁니다!</div>
-                    <div></div>
-                    <div>+월요일 출근 때 연봉협상 요청을 해도 될까요?</div>
+                <textarea class="form-control text" th:text="${community.content}" readonly>
 
-                </div>
+                </textarea>
             </div>
             <div class="imogi">
                 <div class="one">
@@ -97,25 +88,84 @@
                     <div>1</div>
                 </div>
             </div>
+
+            <div class="btn-group">
+                <a th:href="@{/community/update(no=${community.no},pageNo=${pageNo})}"  class="btn btn-primary">수정하기</a>
+                <a th:href="@{/community/delete(no=${community.no},pageNo=${pageNo})}"  class="btn btn-primary">삭제하기</a>
+            </div>
         </section>
+
         <section class="reply layout-150">
+
             <form action="">
-
-
                 <div class="reply-text">
                     <label>댓글작성 : </label>
-                    <textarea class="form-control"></textarea>
+                    <textarea class="form-control area-box"></textarea>
                 </div>
                 <div class="control-block">
                     <div class="reply-image">
-                        <input type="file" name="file" class="form-control">
+<!--                        <input type="file" name="file" class="form-control w-100" id="imgUpload">-->
                     </div>
                     <div class="reply-button">
-                        <a class="btn btn-primary w-100">댓글 등록</a>
+                        <a class="btn btn-primary w-100 reply_btn">댓글 등록</a>
                     </div>
                 </div>
-
             </form>
+
+            <hr>
+
+            <div class="filter">
+                    <select name="type" id="" class="form-select w-25">
+                        <option value="" selected>최신 댓글순</option>
+                        <option value="" selected>인기 댓글순</option>
+                    </select>
+            </div>
+            <div class="reply items">
+
+
+<!--                    &lt;!&ndash;  REPLY                                   &ndash;&gt;-->
+<!--                    <div class="item">-->
+<!--                        <hr>-->
+<!--                        <div class="content">-->
+<!--                            <div>안녕하세요! 반도체 품질 직무 프로 털보아저씨입니다.</div>-->
+<!--                            <div>보상 받기는 어려울 것 같습니다.. 인사담당자의 실수였기 때문에 추후 면접 일정을 잡을 때는 멘티님의 일정에 맞추어 진행해 달라고</div>-->
+<!--                            <div>요청하시는 정도는 가능할 것으로 보입니다. 연차까지 쓰고 가셨는데... 고생 많이 하셨습니다 ㅠㅠ</div>-->
+<!--                        </div>-->
+
+<!--                        <div class="foot">-->
+<!--                            <div>-->
+<!--                                <div>-->
+<!--                                    <a href="">-->
+<!--                                        <span class="material-symbols-outlined">thumb_up</span>-->
+<!--                                        <span>공감하기</span>-->
+<!--                                    </a>-->
+<!--                                </div>-->
+<!--                                <div>-->
+<!--                                    <a href="">-->
+<!--                                        <span class="material-symbols-outlined">chat_bubble</span>-->
+<!--                                        <span>대댓글달기</span>-->
+<!--                                    </a>-->
+
+<!--                                </div>-->
+<!--                            </div>-->
+
+<!--                            <div>-->
+<!--                                <div>-->
+<!--                                    <span>계정명</span>-->
+<!--                                </div>-->
+<!--                                &nbsp;&nbsp;|&nbsp;&nbsp;-->
+<!--                                <div>-->
+<!--                                    <span>2024-01-01 HH:MM:SS</span>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                    </div>-->
+<!--                    &lt;!&ndash;  REPLY                                   &ndash;&gt;-->
+
+
+            </div>
+
 
         </section>
     </main>

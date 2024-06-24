@@ -19,14 +19,14 @@
 
                 <!-- 인증이후 -->
                 <th:block sec:authorize="isAuthenticated()">
-                    <li class=username><a href=""><span> USER- </span></a></li>
+                    <li class=username><a href=""><span sec:authentication="principal.username"></span></a></li>
                     <li><a href="/user/myinfo">나의정보</a></li>
                     <li><a href="/logout">로그아웃</a></li>
                 </th:block>
 
                 <!-- 인증이전 -->
                 <th:block sec:authorize="isAnonymous()">
-                    <li><a href="/user/login">로그인</a></li>
+                    <li><a href="/login">로그인</a></li>
                     <li><a href="/user/join">회원가입</a></li>
                 </th:block>
 

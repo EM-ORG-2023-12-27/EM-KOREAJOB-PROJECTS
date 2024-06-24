@@ -5,11 +5,14 @@ import com.example.jobKoreaIt.config.auth.exceptionHandler.CustomAccessDeniedHan
 import com.example.jobKoreaIt.config.auth.exceptionHandler.CustomAuthenticationEntryPoint;
 import com.example.jobKoreaIt.config.auth.jwt.JwtAuthorizationFilter;
 import com.example.jobKoreaIt.config.auth.jwt.JwtProperties;
+import com.example.jobKoreaIt.config.auth.jwt.JwtTokenProvider;
 import com.example.jobKoreaIt.config.auth.loginHandler.CustomAuthenticationFailureHandler;
 import com.example.jobKoreaIt.config.auth.loginHandler.CustomLoginSuccessHandler;
-import com.example.jobKoreaIt.config.auth.loginHandler.Oauth2JwtLoginSuccessHandler;
 import com.example.jobKoreaIt.config.auth.logoutHandler.CustomLogoutHandler;
 import com.example.jobKoreaIt.config.auth.logoutHandler.CustomLogoutSuccessHandler;
+import com.example.jobKoreaIt.domain.common.repository.UserRepository;
+import com.example.jobKoreaIt.domain.offer.repository.JobOfferRepository;
+import com.example.jobKoreaIt.domain.seeker.repository.JobSeekerRepository;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -31,9 +34,15 @@ public class SecurityConfig  {
     @Autowired
     private HikariDataSource dataSource;
 
+    @Autowired
+    private UserRepository userRepository;
 
-
-
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    private JobOfferRepository jobOfferRepository;
+    @Autowired
+    private JobSeekerRepository jobSeekerRepository;
 
     @Bean
     public SecurityFilterChain config(HttpSecurity http) throws Exception {
@@ -48,9 +57,16 @@ public class SecurityConfig  {
         http.authorizeHttpRequests(
                 authorize->{
                     authorize.requestMatchers("/js/**","/css/**","/images/**","/templates","/assets/**").permitAll();
-                    authorize.requestMatchers("/","/user/login","/user/join").permitAll();
+                    authorize.requestMatchers("/","/login","/user/join","/seeker/join","/offer/join").permitAll();
                    
-                    authorize.requestMatchers("/**").permitAll(); //임시 모든 URL 허용
+
+
+                    //SEEKER/OFFER
+                    authorize.requestMatchers("/seeker/**").hasAnyRole("SEEKER"); //임시 모든 URL 허용
+                    authorize.requestMatchers("/offer/**").hasAnyRole("OFFER"); //임시 모든 URL 허용
+
+                    //COMMUNITY
+                    authorize.requestMatchers("/community/**").permitAll(); //임시 모든 URL 허용
 
                     authorize.anyRequest().authenticated();
                 }
@@ -58,7 +74,7 @@ public class SecurityConfig  {
         //로그인
         http.formLogin(login->{
             login.permitAll();
-            login.loginPage("/user/login");
+            login.usernameParameter("userid");
             login.successHandler(customLoginSuccessHandler());
             login.failureHandler(new CustomAuthenticationFailureHandler());
 
@@ -76,14 +92,24 @@ public class SecurityConfig  {
                     logout.invalidateHttpSession(true);
                 }
         );
-        //Session
-
         //예외처리
         http.exceptionHandling(
                 ex->{
                     ex.authenticationEntryPoint(new CustomAuthenticationEntryPoint());
                     ex.accessDeniedHandler(new CustomAccessDeniedHandler());
                 }
+        );
+        //SESSION INVALIDATE..
+        http.sessionManagement(
+                httpSecuritySessionManagementConfigurer ->
+                        httpSecuritySessionManagementConfigurer.sessionCreationPolicy(
+                                SessionCreationPolicy.STATELESS
+                        )
+        );
+        //JWT ADDED
+        http.addFilterBefore(
+                new JwtAuthorizationFilter(userRepository,jobSeekerRepository,jobOfferRepository,jwtTokenProvider),
+                BasicAuthenticationFilter.class
         );
 
         //RememberMe
@@ -97,13 +123,13 @@ public class SecurityConfig  {
                 }
         );
 
-        //Oauth2
-        http.oauth2Login(
-                oauth2->{
-                    oauth2.loginPage("/user/login");
-                    oauth2.successHandler(oauth2JwtLoginSuccessHandler());
-                }
-        );
+//        //Oauth2
+//        http.oauth2Login(
+//                oauth2->{
+//                    oauth2.loginPage("/user/login");
+//                    oauth2.successHandler(oauth2JwtLoginSuccessHandler());
+//                }
+//        );
 
 
         return http.build();
@@ -139,10 +165,6 @@ public class SecurityConfig  {
 
     //Oauth2JwtLoginSuccessHandler BEAN
 
-    @Bean
-    public Oauth2JwtLoginSuccessHandler oauth2JwtLoginSuccessHandler(){
-        return new Oauth2JwtLoginSuccessHandler();
-    }
 
     // BCryptPasswordEncoder Bean 등록 - 패스워드 검증에 사용
     @Bean

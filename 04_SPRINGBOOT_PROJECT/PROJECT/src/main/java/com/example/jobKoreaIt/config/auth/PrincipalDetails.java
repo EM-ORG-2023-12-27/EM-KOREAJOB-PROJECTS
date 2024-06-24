@@ -2,12 +2,15 @@ package com.example.jobKoreaIt.config.auth;
 
 
 import com.example.jobKoreaIt.domain.common.dto.UserDto;
+import com.example.jobKoreaIt.domain.offer.dto.JobOfferDto;
+import com.example.jobKoreaIt.domain.seeker.dto.JobSeekerDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,18 +21,14 @@ import java.util.Map;
 @AllArgsConstructor
 public class PrincipalDetails implements UserDetails, OAuth2User {
 
-    private boolean isEmailAuth;
-
     private UserDto userDto;
+    private JobSeekerDto jobSeekerDto;
+    private JobOfferDto jobOfferDto;
 
-    public PrincipalDetails(UserDto dto) {
-        this.userDto = dto;
-    }
 
     //OAUTH2---------------------------------------
     private String accessToken;
     private Map<String,Object> attributes;
-
 
 
     @Override
@@ -38,7 +37,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     }
     @Override
     public String getName() {
-        return null;
+        return userDto.getUserid();
     }
     //OAUTH2---------------------------------------
 
@@ -56,32 +55,38 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 
     @Override
     public String getPassword() {
-        return null;
+        return userDto.getPassword();
     }
 
     @Override
     public String getUsername() {
+        String role = userDto.getRole();
+        if(StringUtils.equals(role,"ROLE_SEEKER")){
+            return jobSeekerDto.getUsername();
+        } else if (StringUtils.equals(role,"ROLE_OFFER")) {
+            return jobOfferDto.getCompanyName();
+        }
         return null;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 
 

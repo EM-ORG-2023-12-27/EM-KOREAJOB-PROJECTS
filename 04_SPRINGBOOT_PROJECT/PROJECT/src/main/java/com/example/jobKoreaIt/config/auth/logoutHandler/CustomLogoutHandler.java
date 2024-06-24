@@ -21,14 +21,9 @@ import java.util.Arrays;
 
 public class CustomLogoutHandler implements LogoutHandler {
 
-    private RestTemplate restTemplate;
-
-    public CustomLogoutHandler(){
-    }
-
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication auth) {
-        System.out.println("[CustomLogoutHandler] logout()");
+        System.out.println("[CustomLogoutHandler] logout() auth : "+auth);
     }
 
 }

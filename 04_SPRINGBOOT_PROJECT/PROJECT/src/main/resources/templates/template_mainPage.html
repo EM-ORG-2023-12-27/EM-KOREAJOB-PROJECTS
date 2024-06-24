@@ -23,15 +23,17 @@
         <th:block th:insert="~{fragments/nav :: navFragment}" />
 
     </header>
+    <section class="layout-150">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">홈</a></li>
+                <li class="breadcrumb-item active" aria-current="page">TEMPLATE</li>
+            </ol>
+        </nav>
+    </section>
+
     <main>
-        <section class="layout-150">
-            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">홈</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">TEMPLATE</li>
-                </ol>
-            </nav>
-        </section>
+
 
         <section></section>
     </main>
