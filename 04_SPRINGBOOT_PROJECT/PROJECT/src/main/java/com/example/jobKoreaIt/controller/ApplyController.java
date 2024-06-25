@@ -47,7 +47,7 @@ public class ApplyController {
 
         Long resumeId = 2L;
 
-        Apply apply = applyService.applyForJob(jobSeekerId, resumeId, applyDto.getJobTitle(), applyDto.getCompanyName());
+        Apply apply = applyService.applyForJob(applyDto.getUserid(),applyDto.getRecruit_id());
 
         redirectAttributes.addFlashAttribute("applyId", apply.getId());
 

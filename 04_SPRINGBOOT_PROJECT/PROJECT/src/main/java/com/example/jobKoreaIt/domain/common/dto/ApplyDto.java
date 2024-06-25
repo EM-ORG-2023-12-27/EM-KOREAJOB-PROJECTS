@@ -12,8 +12,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ApplyDto {
     private Long id;
-    @NotBlank(message = "제목을 지어주세요")
-    private String jobTitle;
-    private String companyName;
-    private String status;
+    private String userid;
+    private Long recruit_id;
 }

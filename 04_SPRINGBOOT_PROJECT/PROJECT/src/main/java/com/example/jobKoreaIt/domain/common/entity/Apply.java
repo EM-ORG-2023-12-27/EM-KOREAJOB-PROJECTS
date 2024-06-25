@@ -26,8 +26,8 @@ public class Apply {
     @JoinColumn(name = "resume_id", foreignKey = @ForeignKey(name="FK_APPLY_RESUME"))
     private Resume resume;
 
-    private String jobTitle;
-    private String companyName;
-    private String status;
+    @ManyToOne
+    @JoinColumn(name = "recruit_id", foreignKey = @ForeignKey(name="FK_APPLY_Recruit"))
+    private Recruit recruit;
 
 }

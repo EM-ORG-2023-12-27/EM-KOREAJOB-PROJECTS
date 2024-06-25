@@ -1,6 +1,7 @@
 package com.example.jobKoreaIt.domain.common.service;
 
 import com.example.jobKoreaIt.domain.common.entity.Apply;
+import com.example.jobKoreaIt.domain.common.entity.Recruit;
 import com.example.jobKoreaIt.domain.common.repository.ApplyRepository;
 import com.example.jobKoreaIt.domain.seeker.entity.JobSeeker;
 import com.example.jobKoreaIt.domain.seeker.entity.Resume;
@@ -26,17 +27,21 @@ public class ApplyService {
     @Autowired
     private ResumeRepository resumeRepository;
 
+    @Autowired
+    private RecruitRepository reCruitRepository;
+
+
+
     @Transactional
-    public Apply applyForJob(Long jobSeekerId, Long resumeId, String jobTitle, String companyName) {
+    public Apply applyForJob(Long jobSeekerId, Long resumeId, Long recruitId) {
         JobSeeker jobSeeker = jobSeekerRepository.findById(jobSeekerId).orElseThrow(() -> new RuntimeException("Job Seeker not found"));
         Resume resume = resumeRepository.findById(resumeId).orElseThrow(() -> new RuntimeException("Resume not found"));
+        Recruit recruit = reCruitRepository.findById(resumeId).orElseThrow(() -> new RuntimeException("Resume not found"));
 
         Apply apply = Apply.builder()
                 .jobSeeker(jobSeeker)
                 .resume(resume)
-                .jobTitle(jobTitle)
-                .companyName(companyName)
-                .status("Applied")
+                .recruit(recruit)
                 .build();
 
         return applyRepository.save(apply);
