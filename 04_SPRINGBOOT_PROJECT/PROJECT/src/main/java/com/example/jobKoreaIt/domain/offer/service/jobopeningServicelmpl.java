@@ -49,7 +49,7 @@ public class jobopeningServicelmpl {
     @Transactional(rollbackFor = Exception.class)
     public Recruit jobopenRead() {
         log.info("공고 조회...");
-        return jobopeningRepository.findById(12L).orElseThrow(() -> new RuntimeException("Company not found"));
+        return jobopeningRepository.findById(11L).orElseThrow(() -> new RuntimeException("Company not found"));
     }
 
     @Transactional(rollbackFor = Exception.class)

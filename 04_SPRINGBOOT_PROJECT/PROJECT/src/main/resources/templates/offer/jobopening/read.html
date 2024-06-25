@@ -8,30 +8,35 @@
     <th:block th:insert="~{fragments/link :: linkFragment}"/>
     <style>
         .add {
-    width: 1000px;
-    height: 3000px;
-    border: 1px solid pink;
-    text-align: center;
-    position: relative;
-    left: 400px;
-    top: 0px;
-    font-size: 24px;
-}
-
-        .add p {
-            margin: 10px 0;
+            width: 80%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid pink;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            font-size: 16px;
         }
-
+        h1 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-align: center;
+            color: hotpink;
+            font-size: 24px;
+        }
+        .add p, .add div {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
         .add strong {
             font-weight: bold;
-            color: aqua;
+            color: hotpink;
         }
-
         .company-explanation {
-            word-wrap: break-word; /* Allows long words to break and wrap to the next line */
-            white-space: pre-wrap; /* Preserves whitespace and allows wrapping */
+            word-wrap: break-word;
+            white-space: pre-wrap;
         }
-
         .inline {
             display: inline;
         }
@@ -42,58 +47,48 @@
             margin-right: 40px;
         }
         .read2 {
-             width: 800px;
-             height: 1250px;
-             border: 1px solid pink;
-             margin-left: 100px;
+            width: 100%;
+            max-width: 750px;
+            border: 1px solid pink;
+            border-radius: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            margin: 20px auto;
         }
         .age {
-                width: 800px;
-                height: 800px;
+            width: 100%;
+            max-width: 750px;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
         }
-        .tbl {
+        .tbl, .tbl2, .tbl3 {
+            width: 100%;
+            max-width: 750px;
+            border-collapse: collapse;
+            margin: 20px auto;
+        }
+        .tbl th, .tbl td, .tbl2 th, .tbl2 td, .tbl3 th, .tbl3 td {
             border: 1px solid pink;
-            margin-left: 100px;
+            padding: 8px;
+            text-align: center;
         }
-        .tbl tr {
-        border: 1px solid pink;
+        .tbl th {
+            background-color: hotpink;
+            color: white;
         }
-        .tbl td {
-        border: 1px solid pink;
-        }
-        .tbl2 {
-            border: 1px solid pink;
-            margin-left: 100px;
-            width: 800px;
-            height: 250px;
-        }
-        .tbl2 tr {
-        border: 1px solid pink;
-        }
-        .tbl2 td {
-        border: 1px solid pink;
-        width: 50px;
-        }
-                .tbl3 {
-            border: 1px solid pink;
-            margin-left: 100px;
-            width: 800px;
-            height: 100px;
-
-
-        }
-        .tbl3 tr {
-        border: 1px solid pink;
-        }
-        .tbl3 td {
-        border: 1px solid pink;
-        width: 50px;
+        .tbl2 th, .tbl3 th {
+            background-color: hotpink;
+            color: white;
         }
         .ddd {
-        border: 1px solid pink;
-        width: 800px;
-        height: 125px;
-        margin-left: 100px;
+            width: 100%;
+            max-width: 750px;
+            border: 1px solid pink;
+            border-radius: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            margin: 20px auto;
         }
     </style>
 </head>
