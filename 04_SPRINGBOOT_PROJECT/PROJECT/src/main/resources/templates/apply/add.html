@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--  link   -->
+    <th:block th:insert="~{fragments/link :: linkFragment}" />
+    <link rel="stylesheet" href="/css/apply/add.css">
+    <script src="/js/apply/add.js" defer></script>
+</head>
+<body>
+<div class="wrapper">
+    <header>
+        <!-- header   -->
+        <th:block th:insert="~{fragments/top_header :: topHeaderFragment}" />
+        <!-- nav       -->
+        <th:block th:insert="~{fragments/nav :: navFragment}" />
+    </header>
+    <main>
+        <section class="layout-150">
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">홈</a></li>
+                    <li class="breadcrumb-item"><a href="#">채용공고</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">공고 지원하기</li>
+                </ol>
+            </nav>
+        </section>
+
+        <section class="layout-150 board-body">
+            <div class="head">
+                <div class="title">공고 지원하기</div>
+                <form action="/apply/add" method="post" enctype="multipart/form-data">
+                    <div>
+                        <select name="category" id="" class="form-select">
+                            <option value="신입" selected>신입</option>
+                        </select>
+                    </div>
+                </div>
+                    <div class="mb-3 w-50">
+                        <label for="jobTitle" class="form-label">TITLE:</label>
+                        <input type="text" class="form-control" id="jobTitle" placeholder="jobTitle" th:text="*{jobTitle}">
+                    </div>
+                    <div class="mb-3 w-50">
+                        <label for="companyName" class="form-label">Company Name:</label>
+                        <input type="text" class="form-control" id="companyName" placeholder="companyName" th:text="*{companyName}">
+                    </div>
+                    <div class="mb-3 w-50">
+                        <button class="btn btn-primary m-1" type="submit">글쓰기</button>
+                        <a href="javascript:history.go(-1)" class="btn btn-primary m-1">이전으로</a>
+                    </div>
+                </form>
+        </section>
+
+    </main>
+    <!-- footer       -->
+    <th:block th:insert="~{fragments/footer :: footerFragment}" />
+</div>
+</body>
+</html>

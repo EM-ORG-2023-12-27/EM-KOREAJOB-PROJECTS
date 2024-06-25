@@ -7,9 +7,15 @@ import com.example.jobKoreaIt.domain.seeker.entity.Resume;
 import com.example.jobKoreaIt.domain.seeker.repository.JobSeekerRepository;
 import com.example.jobKoreaIt.domain.seeker.repository.ResumeRepository;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Service
+@Slf4j
+@RequiredArgsConstructor
 public class ApplyService {
     @Autowired
     private ApplyRepository applyRepository;
@@ -35,5 +41,6 @@ public class ApplyService {
 
         return applyRepository.save(apply);
     }
+
 
 }
