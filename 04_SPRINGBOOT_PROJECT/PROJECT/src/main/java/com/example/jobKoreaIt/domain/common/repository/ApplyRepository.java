@@ -1,8 +1,10 @@
 package com.example.jobKoreaIt.domain.common.repository;
 
-import com.example.jobKoreaIt.domain.seeker.entity.JobSeeker;
+import com.example.jobKoreaIt.domain.common.entity.Apply;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ApplyRepository extends JpaRepository<JobSeeker, Long> {
+@Repository
+public interface ApplyRepository extends JpaRepository<Apply, Long> {
 
 }

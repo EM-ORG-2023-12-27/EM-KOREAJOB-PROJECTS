@@ -10,7 +10,7 @@ import java.util.Optional;
 
 
 @Repository
-public interface JobSeekerRepository extends JpaRepository<JobSeeker,String> {
+public interface JobSeekerRepository extends JpaRepository<JobSeeker,Long> {
 
     JobSeeker findByUser(User user);
 

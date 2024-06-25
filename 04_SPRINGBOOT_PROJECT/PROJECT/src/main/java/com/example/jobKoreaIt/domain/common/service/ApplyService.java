@@ -22,7 +22,7 @@ public class ApplyService {
 
     @Transactional
     public Apply applyForJob(Long jobSeekerId, Long resumeId, String jobTitle, String companyName) {
-        JobSeeker jobSeeker = jobSeekerRepository.findById(id).orElseThrow(() -> new RuntimeException("Job Seeker not found"));
+        JobSeeker jobSeeker = jobSeekerRepository.findById(jobSeekerId).orElseThrow(() -> new RuntimeException("Job Seeker not found"));
         Resume resume = resumeRepository.findById(resumeId).orElseThrow(() -> new RuntimeException("Resume not found"));
 
         Apply apply = Apply.builder()
