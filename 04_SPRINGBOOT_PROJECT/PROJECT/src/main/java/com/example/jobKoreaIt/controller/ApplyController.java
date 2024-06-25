@@ -1,6 +1,6 @@
 package com.example.jobKoreaIt.controller;
 
-import com.example.jobKoreaIt.domain.common.dto.ApplyFormDto;
+import com.example.jobKoreaIt.domain.common.dto.ApplyDto;
 import com.example.jobKoreaIt.domain.common.entity.Apply;
 import com.example.jobKoreaIt.domain.common.service.ApplyService;
 import com.example.jobKoreaIt.domain.seeker.repository.JobSeekerRepository;
@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -31,13 +30,12 @@ public class ApplyController {
     private ResumeRepository resumeRepository;
 
     @GetMapping("/add")
-    public String add(Model model) {
-        model.addAttribute("applyForm", new ApplyFormDto());  // 빈 폼 객체를 모델에 추가
+    public String add() {
         return "apply/add";
     }
 
     @PostMapping("/add")
-    public String applyForJob(@ModelAttribute("applyForm") @Valid ApplyFormDto applyForm,
+    public String applyForJob(@ModelAttribute("applyForm") @Valid ApplyDto applyDto,
                               BindingResult bindingResult,
                               Authentication authentication,
                               RedirectAttributes redirectAttributes) {
@@ -45,17 +43,15 @@ public class ApplyController {
             return "apply/add";
         }
 
-        Long jobSeekerId = 1L; //getCurrentJobSeekerId(authentication);
+        Long jobSeekerId = 1L;
 
-        Long resumeId = 2L; //getResumeIdForJobSeeker(jobSeekerId);
+        Long resumeId = 2L;
 
-        // ApplyService를 통해 공고 지원 처리
-        Apply apply = applyService.applyForJob(jobSeekerId, resumeId, applyForm.getJobTitle(), applyForm.getCompanyName());
+        Apply apply = applyService.applyForJob(jobSeekerId, resumeId, applyDto.getJobTitle(), applyDto.getCompanyName());
 
-        // 리다이렉트 시에 사용할 데이터 전달
         redirectAttributes.addFlashAttribute("applyId", apply.getId());
 
-        return "redirect:/apply/success";
+        return "redirect:/";
     }
 
 }
