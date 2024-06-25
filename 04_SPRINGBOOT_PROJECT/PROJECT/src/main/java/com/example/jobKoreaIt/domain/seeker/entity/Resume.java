@@ -1,5 +1,6 @@
 package com.example.jobKoreaIt.domain.seeker.entity;
 
+import com.example.jobKoreaIt.domain.common.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -46,6 +47,11 @@ public class Resume {
     // 작성 날짜
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime creationDate;
+
+    // 추가 0625
+    @ManyToOne
+    @JoinColumn(name = "userid")
+    private User user;
 
     // 작성 날짜 설정 메서드
     @PrePersist

@@ -24,7 +24,7 @@ import java.util.*;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class CommunityServiceImpl implements CommunityService{
+public class CommunityServiceImpl {
 
     @Autowired
     private CommunityRepository communityRepository;

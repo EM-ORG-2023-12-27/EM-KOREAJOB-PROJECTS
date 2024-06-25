@@ -1,8 +1,9 @@
-package com.example.jobKoreaIt.domain.common.service;
+package com.example.jobKoreaIt.domain.seeker.service;
 
-import com.example.jobKoreaIt.domain.common.entity.Apply;
-import com.example.jobKoreaIt.domain.common.entity.Recruit;
-import com.example.jobKoreaIt.domain.common.repository.ApplyRepository;
+import com.example.jobKoreaIt.domain.seeker.entity.Apply;
+import com.example.jobKoreaIt.domain.offer.entity.Recruit;
+import com.example.jobKoreaIt.domain.seeker.repository.ApplyRepository;
+import com.example.jobKoreaIt.domain.offer.repository.RecruitRepository;
 import com.example.jobKoreaIt.domain.seeker.entity.JobSeeker;
 import com.example.jobKoreaIt.domain.seeker.entity.Resume;
 import com.example.jobKoreaIt.domain.seeker.repository.JobSeekerRepository;
@@ -17,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class ApplyService {
+public class ApplyServiceImpl {
     @Autowired
     private ApplyRepository applyRepository;
 
@@ -36,7 +37,7 @@ public class ApplyService {
     public Apply applyForJob(Long jobSeekerId, Long resumeId, Long recruitId) {
         JobSeeker jobSeeker = jobSeekerRepository.findById(jobSeekerId).orElseThrow(() -> new RuntimeException("Job Seeker not found"));
         Resume resume = resumeRepository.findById(resumeId).orElseThrow(() -> new RuntimeException("Resume not found"));
-        Recruit recruit = reCruitRepository.findById(resumeId).orElseThrow(() -> new RuntimeException("Resume not found"));
+        Recruit recruit = reCruitRepository.findById(recruitId).orElseThrow(() -> new RuntimeException("Recruit not found"));
 
         Apply apply = Apply.builder()
                 .jobSeeker(jobSeeker)

@@ -1,6 +1,6 @@
-package com.example.jobKoreaIt.domain.common.repository;
+package com.example.jobKoreaIt.domain.seeker.repository;
 
-import com.example.jobKoreaIt.domain.common.entity.Apply;
+import com.example.jobKoreaIt.domain.seeker.entity.Apply;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
