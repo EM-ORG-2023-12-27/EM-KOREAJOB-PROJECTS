@@ -21,6 +21,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Optional;
+
 
 @Controller
 @Slf4j
@@ -49,6 +51,7 @@ public class ApplyController {
                               BindingResult bindingResult,
                               Authentication authentication,
                               RedirectAttributes redirectAttributes) {
+
         if (bindingResult.hasErrors()) {
             return "apply/add";
         }
@@ -67,9 +70,12 @@ public class ApplyController {
 
         Resume resume = resumeRepository.findByUser(user);
 
-        Recruit recruit = recruitRepository.findByUser(user);
+        Optional<Recruit> recruitOptional = recruitRepository.findById(1L);
+        if(recruitOptional.isEmpty())
+            return "redirect:/apply/add";
 
-        Apply apply = applyService.applyForJob(jobSeeker.getId(), resume.getId(), recruit.getRecruit_id());
+
+        Apply apply = applyService.applyForJob(jobSeeker.getId(), resume.getId(), recruitOptional.get().getRecruit_id());
 
         redirectAttributes.addFlashAttribute("applyId", apply.getApply_id());
 
