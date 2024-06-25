@@ -42,7 +42,10 @@ public class OfferController {
         Company company = jobOfferService.showCompany();
 
         model.addAttribute("companyName", company.getCompanyName());
-        model.addAttribute("companyaddr", company.getCompanyaddr());
+        model.addAttribute("companyNumber",company.getCompanyNumber());
+        model.addAttribute("zipcode",company.getZipcode());
+        model.addAttribute("companyaddr1", company.getCompanyAddr1());
+        model.addAttribute("companyaddr2", company.getCompanyAddr2());
         model.addAttribute("companyEmail", company.getCompanyEmail());
         model.addAttribute("companyPhone", company.getCompanyPhone());
         model.addAttribute("companyIndustry", company.getCompanyIndustry());
@@ -69,7 +72,10 @@ public class OfferController {
     @PostMapping("/company/update")
     public void addCompany( @RequestParam("id") Long id,
                             @RequestParam("companyName") String companyName,
-                                @RequestParam("companyaddr") String companyaddr,
+                                @RequestParam("companyNumber") String companyNumber,
+                                @RequestParam("zipcode") String zipcode,
+                                @RequestParam("companyaddr1") String companyaddr1,
+                            @RequestParam("companyaddr2") String companyaddr2,
                             @RequestParam("companyEmail") String companyEmail,
                             @RequestParam("companyPhone") String companyPhone,
                             @RequestParam("companyIndustry") String companyIndustry,
@@ -79,7 +85,10 @@ public class OfferController {
         Company company = new Company();
         company.setId(id);
         company.setCompanyName(companyName);
-        company.setCompanyaddr(companyaddr);
+        company.setCompanyNumber(companyNumber);
+        company.setZipcode(zipcode);
+        company.setCompanyAddr1(companyaddr1);
+        company.setCompanyAddr2(companyaddr2);
         company.setCompanyEmail(companyEmail);
         company.setCompanyPhone(companyPhone);
         company.setCompanyIndustry(companyIndustry);

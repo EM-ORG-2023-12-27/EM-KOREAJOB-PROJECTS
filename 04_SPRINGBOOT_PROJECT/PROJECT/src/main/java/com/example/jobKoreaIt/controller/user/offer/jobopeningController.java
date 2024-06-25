@@ -55,9 +55,11 @@ public class jobopeningController {
         model.addAttribute("jobwork",recruit.getJobwork());
         model.addAttribute("jobspecial",recruit.getJobspecial());
 
+        model.addAttribute("jobpapers",recruit.getJobpapers());
+
 
         model.addAttribute("companyName", company.getCompanyName());
-        model.addAttribute("companyaddr", company.getCompanyaddr());
+        model.addAttribute("companyaddr", company.getCompanyAddr1());
         model.addAttribute("companyEmail", company.getCompanyEmail());
         model.addAttribute("companyPhone", company.getCompanyPhone());
         model.addAttribute("companyIndustry", company.getCompanyIndustry());

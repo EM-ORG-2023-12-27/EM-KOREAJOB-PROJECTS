@@ -33,6 +33,7 @@ public class jobopeningServicelmpl {
         recruit.setJobplace(recruitDto.getJobplace());
         recruit.setTime(recruitDto.getTime());
         recruit.setJobway(recruitDto.getJobway());
+        recruit.setJobpapers(recruitDto.getJobpapers());
 
         jobopeningRepository.save(recruit);
 
@@ -48,7 +49,7 @@ public class jobopeningServicelmpl {
     @Transactional(rollbackFor = Exception.class)
     public Recruit jobopenRead() {
         log.info("공고 조회...");
-        return jobopeningRepository.findById(7L).orElseThrow(() -> new RuntimeException("Company not found"));
+        return jobopeningRepository.findById(12L).orElseThrow(() -> new RuntimeException("Company not found"));
     }
 
     @Transactional(rollbackFor = Exception.class)

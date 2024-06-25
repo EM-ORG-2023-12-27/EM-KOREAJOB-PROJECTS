@@ -18,7 +18,11 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String companyName;     // 이름
-    private String companyaddr;     // 주소
+    private String companyNumber; //// 사업자 번호
+    private String zipcode;
+    private String companyAddr1;     // 주소
+    private String companyAddr2;     // 주소
+
     private String companyEmail;    // 이메일
     private String companyPhone;    // 폰
     private String companyIndustry; // 업종

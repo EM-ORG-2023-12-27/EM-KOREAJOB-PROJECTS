@@ -33,7 +33,8 @@ public class JobOfferServiceImpl {
         log.info("회사등록...");
         Company company = new Company();
         company.setCompanyName(companyDto.getCompanyName());
-        company.setCompanyaddr(companyDto.getCompanyaddr());
+        company.setCompanyNumber(companyDto.getCompanyNumber());
+        company.setCompanyAddr1(companyDto.getCompanyAddr1());
         company.setCompanyEmail(companyDto.getCompanyEmail());
         company.setCompanyPhone(companyDto.getCompanyPhone());
         company.setCompanyIndustry(companyDto.getCompanyIndustry());
@@ -47,7 +48,10 @@ public class JobOfferServiceImpl {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid company Id:" + company.getId()));
 
         existingCompany.setCompanyName(company.getCompanyName());
-        existingCompany.setCompanyaddr(company.getCompanyaddr());
+        existingCompany.setCompanyNumber(company.getCompanyNumber());
+        existingCompany.setZipcode(company.getZipcode());
+        existingCompany.setCompanyAddr1(company.getCompanyAddr1());
+        existingCompany.setCompanyAddr2(company.getCompanyAddr2());
         existingCompany.setCompanyEmail(company.getCompanyEmail());
         existingCompany.setCompanyPhone(company.getCompanyPhone());
         existingCompany.setCompanyIndustry(company.getCompanyIndustry());
@@ -65,7 +69,7 @@ public class JobOfferServiceImpl {
     @Transactional(rollbackFor = Exception.class)
     public Company showCompany() {
         log.info("회사정보 조회...");
-        return companyRepository.findById(9L).orElseThrow(() -> new RuntimeException("Company not found"));
+        return companyRepository.findById(1L).orElseThrow(() -> new RuntimeException("Company not found"));
     }
 
 
