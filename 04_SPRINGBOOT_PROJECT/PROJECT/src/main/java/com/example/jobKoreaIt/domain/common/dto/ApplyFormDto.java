@@ -1,4 +1,4 @@
-package com.example.jobKoreaIt.controller.dto;
+package com.example.jobKoreaIt.domain.common.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

@@ -1,16 +1,13 @@
 package com.example.jobKoreaIt.controller;
 
-import com.example.jobKoreaIt.controller.dto.ApplyFormDto;
+import com.example.jobKoreaIt.domain.common.dto.ApplyFormDto;
 import com.example.jobKoreaIt.domain.common.entity.Apply;
 import com.example.jobKoreaIt.domain.common.service.ApplyService;
-import com.example.jobKoreaIt.domain.seeker.entity.JobSeeker;
-import com.example.jobKoreaIt.domain.seeker.entity.Resume;
 import com.example.jobKoreaIt.domain.seeker.repository.JobSeekerRepository;
 import com.example.jobKoreaIt.domain.seeker.repository.ResumeRepository;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,14 +42,11 @@ public class ApplyController {
                               Authentication authentication,
                               RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            // 유효성 검사 에러가 있을 경우 다시 입력 폼으로 돌아감
             return "apply/add";
         }
 
-        // 현재 로그인한 사용자의 JobSeekerId를 가져옴 (임시로 1L 사용)
         Long jobSeekerId = 1L; //getCurrentJobSeekerId(authentication);
 
-        // jobSeekerId에 대한 ResumeId를 가져옴 (임시로 2L 사용)
         Long resumeId = 2L; //getResumeIdForJobSeeker(jobSeekerId);
 
         // ApplyService를 통해 공고 지원 처리
@@ -64,23 +58,6 @@ public class ApplyController {
         return "redirect:/apply/success";
     }
 
-    // 공고 지원 성공 페이지
-    @GetMapping("/success")
-    public String success(Model model) {
-        Long applyId = (Long) model.getAttribute("applyId");
-        model.addAttribute("applyId", applyId);
-        return "apply/success";
-    }
-
-    // 현재 로그인한 사용자의 JobSeekerId 가져오기
-    private Long getCurrentJobSeekerId(Authentication authentication) {
-        // 구현 필요
-        return 1L;  // 임시로 고정된 값 사용
-    }
-
-    // JobSeekerId에 대한 ResumeId 가져오기
-    private Long getResumeIdForJobSeeker(Long jobSeekerId) {
-        // 구현 필요
-        return 2L;  // 임시로 고정된 값 사용
-    }
 }
+
+
