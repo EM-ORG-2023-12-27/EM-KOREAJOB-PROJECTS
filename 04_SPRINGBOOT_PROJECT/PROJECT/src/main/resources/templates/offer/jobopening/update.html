@@ -2,95 +2,155 @@
 <html lang="ko" xmlns:th="">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>채용공고 수정</title>
 
     <!--  link   -->
     <th:block th:insert="~{fragments/link :: linkFragment}" />
 
     <style>
-        .add {
-          width: 1000px;
-          height: 1000px;
-          border: 1px solid pink;
-          text-align: center;
-          position: relative;
-          left: 500px;
-          top: 0px;
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            background-color: #f7f9fc;
+            margin: 0;
+            padding: 0;
         }
-      h1 {
-        margin-top : 20px;
-        margin-bottom : 20px;
-      }
-      .for > input {
-        margin-bottom: 10px;
-      }
-
-
-
+        .wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header, main, footer {
+            margin-bottom: 20px;
+        }
+        .add {
+            width: 100%;
+            max-width: 700px;
+            padding: 30px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            margin: 0 auto;
+            background-color: #fff;
+            font-size: 16px;
+        }
+        h1 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+            font-size: 32px;
+        }
+        .for {
+            display: flex;
+            flex-direction: column;
+        }
+        .for > label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .for > input,
+        .for > select,
+        .for > textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+        .for > input:focus,
+        .for > select:focus,
+        .for > textarea:focus {
+            border-color: #00a8ff;
+            outline: none;
+        }
+        .for > input[type="file"] {
+            padding: 3px;
+        }
+        button.submit-button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background-color: #00a8ff;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+        button.submit-button:hover {
+            background-color: #0091e1;
+        }
     </style>
-
 </head>
 <body>
 
 <div class="wrapper">
     <header>
-        <!-- header   -->
+        <!-- header -->
         <th:block th:insert="~{fragments/top_header :: topHeaderFragment}" />
-        <!-- nav       -->
+        <!-- nav -->
         <th:block th:insert="~{fragments/nav :: navFragment}" />
-
     </header>
     <main>
         <section>
-
             <div class="add">
                 <h1>채용공고 수정</h1>
-                <form action="/offer/jobopening/update" method="post" class="for" enc="multipart-formdata">
-
+                <form action="/offer/jobopening/update" method="post" class="for" enctype="multipart/form-data">
                     <label for="id">Id :</label>
-                    <input type="text" id="id" name="id" required><br>
+                    <input type="text" id="id" name="id" required>
 
                     <label for="title">제목 :</label>
-                    <input type="text" id="title" name="title" required><br>
+                    <input type="text" id="title" name="title" required>
 
                     <label for="career">경력 :</label>
-                       <input type="text" id="career" name="career" required><br>
+                    <input type="text" id="career" name="career" required>
 
                     <label for="ability">학력 :</label>
-                    <input type="text" id="ability" name="ability" required><br>
+                    <select id="ability" name="ability" required>
+                        <option value="">학력을 선택하세요</option>
+                        <option value="middle_graduate">중학교 졸업</option>
+                        <option value="high_graduate">고등학교 졸업</option>
+                        <option value="college_graduate">전문대학 졸업</option>
+                        <option value="university_graduate">대학 졸업</option>
+                        <option value="university_dropout">대학 중퇴</option>
+                        <option value="high_dropout">고등학교 중퇴</option>
+                    </select>
 
                     <label for="jobwork">근무형태 :</label>
-                    <input type="tel" id="jobwork" name="jobwork" required><br>
+                    <input type="tel" id="jobwork" name="jobwork" required>
 
                     <label for="money">급여 :</label>
-                    <input type="text" id="money" name="money" required><br>
+                    <input type="text" id="money" name="money" required>
 
                     <label for="jobzone">근무지역 :</label>
-                    <input type="text" id="jobzone" name="jobzone" required><br>
+                    <input type="text" id="jobzone" name="jobzone" required>
 
                     <label for="welfare">복리후생 :</label>
-                    <input type="text" id="welfare" name="welfare" required><br>
+                    <input type="text" id="welfare" name="welfare" required>
 
                     <label for="jobplace">근무지위치 :</label>
-                    <input type="text" id="jobplace" name="jobplace" required><br>
+                    <input type="text" id="jobplace" name="jobplace" required>
 
                     <label for="time">접수기간 :</label>
-                        <input type="datetime" id="time" name="time" required><br>
+                    <input type="datetime-local" id="time" name="time" required>
 
                     <label for="jobway">접수방법 :</label>
-                    <input type="text" id="jobway" name="jobway" required><br>
+                    <input type="text" id="jobway" name="jobway" required>
 
                     <label for="files">이미지 :</label>
-                    <input type="file" id="files" name="files" required multiple><br>
+                    <input type="file" id="files" name="files" required multiple>
 
-                    <button type="submit">등록</button>
+                    <button type="submit" class="submit-button">등록</button>
                 </form>
             </div>
-
         </section>
     </main>
 
-    <!-- footer       -->
+    <!-- footer -->
     <th:block th:insert="~{fragments/footer :: footerFragment}" />
 </div>
 </body>
