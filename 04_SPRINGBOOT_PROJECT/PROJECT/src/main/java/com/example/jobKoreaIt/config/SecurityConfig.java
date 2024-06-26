@@ -62,8 +62,10 @@ public class SecurityConfig  {
 
 
                     //SEEKER/OFFER
-                    authorize.requestMatchers("/seeker/**").hasAnyRole("SEEKER"); //임시 모든 URL 허용
-                    authorize.requestMatchers("/offer/**").hasAnyRole("OFFER"); //임시 모든 URL 허용
+//                    authorize.requestMatchers("/seeker/**").hasAnyRole("SEEKER"); //임시 모든 URL 허용
+//                    authorize.requestMatchers("/offer/**").hasAnyRole("OFFER"); //임시 모든 URL 허용
+
+                    authorize.requestMatchers("/**").permitAll();
 
                     //COMMUNITY
                     authorize.requestMatchers("/community/**").permitAll(); //임시 모든 URL 허용
