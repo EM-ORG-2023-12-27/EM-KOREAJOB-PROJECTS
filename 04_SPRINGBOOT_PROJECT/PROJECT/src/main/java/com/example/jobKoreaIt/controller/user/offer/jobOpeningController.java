@@ -19,7 +19,7 @@ import java.time.LocalDate;
 @Controller
 @Slf4j
 @RequestMapping("/offer")
-public class jobopeningController {
+public class jobOpeningController {
 
     @Autowired
     private JobOfferServiceImpl jobOfferService;
