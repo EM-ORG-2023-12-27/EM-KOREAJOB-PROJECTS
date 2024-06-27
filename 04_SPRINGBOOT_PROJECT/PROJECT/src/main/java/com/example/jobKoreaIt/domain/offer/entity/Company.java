@@ -1,10 +1,7 @@
 package com.example.jobKoreaIt.domain.offer.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +14,8 @@ public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String companyName;     // 이름
+    private String companyName;
+    // 이름
     private String companyNumber; //// 사업자 번호
     private String zipcode;
     private String companyAddr1;     // 주소
@@ -28,4 +26,8 @@ public class Company {
     private String companyIndustry; // 업종
     private String companyexplanation;  // 회사 설명
 
+    @ManyToOne
+    @JoinColumn(name = "recruit_id",foreignKey = @ForeignKey(name="FK_Recruit_Company",
+            foreignKeyDefinition = "FOREIGN KEY(recruit_id) REFERENCES recruit(id) ON DELETE CASCADE ON UPDATE CASCADE"))
+    private Recruit recruit;
 }

@@ -27,17 +27,17 @@ public class jobopeningController {
     @Autowired
     private jobopeningServicelmpl jobopeningServicelmpl;
 
-
     @GetMapping("/jobopening/add")
-    public void jobadd() {
+    public String jobadd() {
         log.info("채용공고 등록...");
+        return "offer/jobopening/add"; // 템플릿 경로 수정
     }
 
     @PostMapping("/jobopening/add")
-    public void jobaddPost(RecruitDto recruitDto) {
-        log.info("채용공고 등록중...");
+    public String jobaddPost(RecruitDto recruitDto) {
+        log.info("채용공고 등록...");
         jobopeningServicelmpl.jobopenadd(recruitDto);
-
+        return "redirect:/offer/jobopening/read"; // 등록 후 리다이렉트
     }
 
     @GetMapping("/jobopening/read")
@@ -55,7 +55,6 @@ public class jobopeningController {
         model.addAttribute("jobspecial",recruit.getJobspecial());
 
         model.addAttribute("jobpapers",recruit.getJobpapers());
-
 
         model.addAttribute("companyName", company.getCompanyName());
         model.addAttribute("companyaddr", company.getCompanyAddr1());
@@ -81,9 +80,9 @@ public class jobopeningController {
     public void jobupdate() {
         log.info("채용공고 수정...");
     }
-    
+
     @PostMapping("/jobopening/update")
-    public void jobupdatePost(
+    public String jobupdatePost(
             @RequestParam("id") Long id,
             @RequestParam("title") String title,
             @RequestParam("career") String career,
@@ -112,6 +111,6 @@ public class jobopeningController {
         recruit.setJobway(jobway);
 
         jobopeningServicelmpl.jobopenupdate(recruit);
+        return "redirect:/offer/jobopening/read"; // 수정 후 리다이렉트
     }
-    
 }

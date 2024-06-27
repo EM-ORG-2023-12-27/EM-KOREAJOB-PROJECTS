@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -13,6 +15,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Table(name="recruit")
 public class Recruit {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,6 +33,18 @@ public class Recruit {
     private String jobway;      // 접수방법
     private String jobpapers;   // 제출서류
     private String files;       // 이미지
+
+
+
+    public void setCompanies(List<Company> companiesToSave) {
+
+    }
+
+    public List<Company> getCompanies() {
+        return List.of();
+    }
+
+
 //    private MultipartFile[] files;  // 이미지
 
 }

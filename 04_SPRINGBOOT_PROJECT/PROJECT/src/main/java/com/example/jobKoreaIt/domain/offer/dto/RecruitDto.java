@@ -3,8 +3,10 @@ package com.example.jobKoreaIt.domain.offer.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -20,9 +22,9 @@ public class RecruitDto {
     private String jobzone;     // 근무지역
     private String welfare;     // 복리후생(복지)
     private String jobplace;    // 근무지위치
-    private LocalDate time;        // 접수기간
+    private String time;        // 접수기간
     private String jobway;      // 접수방법
     private String jobpapers;   // 제출서류
-    private String files;       // 이미지
+    private MultipartFile files;       // 이미지
 //    private MultipartFile[] files;  // 이미지
 }

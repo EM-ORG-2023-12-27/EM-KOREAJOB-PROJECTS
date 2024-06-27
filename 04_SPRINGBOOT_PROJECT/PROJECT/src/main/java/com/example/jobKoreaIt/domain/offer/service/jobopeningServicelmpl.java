@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+
 @Service
 @Slf4j
 public class jobopeningServicelmpl {
@@ -29,7 +31,7 @@ public class jobopeningServicelmpl {
         recruit.setJobspecial(recruitDto.getJobspecial());
         recruit.setWelfare(recruitDto.getWelfare());
         recruit.setJobplace(recruitDto.getJobplace());
-        recruit.setTime(recruitDto.getTime());
+        recruit.setTime(LocalDate.parse(recruitDto.getTime()));
         recruit.setJobway(recruitDto.getJobway());
         recruit.setJobpapers(recruitDto.getJobpapers());
 
