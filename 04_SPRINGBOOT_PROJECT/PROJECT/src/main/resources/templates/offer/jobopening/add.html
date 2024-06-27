@@ -1,131 +1,139 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>채용공고 등록</title>
 
-    <!--  link   -->
+    <!-- link -->
     <th:block th:insert="~{fragments/link :: linkFragment}" />
 
-    <style>
-        .add {
-            width: 600px;
-            padding: 20px;
-            border: 1px solid pink;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: left;
-            position: relative;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #fff;
-            font-size: 16px;
-        }
-        h1 {
-            margin-top: 0;
-            margin-bottom: 20px;
-            text-align: center;
-            color: #ff69b4;
-        }
-        .for {
-            display: flex;
-            flex-direction: column;
-        }
-        .for > label {
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #333;
-        }
-        .for > input,
-        .for > textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            background-color: hotpink;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin-top: 10px;
-        }
-        button:hover {
-            background-color: #ff85c0;
-        }
-    </style>
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
+    <link rel="stylesheet" href="/css/offer/jobopening/add.css">
 
+    <script src="/js/offer/jobopeningadd.js" defer></script>
 </head>
 <body>
 
 <div class="wrapper">
     <header>
-        <!-- header   -->
+        <!-- header -->
         <th:block th:insert="~{fragments/top_header :: topHeaderFragment}" />
-        <!-- nav       -->
+        <!-- nav -->
         <th:block th:insert="~{fragments/nav :: navFragment}" />
-
     </header>
     <main>
         <section>
 
             <div class="add">
                 <h1>채용공고 등록</h1>
-                <form action="/offer/jobopening/add" method="post" class="for" enc="multipart-formdata">
-                    <label for="title">제목 :</label>
-                    <input type="text" id="title" name="title" required><br>
+                <form action="/offer/jobopening/add" method="post" class="for" enctype="multipart/form-data">
 
-                    <label for="career">경력 :</label>
-                    <input type="text" id="career" name="career" required><br>
+                   <table class="table w-100" style="font-size:.8rem;">
+                   <tbody>
+                       <tr>
+                           <td class="text-light" style="background-color:#00a8ff">제목</td>
+                           <td colspan="3"><input type="text" id="title" name="title" class="form-control" required></td>
+                       </tr>
+                        <tr >
+                            <td class="text-light" style="background-color:#00a8ff">경력</td>
+                            <td  colspan="2"><input class="form-control w-100" name="career" required type="text"></td>
+                            <td style="text-align:right;"><a class="btn btn-secondary " href="javascript:addCareerField()">+</a></td>
+                        </tr>
+                       <tr>
+                           <td class="text-light" style="background-color:#00a8ff"> 학력</td>
+                           <td colspan="3">
+                               <select class="form-select" id="ability" name="ability" style="font-size:.8rem;border-radius:0;width:200px;" required>
+                                   <option value="">학력을 선택하세요</option>
+                                   <option value="middle_gradusate">중학교 졸업</option>
+                                   <option value="high_graduate">고등학교 졸업</option>
+                                   <option value="college_graduate">전문대학 졸업</option>
+                                   <option value="university_graduate">대학 졸업</option>
+                                   <option value="university_dropout">대학 중퇴</option>
+                                   <option value="high_dropout">고등학교 중퇴</option>
+                               </select>
+                           </td>
+                       </tr>
+                       <tr>
+                           <td class="text-light" style="background-color:#00a8ff">근무형태</td>
+                           <td colspan="3"> <input type="text" id="jobwork" name="jobwork" class="form-control"  required></td>
+                       </tr>
+                       <tr>
+                           <td class="text-light" style="background-color:#00a8ff">근무지역</td>
+                           <td colspan="2">
+                               <input type="text" id="jobzone" name="jobzone" class="form-control w-100" placeholder="기본주소" required>
+                               <br>
+                               <input type="text" id="detailAddress" name="detailAddress" placeholder="상세주소" class="form-control">
+                           </td>
+                           <td style="text-align:right;width:45px;"><a href="" class="btn btn-secondary" style="font-size:.8rem;">
+                                <span class="material-symbols-outlined" style="font-size:.8rem;">search</span>
+                            </a>
+                           </td>
+                       </tr>
+                       <tr>
+                           <td class="text-light" style="background-color:#00a8ff">급여</td>
+                           <td colspan="3" style="text-align:left;">
+                               <div class="mb-1">
+                                   <label><input type="checkbox" name="salary" value="2500~2600">&nbsp;2500~2600</label>&nbsp;
+                                   <label><input type="checkbox" name="salary" value="2700~2800">&nbsp;2700~2800</label>&nbsp;
+                                   <label><input type="checkbox" name="salary" value="2900~3000">&nbsp;2900~3000</label>&nbsp;
+                               </div>
 
-                    <label for="ability">학력 :</label>
-                    <input type="text" id="ability" name="ability" required><br>
+                               <div>
+                                   <label><input type="checkbox" name="salary" value="3100~3200">&nbsp;3100~3200</label>&nbsp;
+                                   <label><input type="checkbox" name="salary" value="3300~3400">&nbsp;3300~3400</label>&nbsp;
+                                   <label><input type="checkbox" name="salary" value="negotiable">&nbsp;협의</label>&nbsp;
+                               </div>
+                           </td>
+                       </tr>
+                       <tr>
+                           <td class="text-light" style="background-color:#00a8ff">우대사항</td>
+                           <td colspan="3"> <input type="text" id="jobspecial" class="form-control w-100" name="jobspecial" required></td>
+                       </tr>
+                       <tr>
+                           <td class="text-light" style="background-color:#00a8ff">복리후생</td>
+                           <td colspan="3">   <input type="text" id="welfare" name="welfare"class="form-control w-100" required></td>
+                       </tr>
+                       <tr>
+                           <td class="text-light" style="background-color:#00a8ff">근무지위치</td>
+                           <td colspan="3"> <input type="text" id="jobplace" name="jobplace" class="form-control w-100" required></td>
+                       </tr>
+                       <tr>
+                           <td class="text-light" style="background-color:#00a8ff">접수기간</td>
+                           <td colspan="3"> <input type="datetime-local" id="time" name="time" class="form-control w-50"  required></td>
+                       </tr>
+                       <tr>
+                           <td class="text-light" style="background-color:#00a8ff">접수방법</td>
+                           <td colspan="3"> <input type="text" id="jobway" name="jobway"  class="form-control w-100" required></td>
+                       </tr>
+                       <tr>
+                           <td class="text-light" style="background-color:#00a8ff">제출서류</td>
+                           <td colspan="3"><input type="text" id="jobpapers" name="jobpapers"  class="form-control w-100" required>
+                           </td>
+                       </tr>
+                       <tr>
+                           <td class="text-light" style="background-color:#00a8ff">첨부 이미지</td>
+                            <td colspan="3" style="text-align:left;">
+                                <input type="file" id="files" name="files" class="form-control" required multiple>
+                           </td>
+                       </tr>
+                    </tbody>
 
-                    <label for="jobwork">근무형태 :</label>
-                    <input type="tel" id="jobwork" name="jobwork" required><br>
+                   </table>
+                    <button type="submit" class="submit-button">등록</button>
 
-                    <label for="money">급여 :</label>
-                    <input type="text" id="money" name="money" required><br>
-
-                    <label for="jobzone">근무지역 :</label>
-                    <input type="text" id="jobzone" name="jobzone" required><br>
-
-                    <label for="jobspecial">우대사항 :</label>
-                    <input type="text" id="jobspecial" name="jobspecial" required><br>
-
-                    <label for="welfare">복리후생 :</label>
-                    <input type="text" id="welfare" name="welfare" required><br>
-
-                    <label for="jobplace">근무지위치 :</label>
-                    <input type="text" id="jobplace" name="jobplace" required><br>
-
-                    <label for="time">접수기간 :</label>
-                        <input type="datetime" id="time" name="time" required><br>
-
-                    <label for="jobway">접수방법 :</label>
-                    <input type="text" id="jobway" name="jobway" required><br>
-
-                    <label for="jobpapers">제출서류 :</label>
-                    <input type="text" id="jobpapers" name="jobpapers" required><br>
-
-                    <label for="files">이미지 :</label>
-                    <input type="file" id="files" name="files" required multiple><br>
-
-                    <button type="submit">등록</button>
                 </form>
             </div>
-
         </section>
     </main>
 
-    <!-- footer       -->
+    <!-- Postcode Layer -->
+    <div id="layer">
+        <div class="bg" onclick="closeDaumPostcode()"></div>
+        <div class="address-container" id="layerContainer"></div>
+    </div>
+
+    <!-- footer -->
     <th:block th:insert="~{fragments/footer :: footerFragment}" />
 </div>
 </body>

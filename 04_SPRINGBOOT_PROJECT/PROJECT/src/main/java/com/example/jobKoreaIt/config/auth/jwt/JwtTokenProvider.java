@@ -264,11 +264,11 @@ public class JwtTokenProvider {
             jobOfferDto.setCompanyexplanation(companyexplanation);
 
             principalDetails.setJobOfferDto(jobOfferDto);
-            System.out.println("principalDetails !!!!!: " + principalDetails);
+//            System.out.println("principalDetails !!!!!: " + principalDetails);
         }
 
 
-        System.out.println("JWTTOKENPROVIER GETAUTHENTICATION PRINCIPALDETAILS : " + principalDetails);
+//        System.out.println("JWTTOKENPROVIER GETAUTHENTICATION PRINCIPALDETAILS : " + principalDetails);
 
 
         LinkedHashMap principal = (LinkedHashMap)claims.get("principal");

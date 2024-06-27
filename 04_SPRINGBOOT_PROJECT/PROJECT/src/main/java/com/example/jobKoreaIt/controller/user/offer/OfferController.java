@@ -144,6 +144,11 @@ public class OfferController {
         jobOfferService.CompanyUpdate(company);
 
     }
+
+    @GetMapping("/myinfo")
+    public void myinfo(){
+
+    }
 }
 
 
