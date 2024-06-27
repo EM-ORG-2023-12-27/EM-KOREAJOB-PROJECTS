@@ -3,6 +3,7 @@ package com.example.jobKoreaIt.domain.offer.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
@@ -12,7 +13,7 @@ import java.time.LocalDate;
 public class RecruitDto {
     private Long id;
     private String title;       // 제목
-    private String career;      // 경력
+    private String[] career;      // 경력
     private String ability;     // 학력
     private String jobwork;     // 근무형태
     private String money;       // 급여
@@ -23,6 +24,5 @@ public class RecruitDto {
     private LocalDate time;        // 접수기간
     private String jobway;      // 접수방법
     private String jobpapers;   // 제출서류
-    private String files;       // 이미지
-//    private MultipartFile[] files;  // 이미지
+    private MultipartFile file;       // 이미지
 }

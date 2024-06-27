@@ -35,7 +35,7 @@ public class jobOpeningController {
 
     @PostMapping("/jobopening/add")
     public void jobaddPost(RecruitDto recruitDto) {
-        log.info("채용공고 등록중...");
+        log.info("채용공고 등록중..." + recruitDto);
         jobopeningServicelmpl.jobopenadd(recruitDto);
 
     }

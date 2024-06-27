@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" href="/css/offer/jobopening/add.css">
 
-    <script src="/js/offer/jobopeningadd.js" defer></script>
+    <script src="/js/offer/jobopening/add.js" defer></script>
 </head>
 <body>
 
@@ -35,9 +35,11 @@
                            <td class="text-light" style="background-color:#00a8ff">제목</td>
                            <td colspan="3"><input type="text" id="title" name="title" class="form-control" required></td>
                        </tr>
-                        <tr >
+                        <tr class="career-tr">
                             <td class="text-light" style="background-color:#00a8ff">경력</td>
-                            <td  colspan="2"><input class="form-control w-100" name="career" required type="text"></td>
+                            <td  colspan="2" id="career-field">
+                                <input class="form-control w-100" name="career" required type="text">
+                            </td>
                             <td style="text-align:right;"><a class="btn btn-secondary " href="javascript:addCareerField()">+</a></td>
                         </tr>
                        <tr>
@@ -77,13 +79,11 @@
                                    <label><input type="checkbox" name="salary" value="2500~2600">&nbsp;2500~2600</label>&nbsp;
                                    <label><input type="checkbox" name="salary" value="2700~2800">&nbsp;2700~2800</label>&nbsp;
                                    <label><input type="checkbox" name="salary" value="2900~3000">&nbsp;2900~3000</label>&nbsp;
-                               </div>
-
-                               <div>
                                    <label><input type="checkbox" name="salary" value="3100~3200">&nbsp;3100~3200</label>&nbsp;
                                    <label><input type="checkbox" name="salary" value="3300~3400">&nbsp;3300~3400</label>&nbsp;
                                    <label><input type="checkbox" name="salary" value="negotiable">&nbsp;협의</label>&nbsp;
                                </div>
+
                            </td>
                        </tr>
                        <tr>
@@ -114,7 +114,7 @@
                        <tr>
                            <td class="text-light" style="background-color:#00a8ff">첨부 이미지</td>
                             <td colspan="3" style="text-align:left;">
-                                <input type="file" id="files" name="files" class="form-control" required multiple>
+                                <input type="file" id="files" name="file" class="form-control" required multiple>
                            </td>
                        </tr>
                     </tbody>
