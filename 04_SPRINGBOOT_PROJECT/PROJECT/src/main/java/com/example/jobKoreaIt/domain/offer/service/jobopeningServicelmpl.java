@@ -21,7 +21,7 @@ public class jobopeningServicelmpl {
         log.info("공고등록...");
         Recruit recruit = new Recruit();
         recruit.setTitle(recruitDto.getTitle());
-        recruit.setCareer(recruitDto.getCareer());
+        recruit.setCareer(null);
         recruit.setAbility(recruitDto.getAbility());
         recruit.setJobwork(recruitDto.getJobwork());
         recruit.setMoney(recruitDto.getMoney());

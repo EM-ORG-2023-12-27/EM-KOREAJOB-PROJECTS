@@ -26,7 +26,7 @@
         <section>
 
             <div class="add">
-                <h1>채용공고 등록</h1>
+                <h1><span class="material-symbols-outlined" style="font-size : 2rem;">bookmark_added</span> 채용공고 등록</h1>
                 <form action="/offer/jobopening/add" method="post" class="for" enctype="multipart/form-data">
 
                    <table class="table w-100" style="font-size:.8rem;">
@@ -100,7 +100,15 @@
                        </tr>
                        <tr>
                            <td class="text-light" style="background-color:#00a8ff">접수기간</td>
-                           <td colspan="3"> <input type="datetime-local" id="time" name="time" class="form-control w-50"  required></td>
+                           <td style="text-align:left">
+                               <label style="font-size : .7rem;margin-bottom :2px;">시작일 : </label>
+                               <input style="font-size : .8rem;" type="datetime-local" id="time" name="time" class="form-control w-100"  required>
+                           </td>
+                           <td style="text-align:left;margin-bottom :2px;" colspan="2">
+                               <label style="font-size : .7rem;margin-bottom :2px;">종료일 : </label>
+                               <input style="font-size : .8rem;" type="datetime-local" id="time2" name="time" class="form-control w-100"  required>
+                           </td>
+
                        </tr>
                        <tr>
                            <td class="text-light" style="background-color:#00a8ff">접수방법</td>
