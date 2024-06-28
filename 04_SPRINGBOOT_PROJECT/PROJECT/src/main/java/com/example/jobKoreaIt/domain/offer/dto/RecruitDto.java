@@ -22,7 +22,8 @@ public class RecruitDto {
     private String jobzone;     // 근무지역
     private String welfare;     // 복리후생(복지)
     private String jobplace;    // 근무지위치
-    private String time;        // 접수기간
+    private LocalDateTime startTime; // 접수 시작 시간
+    private LocalDateTime endTime;   // 접수 종료 시간
     private String jobway;      // 접수방법
     private String jobpapers;   // 제출서류
     private MultipartFile files;       // 이미지

@@ -1,0 +1,50 @@
+body {
+    font-family: 'Noto Sans', sans-serif;
+    background-color: #f7f9fc;
+    margin: 0;
+    padding: 0;
+}
+.wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+header, main, footer {
+    margin-bottom: 20px;
+}
+h1 {
+    text-align: center;
+    color: #333;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+table, th, td {
+    border: 1px solid #ddd;
+}
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+th {
+    background-color: #f2f2f2;
+}
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+.btn-register {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #00a8ff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    margin-top: 20px;
+}
+.btn-register:hover {
+    background-color: #007acc;
+}

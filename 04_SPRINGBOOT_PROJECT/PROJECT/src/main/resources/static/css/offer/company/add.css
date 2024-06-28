@@ -1,0 +1,16 @@
+.add {
+    width: 800px;
+    height: 500px;
+    border: 1px solid pink;
+    text-align: center;
+    position: relative;
+    left: 600px;
+    top: 0px;
+}
+h1 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.for > input {
+    margin-bottom: 10px;
+}

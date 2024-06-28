@@ -31,7 +31,8 @@ public class jobopeningServicelmpl {
         recruit.setJobspecial(recruitDto.getJobspecial());
         recruit.setWelfare(recruitDto.getWelfare());
         recruit.setJobplace(recruitDto.getJobplace());
-        recruit.setTime(LocalDate.parse(recruitDto.getTime()));
+        recruit.setTime(recruitDto.getStartTime());
+        recruit.setTime(recruitDto.getEndTime());
         recruit.setJobway(recruitDto.getJobway());
         recruit.setJobpapers(recruitDto.getJobpapers());
 

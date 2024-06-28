@@ -1,0 +1,49 @@
+.add {
+    width: 600px;
+    padding: 20px;
+    border: 1px solid pink;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+}
+h1 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #ff69b4;
+}
+.for {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.for > label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+.for > input,
+.for > textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: hotpink;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+button:hover {
+    background-color: #ff85c0;
+}
