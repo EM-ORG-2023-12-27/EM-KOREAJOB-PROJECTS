@@ -73,7 +73,7 @@ public class ApplyController {
 
         applyService.apply_add(applyDto,resume,recruit);
 
-        List<Resume> resumeList = resumeServiceImpl.getAllResumes(); // 모든 이력서 목록 조회
+        List<Resume> resumeList = resumeServiceImpl.getAllResumes(applyDto.getId()); // 모든 이력서 목록 조회
 
         model.addAttribute("applyDto",applyDto);
         model.addAttribute("resume",resume);

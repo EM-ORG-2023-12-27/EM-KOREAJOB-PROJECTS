@@ -186,7 +186,7 @@ public class ResumeServiceImpl {
         }
     }
 
-    public List<Resume> getAllResumes() {
+    public List<Resume> getAllResumes(long id) {
         return resumeRepository.findAll(); // 모든 이력서 조회
     }
 

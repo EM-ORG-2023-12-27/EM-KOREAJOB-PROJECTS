@@ -59,7 +59,7 @@
             <input type="text" id="objective" th:field="*{objective}" /><br/>
 
             <label for="resume">이력서 선택:</label>
-            <select id="resume" th:field="*{resume.id}">
+            <select name="resume" id="resume" th:field="*{resume.id}">
                 <option value="">이력서를 선택하세요</option>
                 <option th:each="resume : ${resumeList}" th:value="${resume.id}" th:text="${resume.title}"></option>
             </select>
