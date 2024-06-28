@@ -18,6 +18,7 @@ public class RecruitDto {
     private String department;
     private String ability;         // 학력
     private String jobwork;         // 근무형태
+    private String recuitStatus;
     private String money;           // 급여
     private String jobzone;         // 근무지역
     private String detailAddress;

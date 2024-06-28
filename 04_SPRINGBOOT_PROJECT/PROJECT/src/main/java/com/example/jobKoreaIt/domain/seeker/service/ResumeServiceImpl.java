@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
@@ -101,9 +102,7 @@ public class ResumeServiceImpl {
     public ResumeDto resume_dto_list(Resume resume){
         ResumeDto dto = new ResumeDto();
         dto.setId(resume.getId());
-        dto.setEmail(resume.getEmail());
-        dto.setName(resume.getName());
-        dto.setPhone(resume.getPhone());
+        //!!!!!!!!!!
         dto.setCreationDate(resume.getCreationDate().toLocalDate());
         return dto;
     }
@@ -143,9 +142,7 @@ public class ResumeServiceImpl {
             System.out.println("updatedResumeDto : "+ updatedResumeDto);
 
             // 수정된 내용 업데이트
-            resume.setName(updatedResumeDto.getName());
-            resume.setEmail(updatedResumeDto.getEmail());
-            resume.setPhone(updatedResumeDto.getPhone());
+            //!!!!!!!!!!
             resume.setSchoolName(updatedResumeDto.getSchoolName());
             resume.setMajor(updatedResumeDto.getMajor());
             resume.setGraduationYear(updatedResumeDto.getGraduationYear());
@@ -171,7 +168,7 @@ public class ResumeServiceImpl {
             // 새 경력 사항 추가
             if (updatedCareers.size() > existingCareers.size()) {
                 for (int i = existingCareers.size(); i < updatedCareers.size(); i++) {
-                    resume.addCareer(updatedCareers.get(i));
+                    //!!!!!!!!!!//!!!!!!!!!!//!!!!!!!!!!//!!!!!!!!!!
                 }
             }
 
@@ -186,7 +183,11 @@ public class ResumeServiceImpl {
         }
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public Map<String, Object> getMyResumes(JobSeekerDto jobSeekerDto) {
 
+        return null;
+    }
 }
 
 

@@ -78,8 +78,10 @@ public class JobSeekerController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/myinfo")
+    @GetMapping("/myinfo/read")
     public void myinfo(){
 
     }
+
+
 }

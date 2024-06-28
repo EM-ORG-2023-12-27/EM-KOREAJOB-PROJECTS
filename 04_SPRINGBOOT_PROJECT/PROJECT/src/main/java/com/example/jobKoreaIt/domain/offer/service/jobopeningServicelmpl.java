@@ -36,7 +36,7 @@ public class jobopeningServicelmpl {
 
         Recruit recruit = new Recruit();
         recruit.setJobOffer(jobOffer);
-
+        recruit.setRecuitStatus(recruitDto.getRecuitStatus());
         recruit.setTitle(recruitDto.getTitle());
         recruit.setCareer(recruitDto.getCareer());
         recruit.setAbility(recruitDto.getAbility());
@@ -80,6 +80,7 @@ public class jobopeningServicelmpl {
 
         existingRecruit.setTitle(recruitDto.getTitle());
         existingRecruit.setCareer(recruitDto.getCareer());
+        existingRecruit.setRecuitStatus(recruitDto.getRecuitStatus());
         existingRecruit.setDepartment(recruitDto.getDepartment());
         existingRecruit.setAbility(recruitDto.getAbility());
         existingRecruit.setJobwork(recruitDto.getJobwork());

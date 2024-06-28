@@ -61,4 +61,5 @@ public class ApplyController {
         model.addAttribute("applyDtoList",applyDtoList);
         return "seeker/apply/list";
     }
+
 }
