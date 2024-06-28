@@ -38,7 +38,7 @@ public class jobopeningServicelmpl {
         recruit.setJobOffer(jobOffer);
 
         recruit.setTitle(recruitDto.getTitle());
-        recruit.setCareer(Arrays.asList(recruitDto.getCareer()));
+        recruit.setCareer(recruitDto.getCareer());
         recruit.setAbility(recruitDto.getAbility());
         recruit.setJobzone(recruitDto.getJobzone());
         recruit.setDepartment(recruitDto.getDepartment());
@@ -79,20 +79,16 @@ public class jobopeningServicelmpl {
 
 
         existingRecruit.setTitle(recruitDto.getTitle());
-        List<String> carrer = new ArrayList<>();
-        for(String el : recruitDto.getCareer())
-            carrer.add(el);
-        existingRecruit.setCareer(carrer);
-        existingRecruit.setJobwork(recruitDto.getJobwork());
+        existingRecruit.setCareer(recruitDto.getCareer());
+        existingRecruit.setDepartment(recruitDto.getDepartment());
         existingRecruit.setAbility(recruitDto.getAbility());
         existingRecruit.setJobwork(recruitDto.getJobwork());
-        existingRecruit.setSalary(recruitDto.getSalary());
         existingRecruit.setJobzone(recruitDto.getJobzone());
         existingRecruit.setDetailAddress(recruitDto.getDetailAddress());
         existingRecruit.setSalary(recruitDto.getSalary());
+        existingRecruit.setSalary(recruitDto.getSalary());
         existingRecruit.setJobspecial(recruitDto.getJobspecial());
         existingRecruit.setWelfare(recruitDto.getWelfare());
-        existingRecruit.setDepartment(recruitDto.getDepartment());
         existingRecruit.setStartTime(recruitDto.getStartTime());
         existingRecruit.setEndTime(recruitDto.getEndTime());
         existingRecruit.setJobway(recruitDto.getJobway());
@@ -114,7 +110,7 @@ public class jobopeningServicelmpl {
         System.out.println("JobOffer " + jobOfferOptional.get());
 
         JobOffer jobOffer = jobOfferOptional.get();
-        List<Recruit> list = jobopeningRepository.findAllByJobOffer(jobOffer);
+        List<Recruit> list = jobopeningRepository.findAllByJobOfferOrderByIdDesc(jobOffer);
         System.out.println("LIST : " + list);
         return list;
     }

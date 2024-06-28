@@ -26,8 +26,7 @@ public class Recruit {
     JobOffer jobOffer;
 
     private String title;           // 제목
-    @ElementCollection
-    private List<String> career;          // 경력
+    private String career;          // 경력
     private String department;
     private String ability;         // 학력
     private String jobwork;         // 근무형태

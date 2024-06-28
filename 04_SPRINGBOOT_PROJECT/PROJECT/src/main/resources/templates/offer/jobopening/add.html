@@ -35,31 +35,31 @@
                            <td class="text-light" style="background-color:#00a8ff">제목</td>
                            <td colspan="3"><input type="text" id="title" name="title" class="form-control" required></td>
                        </tr>
+                       <tr>
+                           <td class="text-light" style="background-color:#00a8ff">부서</td>
+                           <td colspan="3"> <input type="text" id="department" name="department" class="form-control"  required></td>
+                       </tr>
                         <tr class="career-tr">
                             <td class="text-light" style="background-color:#00a8ff">경력</td>
-                            <td  colspan="2" id="career-field">
-                                <input class="form-control w-100" name="career" required type="text">
+                            <td  colspan="3" id="career-field">
+                                <input class="form-control w-100" name="career" required type="text" placeholder="신입/인턴/경력 0년차">
                             </td>
-                            <td style="text-align:right;"><a class="btn btn-secondary " href="javascript:addCareerField()">+</a></td>
                         </tr>
                        <tr>
                            <td class="text-light" style="background-color:#00a8ff"> 학력</td>
                            <td colspan="3">
                                <select class="form-select" id="ability" name="ability" style="font-size:.8rem;border-radius:0;width:200px;" required>
                                    <option value="">학력을 선택하세요</option>
-                                   <option value="middle_gradusate">중학교 졸업</option>
-                                   <option value="high_graduate">고등학교 졸업</option>
-                                   <option value="college_graduate">전문대학 졸업</option>
-                                   <option value="university_graduate">대학 졸업</option>
-                                   <option value="university_dropout">대학 중퇴</option>
-                                   <option value="high_dropout">고등학교 중퇴</option>
+                                   <option value="중학교졸업">중학교 졸업</option>
+                                   <option value="고등학교졸업">고등학교 졸업</option>
+                                   <option value="전문대학졸업">전문대학 졸업</option>
+                                   <option value="4년제대학졸업">대학 졸업</option>
+                                   <option value="4년제대학중퇴">대학 중퇴</option>
+                                   <option value="고등학교중퇴">고등학교 중퇴</option>
                                </select>
                            </td>
                        </tr>
-                       <tr>
-                           <td class="text-light" style="background-color:#00a8ff">부서</td>
-                           <td colspan="3"> <input type="text" id="department" name="department" class="form-control"  required></td>
-                       </tr>
+
                        <tr>
                            <td class="text-light" style="background-color:#00a8ff">근무형태</td>
                            <td colspan="3"> <input type="text" id="jobwork" name="jobwork" class="form-control"  required></td>

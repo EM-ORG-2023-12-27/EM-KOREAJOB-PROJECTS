@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class RecruitDto {
     private Long id;
     private String title;           // 제목
-    private String[] career;      // 경력
+    private String career;      // 경력
     private String department;
     private String ability;         // 학력
     private String jobwork;         // 근무형태

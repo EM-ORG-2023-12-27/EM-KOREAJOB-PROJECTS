@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface JobopeningRepository extends JpaRepository<Recruit , Long> {
-    List<Recruit> findAllByJobOffer(JobOffer jobOffer);
+    List<Recruit> findAllByJobOfferOrderByIdDesc(JobOffer jobOffer);
 }

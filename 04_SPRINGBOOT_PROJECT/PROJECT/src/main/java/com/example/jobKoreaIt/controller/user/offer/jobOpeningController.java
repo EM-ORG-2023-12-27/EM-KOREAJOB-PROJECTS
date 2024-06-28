@@ -10,13 +10,12 @@ import com.example.jobKoreaIt.domain.offer.service.JobOfferServiceImpl;
 import com.example.jobKoreaIt.domain.offer.service.jobopeningServicelmpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
@@ -57,42 +56,33 @@ public class jobOpeningController {
         System.out.println(list);
         model.addAttribute("list",list);
 
-
-
     }
 
 
-    @GetMapping("/jobopening/read")
+    @GetMapping("/jobopening/update")
     public void jobread(@RequestParam("id") Long id,Model model) {
         log.info("채용공고 조회...");
-
        Recruit recruit =   jobopeningServicelmpl.getMyRecruitOne(id);
        model.addAttribute("recruit",recruit);
 
+
+    }
+    @PostMapping("/jobopening/update")
+    public String jobupdatePost(RecruitDto dto,RedirectAttributes rttr) {
+        jobopeningServicelmpl.jobopenupdate(dto);
+        rttr.addFlashAttribute("message","채용공고 수정을 완료하였습니다");
+        return "redirect:/offer/jobopening/list";
+
     }
 
-    @GetMapping("/jobopening/delete")
-    public void jobdelete() {
-        log.info("채용공고 삭제...");
-    }
 
-    @PostMapping("/jobopening/delete")
-    public String jobdelete(@RequestParam("id") Long id) {
+
+    @DeleteMapping("/jobopening/delete")
+    public @ResponseBody ResponseEntity<String> jobdelete(@RequestParam("id") Long id) {
         log.info("채용공고 삭제중...");
         jobopeningServicelmpl.jobopenRemove(id);
-        return "redirect:/offer/jobopening/read";
+        return new ResponseEntity("채용공고 삭제를 완료하였습니다.", HttpStatus.OK);
     }
 
-    @GetMapping("/jobopening/update")
-    public void jobupdate() {
-        log.info("채용공고 수정...");
-    }
-    
-    @PostMapping("/jobopening/update")
-    public void jobupdatePost(RecruitDto dto) {
-        log.info("채용공고 수정...");
 
-        jobopeningServicelmpl.jobopenupdate(dto);
-    }
-    
 }
