@@ -57,6 +57,10 @@
                            </td>
                        </tr>
                        <tr>
+                           <td class="text-light" style="background-color:#00a8ff">부서</td>
+                           <td colspan="3"> <input type="text" id="department" name="department" class="form-control"  required></td>
+                       </tr>
+                       <tr>
                            <td class="text-light" style="background-color:#00a8ff">근무형태</td>
                            <td colspan="3"> <input type="text" id="jobwork" name="jobwork" class="form-control"  required></td>
                        </tr>
@@ -67,9 +71,10 @@
                                <br>
                                <input type="text" id="detailAddress" name="detailAddress" placeholder="상세주소" class="form-control">
                            </td>
-                           <td style="text-align:right;width:45px;"><a href="" class="btn btn-secondary" style="font-size:.8rem;">
-                                <span class="material-symbols-outlined" style="font-size:.8rem;">search</span>
-                            </a>
+                           <td style="text-align:right;width:45px;">
+                               <a href="javascript:void(0)" class="btn btn-secondary search_addr_btn" style="font-size:.8rem;">
+                                    <span class="material-symbols-outlined" style="font-size:.8rem;">search</span>
+                                </a>
                            </td>
                        </tr>
                        <tr>
@@ -92,21 +97,17 @@
                        </tr>
                        <tr>
                            <td class="text-light" style="background-color:#00a8ff">복리후생</td>
-                           <td colspan="3">   <input type="text" id="welfare" name="welfare"class="form-control w-100" required></td>
-                       </tr>
-                       <tr>
-                           <td class="text-light" style="background-color:#00a8ff">근무지위치</td>
-                           <td colspan="3"> <input type="text" id="jobplace" name="jobplace" class="form-control w-100" required></td>
+                           <td colspan="3">   <input type="text" id="welfare" name="welfare"class="form-control w-100"  placeholder=",를 구분자로 입력해주세요" required></td>
                        </tr>
                        <tr>
                            <td class="text-light" style="background-color:#00a8ff">접수기간</td>
                            <td style="text-align:left">
                                <label style="font-size : .7rem;margin-bottom :2px;">시작일 : </label>
-                               <input style="font-size : .8rem;" type="datetime-local" id="time" name="time" class="form-control w-100"  required>
+                               <input style="font-size : .8rem;" type="datetime-local" id="time" name="startTime" class="form-control w-100"  required>
                            </td>
                            <td style="text-align:left;margin-bottom :2px;" colspan="2">
                                <label style="font-size : .7rem;margin-bottom :2px;">종료일 : </label>
-                               <input style="font-size : .8rem;" type="datetime-local" id="time2" name="time" class="form-control w-100"  required>
+                               <input style="font-size : .8rem;" type="datetime-local" id="time2" name="endTime" class="form-control w-100"  required>
                            </td>
 
                        </tr>
@@ -145,4 +146,30 @@
     <th:block th:insert="~{fragments/footer :: footerFragment}" />
 </div>
 </body>
+
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+
+
+    const search_addr_btn = document.querySelector('.search_addr_btn');
+    search_addr_btn.addEventListener('click',function(){
+       new daum.Postcode({
+                oncomplete: function(data) {
+                    console.log(data);
+                    const addr1 = document.querySelector('#jobzone');
+                    if(data.userSelectedType==='R')
+                    {
+                        addr1.value = data.roadAddress;
+                    }
+                    else
+                    {
+                        addr1.value = data.jibunAddress;
+                    }
+                }
+            }).open();
+    });
+</script>
+
+
+
 </html>

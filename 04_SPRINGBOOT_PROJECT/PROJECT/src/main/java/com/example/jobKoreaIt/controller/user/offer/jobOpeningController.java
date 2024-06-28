@@ -1,20 +1,26 @@
 package com.example.jobKoreaIt.controller.user.offer;
 
+import com.example.jobKoreaIt.config.auth.PrincipalDetails;
+import com.example.jobKoreaIt.domain.offer.dto.JobOfferDto;
 import com.example.jobKoreaIt.domain.offer.dto.RecruitDto;
 import com.example.jobKoreaIt.domain.offer.entity.Company;
+import com.example.jobKoreaIt.domain.offer.entity.JobOffer;
 import com.example.jobKoreaIt.domain.offer.entity.Recruit;
 import com.example.jobKoreaIt.domain.offer.service.JobOfferServiceImpl;
 import com.example.jobKoreaIt.domain.offer.service.jobopeningServicelmpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -34,35 +40,35 @@ public class jobOpeningController {
     }
 
     @PostMapping("/jobopening/add")
-    public void jobaddPost(RecruitDto recruitDto) {
+    public  String jobaddPost(RecruitDto recruitDto, @AuthenticationPrincipal PrincipalDetails principalDetails, RedirectAttributes rttr) {
         log.info("채용공고 등록중..." + recruitDto);
-        jobopeningServicelmpl.jobopenadd(recruitDto);
+        JobOfferDto jobOfferDto =  principalDetails.getJobOfferDto();
+        jobopeningServicelmpl.jobopenadd(recruitDto,jobOfferDto);
+
+        rttr.addFlashAttribute("message","채용공고 등록완료");
+        return "redirect:/offer/jobopening/list";
+    }
+    @GetMapping("/jobopening/list")
+    public void myRecruit(@AuthenticationPrincipal PrincipalDetails principalDetails,Model model){
+        log.info("GET /seeker/jobopending/list.." + principalDetails);
+
+        List<Recruit> list = jobopeningServicelmpl.getMyRecruit(principalDetails.getJobOfferDto());
+
+        System.out.println(list);
+        model.addAttribute("list",list);
+
+
 
     }
 
+
     @GetMapping("/jobopening/read")
-    public void jobread(Model model) {
+    public void jobread(@RequestParam("id") Long id,Model model) {
         log.info("채용공고 조회...");
 
-        Company company = jobOfferService.showCompany();
-        Recruit recruit = jobopeningServicelmpl.jobopenRead();
+       Recruit recruit =   jobopeningServicelmpl.getMyRecruitOne(id);
+       model.addAttribute("recruit",recruit);
 
-        model.addAttribute("career" , recruit.getCareer());
-        model.addAttribute("money",recruit.getMoney());
-        model.addAttribute("ability",recruit.getAbility());
-        model.addAttribute("jobzone",recruit.getJobzone());
-        model.addAttribute("jobwork",recruit.getJobwork());
-        model.addAttribute("jobspecial",recruit.getJobspecial());
-
-        model.addAttribute("jobpapers",recruit.getJobpapers());
-
-
-        model.addAttribute("companyName", company.getCompanyName());
-        model.addAttribute("companyaddr", company.getCompanyAddr1());
-        model.addAttribute("companyEmail", company.getCompanyEmail());
-        model.addAttribute("companyPhone", company.getCompanyPhone());
-        model.addAttribute("companyIndustry", company.getCompanyIndustry());
-        model.addAttribute("companyexplanation",company.getCompanyexplanation());
     }
 
     @GetMapping("/jobopening/delete")
@@ -83,35 +89,10 @@ public class jobOpeningController {
     }
     
     @PostMapping("/jobopening/update")
-    public void jobupdatePost(
-            @RequestParam("id") Long id,
-            @RequestParam("title") String title,
-            @RequestParam("career") String career,
-            @RequestParam("ability") String ability,
-            @RequestParam("jobwork") String jobwork,
-            @RequestParam("money") String money,
-            @RequestParam("jobzone") String jobzone,
-            @RequestParam("welfare") String welfare,
-            @RequestParam("jobplace") String jobplace,
-            @RequestParam("time") LocalDate time,
-            @RequestParam("jobway") String jobway
-    ) {
+    public void jobupdatePost(RecruitDto dto) {
         log.info("채용공고 수정...");
 
-        Recruit recruit = new Recruit();
-        recruit.setId(id);
-        recruit.setTitle(title);
-        recruit.setCareer(career);
-        recruit.setAbility(ability);
-        recruit.setJobwork(jobwork);
-        recruit.setMoney(money);
-        recruit.setJobzone(jobzone);
-        recruit.setWelfare(welfare);
-        recruit.setJobplace(jobplace);
-        recruit.setTime(time);
-        recruit.setJobway(jobway);
-
-        jobopeningServicelmpl.jobopenupdate(recruit);
+        jobopeningServicelmpl.jobopenupdate(dto);
     }
     
 }

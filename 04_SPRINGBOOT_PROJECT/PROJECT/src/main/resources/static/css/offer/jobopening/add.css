@@ -211,3 +211,7 @@
         border-radius:0px;
     }
 
+::-webkit-input-placeholder{
+    font-size : .8rem;
+}
+
