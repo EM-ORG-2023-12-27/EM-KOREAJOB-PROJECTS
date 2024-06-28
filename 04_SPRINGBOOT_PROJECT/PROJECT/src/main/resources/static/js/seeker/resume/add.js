@@ -69,6 +69,10 @@
                     <label for="endDate_${index}">근무종료일:</label>
                     <input type="datetime-local"  style="width : 150px;" class="form-control w-100" id="endDate_${index}" name="careers[${index}].endDate" required />
                 </div>
+                <div class="career-item" style="align-items:right;">
+                    <label>Del:</label>
+                    <button class='btn-style' onclick='removeCarrerEl(this)'>-</button>
+                </div>
                 <hr>
             `;
             careerContainer.appendChild(newCareer);
@@ -100,6 +104,13 @@
         }
     });
 });
+
+
+
+function removeCarrerEl(btn){
+    const div = btn.parentNode.parentNode;
+    div.remove();
+}
 
 function addCertification(){
     console.log("clicked..");
