@@ -16,4 +16,6 @@ public interface JobSeekerRepository extends JpaRepository<JobSeeker,Long> {
 
     JobSeeker findByUsernameAndTel(String username, String Tel);
 
+    JobSeeker findByTel(String applyDto);
+
 }

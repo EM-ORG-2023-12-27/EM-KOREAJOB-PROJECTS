@@ -1,5 +1,8 @@
 package com.example.jobKoreaIt.domain.seeker.dto;
 
+import com.example.jobKoreaIt.domain.offer.entity.Recruit;
+import com.example.jobKoreaIt.domain.seeker.entity.JobSeeker;
+import com.example.jobKoreaIt.domain.seeker.entity.Resume;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -12,16 +15,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ApplyDto {
-    private String Name;
-    private String Tell;
-    private String Email;
-    private String Addr; //주소
-    private String Nationality; //국적
-    private String BirthDate; //생년월일
-    private String ExpectedSalary; //희망연봉
-    private String MilitaryService; //병역사항
-    private String School; //최종학력
-    private String Carrer; //경력사항 (신입 or 경력)
+    private long id;
 
-    private String Objective; //지원종목
+    private String name;
+    private String tell;
+    private String email;
+    private String addr; //주소
+    private String nationality; //국적
+    private String birthDate; //생년월일
+    private String expectedSalary; //희망연봉
+    private String militaryService; //병역사항
+
+    private Resume resume;
+
+    private JobSeeker jobSeeker;
+
+    private Recruit recruit;
+
+    private String objective; //지원종목
 }

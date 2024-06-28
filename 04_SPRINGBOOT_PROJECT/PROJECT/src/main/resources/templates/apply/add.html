@@ -1,60 +1,78 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <!--  link   -->
+
+    <!--Link-->
     <th:block th:insert="~{fragments/link :: linkFragment}" />
-    <link rel="stylesheet" href="/css/apply/add.css">
+
+    <!-- css -->
+    <link rel="stylesheet" href="/css/apply/add.css"/>
+
+    <!-- js   -->
     <script src="/js/apply/add.js" defer></script>
+
 </head>
 <body>
 <div class="wrapper">
     <header>
-        <!-- header   -->
+        <!-- header -->
         <th:block th:insert="~{fragments/top_header :: topHeaderFragment}" />
-        <!-- nav       -->
+        <!-- nav -->
         <th:block th:insert="~{fragments/nav :: navFragment}" />
     </header>
-    <main>
-        <section class="layout-150">
-            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">홈</a></li>
-                    <li class="breadcrumb-item"><a href="#">채용공고</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">공고 지원하기</li>
-                </ol>
-            </nav>
-        </section>
+    <h3>입사지원서 작성</h3>
+    <div class="form-body">
 
-        <section class="layout-150 board-body">
-            <div class="head">
-                <div class="title">공고 지원하기</div>
-                <form action="/apply/add" method="post" enctype="multipart/form-data">
-                    <div>
-                        <select name="category" id="" class="form-select">
-                            <option value="신입" selected>신입</option>
-                        </select>
-                    </div>
-                </div>
-                    <div class="mb-3 w-50">
-                        <label for="jobTitle" class="form-label">TITLE:</label>
-                        <input type="text" class="form-control" id="jobTitle" placeholder="jobTitle" th:text="*{jobTitle}">
-                    </div>
-                    <div class="mb-3 w-50">
-                        <label for="companyName" class="form-label">Company Name:</label>
-                        <input type="text" class="form-control" id="companyName" placeholder="companyName" th:text="*{companyName}">
-                    </div>
-                    <div class="mb-3 w-50">
-                        <button class="btn btn-primary m-1" type="submit">지원하기</button>
-                        <a href="javascript:history.go(-1)" class="btn btn-primary m-1">이전으로</a>
-                    </div>
-                </form>
-        </section>
+        <form class="apply-form" th:action="@{/apply/add}" th:object="${applyDto}" method="post">
 
-    </main>
-    <!-- footer       -->
-    <th:block th:insert="~{fragments/footer :: footerFragment}" />
+            <input type="hidden" id="id" th:field="*{id}"/><br>
+            <label form="name">지원회사이름:</label>
+            <input type="text" id="companyname" th:field="*{recruit.title}"/><br/>
+
+            <label for="name">지원자이름:</label>
+            <input type="text" id="name" th:field="*{name}" /><br/>
+
+            <label for="tell">연락처:</label>
+            <input type="text" id="tell" th:field="*{tell}" /><br/>
+
+            <label for="email">Email:</label>
+            <input type="text" id="email" th:field="*{email}" /><br/>
+
+            <label for="addr">주소:</label>
+            <input type="text" id="addr" th:field="*{addr}" /><br/>
+
+            <label for="nationality">국적:</label>
+            <input type="text" id="nationality" th:field="*{nationality}" /><br/>
+
+            <label for="birthDate">생년월일:</label>
+            <input type="text" id="birthDate" th:field="*{birthDate}" /><br/>
+
+            <label for="expectedSalary">희망연봉:</label>
+            <input type="text" id="expectedSalary" th:field="*{expectedSalary}" /><br/>
+
+            <label for="militaryService">병역사항:</label>
+            <input type="text" id="militaryService" th:field="*{militaryService}" /><br/>
+
+            <label for="objective">지원부문:</label>
+            <input type="text" id="objective" th:field="*{objective}" /><br/>
+
+            <label for="resume">이력서 선택:</label>
+            <select id="resume" th:field="*{resume.id}">
+                <option value="">이력서를 선택하세요</option>
+                <option th:each="resume : ${resumeList}" th:value="${resume.id}" th:text="${resume.title}"></option>
+            </select>
+            <br/>
+
+            <button type="submit">지원서제출</button>
+        </form>
+    </div>
+    <footer>
+        <!-- footer -->
+        <th:block th:insert="~{fragments/footer :: footerFragment}" />
+    </footer>
 </div>
 </body>
 </html>
+

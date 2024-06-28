@@ -16,23 +16,43 @@
 }
 
 .main-block>.left{
-	width:100%;
-	height:400px;
-	border : 1px solid;
+	width: 100%;
+    height: 100%;
+    border: 1px solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.main-block>.left img{
+    max-width: auto;
+    max-height: 400px;
+    height: 100%
+    object-fit: cover;
+}
 
 }
 .main-block>.right{
-	width:100%;
-	height:400px;
-	border : 1px solid;
+	width: 100%;
+    height: 100%;
+    border: 1px solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
 
+.main-block>.right img{
+    max-width: auto;
+    max-height: 400px;
+    height: 100%
+    object-fit: cover;
 }
 
 .main .right .myinfo{
     margin-top : 15px;
 }
-
-
 
 .banner-section{
 
@@ -59,7 +79,7 @@
 }
 .banner-section>.swiper>.swiper-wrapper>.swiper-slide{
             width:100%;
-            height:100%;
+            height:328px;
             display:flex;
             justify-content: center;
             align-items: center;
@@ -67,13 +87,13 @@
 }
 .banner-section>.swiper>.swiper-wrapper>.swiper-slide>a{
             width : 100%;
-            height : 100%;
+            height : 328px;
             display:block;
 }
 
 .banner-section>.swiper>.swiper-wrapper>.swiper-slide>a>img{
             border : 1px solid;
-            width : 100%;
+            width : 312px;
             height : 100%;
             object-fit: none;
 }

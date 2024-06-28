@@ -12,15 +12,19 @@ import com.example.jobKoreaIt.domain.seeker.entity.Resume;
 import com.example.jobKoreaIt.domain.seeker.service.ApplyServiceImpl;
 import com.example.jobKoreaIt.domain.seeker.repository.JobSeekerRepository;
 import com.example.jobKoreaIt.domain.seeker.repository.ResumeRepository;
+import com.example.jobKoreaIt.domain.seeker.service.ResumeServiceImpl;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -33,56 +37,58 @@ public class ApplyController {
     private ApplyServiceImpl applyService;
 
     @Autowired
-    private JobSeekerRepository jobSeekerRepository;
+    ResumeRepository resumeRepository;
 
     @Autowired
-    private ResumeRepository resumeRepository;
+    RecruitRepository recruitRepository;
+
+    private ResumeServiceImpl resumeServiceImpl;
 
     @Autowired
-    private RecruitRepository recruitRepository;
+    public ApplyController(ResumeServiceImpl resumeService) {
+        this.resumeServiceImpl = resumeService;
+    }
 
     @GetMapping("/add")
-    public String add() {
-        return "apply/add";
+    public String add(Model model) {
+        model.addAttribute("applyDto",new ApplyDto());
+        return "/apply/add";
     }
 
     @PostMapping("/add")
-    public String applyForJob(@ModelAttribute("applyForm") @Valid ApplyDto applyDto,
-                              BindingResult bindingResult,
-                              Authentication authentication,
-                              RedirectAttributes redirectAttributes) {
+    public String add_post(@ModelAttribute @Valid ApplyDto applyDto,
+                              BindingResult bindingResult, Model model) {
+        System.out.println("applyDto = " + applyDto + ", bindingResult = " + bindingResult + ", model = " + model);
 
         if (bindingResult.hasErrors()) {
-            return "apply/add";
+            for(FieldError error  : bindingResult.getFieldErrors()) {
+            log.info(error.getField()+ " : " + error.getDefaultMessage());
+            model.addAttribute(error.getField(), error.getDefaultMessage());
+            }
+            return "/apply/add";
         }
 
-        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
-        UserDto userDto = principal.getUserDto();
-        User user = User.builder()
-                .userid(userDto.getUserid())
-                .role(userDto.getRole())
-                .createAt(userDto.getCreateAt())
-                .password(userDto.getPassword())
-                .provider(userDto.getProvider())
-                .providerId(userDto.getProviderId()).build();
+        Optional<Resume> resume = resumeRepository.findById(applyDto.getResume().getId());
+        Recruit recruit = recruitRepository.findByTitle(applyDto.getRecruit().getTitle());
 
-        JobSeeker jobSeeker = jobSeekerRepository.findByUser(user);
+        applyService.apply_add(applyDto,resume,recruit);
 
-        Resume resume = resumeRepository.findByUser(user);
+        List<Resume> resumeList = resumeServiceImpl.getAllResumes(); // 모든 이력서 목록 조회
 
-        Optional<Recruit> recruitOptional = recruitRepository.findById(1L);
-        if(recruitOptional.isEmpty())
-            return "redirect:/apply/add";
-
-
-        Apply apply = applyService.applyForJob(jobSeeker.getId(), resume.getId(), recruitOptional.get().getRecruit_id());
-
-        redirectAttributes.addFlashAttribute("applyId", apply.getApply_id());
-
-        return "redirect:/";
-
-        //
+        model.addAttribute("applyDto",applyDto);
+        model.addAttribute("resume",resume);
+        model.addAttribute("resumeList", resumeList); // 이력서 목록을 모델에 추가
+        return "redirect:/apply/list";
     }
+
+    @GetMapping("list")
+    public String Apply_get_list(Model model){
+        List<ApplyDto> applyDtoList = applyService.apply_list();
+        model.addAttribute("applyDtoList",applyDtoList);
+        return "apply/list";
+    }
+
+
 
 }
 

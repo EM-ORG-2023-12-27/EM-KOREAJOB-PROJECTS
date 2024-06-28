@@ -186,6 +186,10 @@ public class ResumeServiceImpl {
         }
     }
 
+    public List<Resume> getAllResumes() {
+        return resumeRepository.findAll(); // 모든 이력서 조회
+    }
+
 
 }
 

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RecruitRepository extends JpaRepository<Recruit, Long> {
-
-    Recruit findByUser(User user);
+    Recruit findByTitle(String applyDto);
 
 }
