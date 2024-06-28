@@ -23,7 +23,7 @@
             <div style="margin:30px auto;">
                 <h2>이력서 작성</h2>
             </div>
-            <form th:action="@{/seeker/resume/add}"  method="post" enctype="multipart/form-data">
+            <form action=/seeker/resume/add"  method="post" enctype="multipart/form-data">
 
                 <div class="basic-info">
                     <div class="photo-block">
@@ -58,13 +58,13 @@
                         <tbody>
                             <tr>
                                 <td>출신학교</td>
-                                <td> <input type="text" id="schoolName" name="resume.schoolName"  class="w-100 form-control" required /></td>
+                                <td> <input type="text" id="schoolName" name="schoolName"  class="w-100 form-control" required /></td>
                                 <td>전공</td>
                                 <td> <input type="text" id="major" name="resume.major" class="w-100 form-control" required /></td>
                             </tr>
                             <tr>
                                 <td>졸업년도</td>
-                                <td><input type="datetime-local"  class="w-100 form-control" id="graduationYear" name="resume.graduationYear" required /></td>
+                                <td><input type="datetime-local"  class="w-100 form-control" id="graduationYear" name="graduationYear" required /></td>
                                 <td colspan="2"></td>
                             </tr>
 
@@ -96,7 +96,7 @@
                 </div>
                 <div>
                     <label for="summary">자기소개서:</label>
-                    <textarea id="summary" name="resume.summary" class="form-control" required style="height:300px;"></textarea>
+                    <textarea id="summary" name="summary" class="form-control" required style="height:300px;"></textarea>
                 </div>
                 <div>
                     <button type="submit">작성완료!</button>

@@ -47,7 +47,44 @@
             }
         });
 
-       function addCareer() {
+//       function addCareer() {
+//            const careerContainer = document.getElementById('careerContainer');
+//            const index = careerContainer.children.length;
+//            const newCareer = document.createElement('div');
+//            newCareer.classList.add('carrer-block')
+//            newCareer.innerHTML = `
+//                <div class="career-item">
+//                    <label for="companyName_${index}">회사이름:</label>
+//                    <input type="text" id="companyName_${index}" class="form-control" name="careers[${index}].companyName" required />
+//                </div>
+//                <div class="career-item">
+//                    <label for="position_${index}">직책:</label>
+//                    <input type="text" id="position_${index}" class="form-control" name="careers[${index}].position" required />
+//                </div>
+//                <div class="career-item">
+//                    <label for="startDate_${index}">근무시작일:</label>
+//                    <input type="datetime-local" style="width : 150px;" class="form-control w-100" id="startDate_${index}" name="careers[${index}].startDate" required />
+//                </div>
+//                <div class="career-item">
+//                    <label for="endDate_${index}">근무종료일:</label>
+//                    <input type="datetime-local"  style="width : 150px;" class="form-control w-100" id="endDate_${index}" name="careers[${index}].endDate" required />
+//                </div>
+//                <div class="career-item" style="align-items:right;">
+//                    <label>Del:</label>
+//                    <button class='btn-style' onclick='removeCarrerEl(this)'>-</button>
+//                </div>
+//                <hr>
+//            `;
+//            careerContainer.appendChild(newCareer);
+//
+//            // Add hidden input field to include careerList index
+//            const careerIndexInput = document.createElement('input');
+//            careerIndexInput.type = 'hidden';
+//            careerIndexInput.name = 'resume.careers[' + index + '].index';
+//            careerIndexInput.value = index;
+//            newCareer.appendChild(careerIndexInput);
+//        }
+     function addCareer() {
             const careerContainer = document.getElementById('careerContainer');
             const index = careerContainer.children.length;
             const newCareer = document.createElement('div');
@@ -55,19 +92,19 @@
             newCareer.innerHTML = `
                 <div class="career-item">
                     <label for="companyName_${index}">회사이름:</label>
-                    <input type="text" id="companyName_${index}" class="form-control" name="careers[${index}].companyName" required />
+                    <input type="text" id="companyName_${index}" class="form-control" name="companyName" required />
                 </div>
                 <div class="career-item">
                     <label for="position_${index}">직책:</label>
-                    <input type="text" id="position_${index}" class="form-control" name="careers[${index}].position" required />
+                    <input type="text" id="position_${index}" class="form-control" name="position" required />
                 </div>
                 <div class="career-item">
                     <label for="startDate_${index}">근무시작일:</label>
-                    <input type="datetime-local" style="width : 150px;" class="form-control w-100" id="startDate_${index}" name="careers[${index}].startDate" required />
+                    <input type="datetime-local" style="width : 150px;" class="form-control w-100" id="startDate_${index}" name="startDate" required />
                 </div>
                 <div class="career-item">
                     <label for="endDate_${index}">근무종료일:</label>
-                    <input type="datetime-local"  style="width : 150px;" class="form-control w-100" id="endDate_${index}" name="careers[${index}].endDate" required />
+                    <input type="datetime-local"  style="width : 150px;" class="form-control w-100" id="endDate_${index}" name="endDate" required />
                 </div>
                 <div class="career-item" style="align-items:right;">
                     <label>Del:</label>
@@ -84,6 +121,9 @@
             careerIndexInput.value = index;
             newCareer.appendChild(careerIndexInput);
         }
+
+
+
         document.addEventListener('DOMContentLoaded', function() {
         const summaryTextarea = document.getElementById('summary');
 
@@ -127,10 +167,12 @@ function addCertification(){
     const input1 = document.createElement('input');
     input1.setAttribute('class','form-control');
     input1.setAttribute('placeholder',"자격증 이름");
+    input1.setAttribute('name','certificationName');
     const input2 = document.createElement('input');
     input2.setAttribute('class','form-control');
     input2.setAttribute('type','datetime-local');
     input2.setAttribute('placeholder','취득연월일');
+    input2.setAttribute('name','certificationDate');
 
     const del = document.createElement('button');
     del.innerHTML="-";

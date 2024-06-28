@@ -1,9 +1,7 @@
 package com.example.jobKoreaIt.controller.user.seeker;
 
 import com.example.jobKoreaIt.config.auth.PrincipalDetails;
-import com.example.jobKoreaIt.domain.seeker.dto.JobSeekerDto;
-import com.example.jobKoreaIt.domain.seeker.dto.ResumeDto;
-import com.example.jobKoreaIt.domain.seeker.dto.ResumeFormDto;
+import com.example.jobKoreaIt.domain.seeker.dto.*;
 import com.example.jobKoreaIt.domain.seeker.entity.Career;
 import com.example.jobKoreaIt.domain.seeker.entity.JobSeeker;
 import com.example.jobKoreaIt.domain.seeker.entity.Resume;
@@ -45,12 +43,22 @@ public class ResumeController {
     }
 
     @PostMapping("/resume/add")
-    public String resume_add_post(@ModelAttribute ResumeFormDto form){
-        log.info("POST /resume/add..");
-        resumeServiceImpl.resume_add(form);
-        log.info("Form : "+form);
-        return "redirect:/seeker/resume/list"; // 이력서 추가 후 목록 페이지로 리다이렉트
+    public String resume_add_post(
+            ResumeDto resumeDto,
+            CarrerDto[] carrers,
+            CertificationDto certifications
 
+    )
+    {
+        System.out.println(resumeDto);
+        System.out.println(carrers);
+        System.out.println(certifications);
+
+//        log.info("POST /resume/add..");
+//        resumeServiceImpl.resume_add(form);
+//        log.info("Form : "+form);
+//        return "redirect:/seeker/resume/list"; // 이력서 추가 후 목록 페이지로 리다이렉트
+        return null;
     }
 
     //수정 ------------------------------------------------------------
