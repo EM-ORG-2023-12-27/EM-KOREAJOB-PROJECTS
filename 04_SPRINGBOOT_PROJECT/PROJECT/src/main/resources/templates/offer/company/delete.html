@@ -1,19 +1,31 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en" xmlns:th="">
 <head>
     <meta charset="UTF-8">
-    <title>회사정보 삭제</title>
-    <!-- link -->
+    <title>Title</title>
+
+    <!--  link   -->
     <th:block th:insert="~{fragments/link :: linkFragment}" />
-    <link rel="stylesheet" href="/css/offer/jobopening/delete.css">
+    <style>
+        section {
+            text-align: center;
+        }
+        button {
+                background-color: aqua;
+        border: 1px solid pink;
+        }
+
+    </style>
 </head>
 <body>
+
 <div class="wrapper">
     <header>
-        <!-- header -->
+        <!-- header   -->
         <th:block th:insert="~{fragments/top_header :: topHeaderFragment}" />
-        <!-- nav -->
+        <!-- nav       -->
         <th:block th:insert="~{fragments/nav :: navFragment}" />
+
     </header>
     <main>
         <section>
@@ -23,9 +35,11 @@
                 <input type="text" id="id" name="id" required><br>
                 <button>삭제</button>
             </form>
+
         </section>
     </main>
-    <!-- footer -->
+
+    <!-- footer       -->
     <th:block th:insert="~{fragments/footer :: footerFragment}" />
 </div>
 </body>

@@ -77,7 +77,7 @@ public class ApplyServiceImpl {
         log.info("resume : "+resume);
 
         dto.setName(jobSeeker.getUsername());
-        dto.setEmail(resume.getEmail());
+        //!!!!!!!!!!!!!!!!!
         dto.setTell(jobSeeker.getTel());
         dto.setObjective(apply.getObjective());
         return dto;

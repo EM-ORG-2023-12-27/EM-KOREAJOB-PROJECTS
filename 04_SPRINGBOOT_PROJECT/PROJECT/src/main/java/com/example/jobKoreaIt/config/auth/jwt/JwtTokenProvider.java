@@ -117,6 +117,7 @@ public class JwtTokenProvider {
 
         }else if(StringUtils.equals(authorities,"ROLE_OFFER")){
             JobOfferDto jobOfferDto = principalDetails.getJobOfferDto();
+
             // Access Token 생성
             Date accessTokenExpiresIn = new Date(now + 60*5*1000);    // 60*5 초후 만료
             accessToken = Jwts.builder()
@@ -125,12 +126,15 @@ public class JwtTokenProvider {
                     .claim("password",userDto.getPassword())                //정보저장
                     .claim("role",userDto.getRole())                      //정보저장
 
-                    .claim("companyEmail",jobOfferDto.getCompanyEmail())                      //정보저장
-                    .claim("companyPhone",jobOfferDto.getCompanyPhone())                      //정보저장
-                    .claim("companyIndustry",jobOfferDto.getCompanyIndustry())                      //정보저장
+                    .claim("companyName",jobOfferDto.getCompanyName())                      //정보저장
+                    .claim("companyNumber",jobOfferDto.getCompanyNumber())                      //정보저장
                     .claim("zipcode",jobOfferDto.getZipcode())                      //정보저장
                     .claim("companyAddr1",jobOfferDto.getCompanyAddr1())                      //정보저장
                     .claim("companyAddr2",jobOfferDto.getCompanyAddr2())                      //정보저장
+
+                    .claim("companyEmail",jobOfferDto.getCompanyEmail())                      //정보저장
+                    .claim("companyPhone",jobOfferDto.getCompanyPhone())                      //정보저장
+                    .claim("companyIndustry",jobOfferDto.getCompanyIndustry())                      //정보저장
                     .claim("companyexplanation",jobOfferDto.getCompanyexplanation())                      //정보저장
 
                     .claim("authorities", authorities)                             //정보저장
@@ -167,32 +171,6 @@ public class JwtTokenProvider {
 
         }
 
-        // Refresh Token 생성
-        String refreshToken = Jwts.builder()
-                .setExpiration(new Date(now + 86400000))    //1일: 24 * 60 * 60 * 1000 = 86400000
-                .signWith(key, SignatureAlgorithm.HS256)
-                .compact();
-
-        return TokenInfo.builder()
-                .grantType("Bearer")
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .build();
-    }
-
-
-    public TokenInfo generateToken(String Claimkey,String id,boolean isAuth) {
-
-        long now = (new Date()).getTime();
-
-        // Access Token 생성
-        Date accessTokenExpiresIn = new Date(now + 60*5*1000);    // 60*5 초후 만료
-        String accessToken = Jwts.builder()
-                .setSubject("TITLE")
-                .claim(null,null)             //정보저장
-                .setExpiration(accessTokenExpiresIn)
-                .signWith(key, SignatureAlgorithm.HS256)
-                .compact();
 
         // Refresh Token 생성
         String refreshToken = Jwts.builder()
@@ -206,9 +184,6 @@ public class JwtTokenProvider {
                 .refreshToken(refreshToken)
                 .build();
     }
-
-
-
 
 
 
@@ -244,6 +219,7 @@ public class JwtTokenProvider {
 
 
         if(StringUtils.equals(role,"ROLE_SEEKER")){
+
             String email = (String)claims.get("email");
             String tel = (String)claims.get("tel");
             String username = (String)claims.get("username");
@@ -262,27 +238,37 @@ public class JwtTokenProvider {
             principalDetails.setJobSeekerDto(jobSeekerDto);
 
 
-
         }else if(StringUtils.equals(role,"ROLE_OFFER")){
-            String companyEmail = (String)claims.get("companyEmail");
-            String companyPhone = (String)claims.get("companyPhone");
-            String companyIndustry = (String)claims.get("companyIndustry");
+            String id = (String)claims.get("id");
+
+            String companyName = (String)claims.get("companyName");
+            String companyNumber = (String)claims.get("companyNumber");
             String zipcode = (String)claims.get("zipcode");
             String companyAddr1 = (String)claims.get("companyAddr1");
             String companyAddr2 = (String)claims.get("companyAddr2");
+            String companyEmail = (String)claims.get("companyEmail");
+            String companyPhone = (String)claims.get("companyPhone");
+            String companyIndustry = (String)claims.get("companyIndustry");
             String companyexplanation = (String)claims.get("companyexplanation");
 
+
             JobOfferDto jobOfferDto = new JobOfferDto();
-            jobOfferDto.setCompanyEmail(companyEmail);
-            jobOfferDto.setCompanyPhone(companyPhone);
-            jobOfferDto.setCompanyIndustry(companyIndustry);
+            jobOfferDto.setCompanyName(companyName);
+            jobOfferDto.setCompanyNumber(companyNumber);
             jobOfferDto.setZipcode(zipcode);
             jobOfferDto.setCompanyAddr1(companyAddr1);
             jobOfferDto.setCompanyAddr2(companyAddr2);
+            jobOfferDto.setCompanyEmail(companyEmail);
+            jobOfferDto.setCompanyPhone(companyPhone);
+            jobOfferDto.setCompanyIndustry(companyIndustry);
             jobOfferDto.setCompanyexplanation(companyexplanation);
+
             principalDetails.setJobOfferDto(jobOfferDto);
+//            System.out.println("principalDetails !!!!!: " + principalDetails);
         }
 
+
+//        System.out.println("JWTTOKENPROVIER GETAUTHENTICATION PRINCIPALDETAILS : " + principalDetails);
 
 
         LinkedHashMap principal = (LinkedHashMap)claims.get("principal");

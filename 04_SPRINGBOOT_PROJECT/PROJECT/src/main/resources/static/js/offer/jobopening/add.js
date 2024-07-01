@@ -72,13 +72,6 @@ function execDaumPostcode() {
 
     elementLayer.style.display = 'block';
     initLayerPosition();
-
-    // 바깥 영역 클릭 이벤트 리스너 추가
-    document.addEventListener('click', function(event) {
-        if (!elementLayer.contains(event.target) && event.target.id !== 'jobzone') {
-            elementLayer.style.display = 'none';
-        }
-    }, { once: true });  // 이벤트 리스너가 한 번만 실행되도록 설정
 }
 
 function closeDaumPostcode() {
@@ -87,8 +80,8 @@ function closeDaumPostcode() {
 }
 
 function initLayerPosition() {
-    var width = 500;  // 너비를 500px로 설정
-    var height = 600;  // 높이를 600px로 설정
+    var width = 300;
+    var height = 400;
     var borderWidth = 2;
     var elementLayer = document.getElementById('layer');
     elementLayer.style.width = width + 'px';

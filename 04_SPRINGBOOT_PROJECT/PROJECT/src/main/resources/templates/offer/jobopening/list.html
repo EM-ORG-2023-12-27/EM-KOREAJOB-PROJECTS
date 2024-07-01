@@ -1,77 +1,89 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en" xmlns:th="">
 <head>
     <meta charset="UTF-8">
-    <title>채용공고 리스트</title>
+    <title>Title</title>
+
     <!--  link   -->
     <th:block th:insert="~{fragments/link :: linkFragment}" />
-    <link rel="stylesheet" href="/css/offer/jobopening/list.css">
+
+    <link rel="stylesheet" href="/css/offer/myinfo.css">
+
+    <script src="/js/template.js" defer></script>
+
+    <script th:inline="javascript">
+        const message = [[${message}]];
+        if(message!==null)
+            alert(message);
+
+    </script>
 </head>
 <body>
+
 <div class="wrapper">
     <header>
-        <!-- header -->
+        <!-- header   -->
         <th:block th:insert="~{fragments/top_header :: topHeaderFragment}" />
-        <!-- nav -->
+        <!-- nav       -->
         <th:block th:insert="~{fragments/nav :: navFragment}" />
+
     </header>
-    <main>
+    <section class="layout-150">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">홈</a></li>
+                <li class="breadcrumb-item active" aria-current="page">TEMPLATE</li>
+            </ol>
+        </nav>
+    </section>
+
+    <main class="layout-150">
+        <aside>
+            <ul class="menu-01">
+                <li><a href="">회사정보 확인</a></li>
+                <li><a href="">회사정보 수정</a></li>
+                <li>
+                    <a href="">채용 공고 모집</a>
+                    <ul class="menu-02">
+                        <li><a href="/offer/jobopening/add">채용공고 등록</a></li>
+                        <li><a href="/offer/jobopening/list">채용공고 확인</a></li>
+                        <li><a href="">채용공고 신청현황</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </aside>
         <section>
-            <h1>채용공고 리스트</h1>
-            <table>
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>제목</th>
-                    <th>경력</th>
-                    <th>학력</th>
-                    <th>근무형태</th>
-                    <th>급여</th>
-                    <th>근무지역</th>
-                    <th>우대사항</th>
-                    <th>복리후생</th>
-                    <th>근무지위치</th>
-                    <th>접수기간</th>
-                    <th>접수방법</th>
-                    <th>제출서류</th>
-                    <th>이미지</th>
-                    <th>액션</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="recruit : ${recruitList}">
-                    <td th:text="${recruit.id}">ID</td>
-                    <td th:text="${recruit.title}">제목</td>
-                    <td th:text="${recruit.career}">경력</td>
-                    <td th:text="${recruit.ability}">학력</td>
-                    <td th:text="${recruit.jobwork}">근무형태</td>
-                    <td th:text="${recruit.salary}">급여</td>
-                    <td th:text="${recruit.jobzone}">근무지역</td>
-                    <td th:text="${recruit.jobspecial}">우대사항</td>
-                    <td th:text="${recruit.welfare}">복리후생</td>
-                    <td th:text="${recruit.jobplace}">근무지위치</td>
-                    <td th:text="${recruit.time}">접수기간</td>
-                    <td th:text="${recruit.jobway}">접수방법</td>
-                    <td th:text="${recruit.jobpapers}">제출서류</td>
-                    <td>
-                        <img th:src="@{${recruit.files}}" alt="이미지" width="100">
-                    </td>
-                    <td>
-                        <div class="action-buttons">
-                            <a th:href="@{/offer/jobopening/update/{id}(id=${recruit.id})}">수정</a>
-                            <a th:href="@{/offer/jobopening/delete/{id}(id=${recruit.id})}">삭제</a>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <a th:href="@{/offer/jobopening/add}" class="btn-register">등록</a>
+            <div>
+                <table class="table w-100">
+                    <thead class="bg-dark text-light">
+                        <tr >
+                            <th>No</th>
+                            <th>제목</th>
+                            <th>부서</th>
+                            <th>근무형태</th>
+                            <th>경력</th>
+                            <th>연봉</th>
+                            <th>기간</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="recruit,recruitStat:${list}">
+                            <td th:text="${recruitStat.count}"></td>
+                            <td class="title"><a th:href="@{/offer/jobopening/update(id=${recruit.id})}" th:text="${recruit.title}"></a></td>
+                            <td th:text="${recruit.department}"></td>
+                            <td th:text="${recruit.jobwork}"></td>
+                            <td th:text="${recruit.career}"></td>
+                            <td th:text="${recruit.salary}"></td>
+                            <td th:text="${recruit.startTime}+' ~ '+${recruit.endTime}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
     </main>
-    <footer>
-        <!-- footer -->
-        <th:block th:insert="~{fragments/footer :: footerFragment}" />
-    </footer>
+
+    <!-- footer       -->
+    <th:block th:insert="~{fragments/footer :: footerFragment}" />
 </div>
 </body>
 </html>

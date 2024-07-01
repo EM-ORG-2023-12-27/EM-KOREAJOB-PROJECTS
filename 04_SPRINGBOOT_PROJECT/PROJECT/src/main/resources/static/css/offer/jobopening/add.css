@@ -210,38 +210,8 @@
     input[type='datetime-local']{
         border-radius:0px;
     }
-#layer {
-    display: none;
-    position: fixed;
-    overflow: hidden;
-    z-index: 1;
-    -webkit-overflow-scrolling: touch;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
+
+::-webkit-input-placeholder{
+    font-size : .8rem;
 }
 
-#layer .bg {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-#layer .address-container {
-    position: relative;
-    width: 500px;  // 너비를 500px로 설정
-    height: 600px;  // 높이를 600px로 설정
-    margin: 0 auto;
-    top: 50%;
-    transform: translateY(-50%);
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    box-sizing: border-box;
-}

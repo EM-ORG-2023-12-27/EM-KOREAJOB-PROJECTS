@@ -31,7 +31,7 @@ ul{
 .wrapper>header>.top-header{
 	height : 30px;
 	
-
+    background-color : white;
 	display:flex;
 	justify-content: space-between;
 	align-items : center;
@@ -89,6 +89,7 @@ ul{
     padding-top : 5px;
     padding-bottom : 5px;
     border : 1px solid lightgray ;
+    background-color : white;
 }
 .wrapper>header>nav>.left{
 	width : 100%;

@@ -24,7 +24,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler  
     private JwtTokenProvider jwtTokenProvider;
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        System.out.println("[CustomLoginSuccessHandler] onAuthenticationSuccess()");
+        System.out.println("[CustomLoginSuccessHandler] onAuthenticationSuccess() authentication " + authentication);
 
         //--------------------------------------
         //JWT ADD
