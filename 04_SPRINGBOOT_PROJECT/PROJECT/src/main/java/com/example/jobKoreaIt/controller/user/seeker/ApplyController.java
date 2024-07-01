@@ -3,7 +3,11 @@ package com.example.jobKoreaIt.controller.user.seeker;
 import com.example.jobKoreaIt.config.auth.PrincipalDetails;
 import com.example.jobKoreaIt.domain.seeker.dto.ApplyDto;
 import com.example.jobKoreaIt.domain.seeker.entity.Apply;
+import com.example.jobKoreaIt.domain.seeker.entity.Carrer;
+import com.example.jobKoreaIt.domain.seeker.entity.Certification;
 import com.example.jobKoreaIt.domain.seeker.entity.Resume;
+import com.example.jobKoreaIt.domain.seeker.repository.CareerRepository;
+import com.example.jobKoreaIt.domain.seeker.repository.CertificationRepository;
 import com.example.jobKoreaIt.domain.seeker.repository.ResumeRepository;
 import com.example.jobKoreaIt.domain.seeker.service.ApplyServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -57,21 +61,38 @@ public class ApplyController {
 
     @GetMapping("/apply/offer/list")
     public @ResponseBody ResponseEntity<List<Apply>> offer_list(@RequestParam("recruit_id") Long recruit_id, @AuthenticationPrincipal PrincipalDetails principalDetails, Model model){
-
         //회사
         List<Apply> list =  applyService.getOfferApply(recruit_id);
-
-
         return new ResponseEntity<>(list,HttpStatus.OK);
-
     }
+
+    @Autowired
+    CareerRepository careerRepository;
+
+    @Autowired
+    CertificationRepository certificationRepository;
+
+    @GetMapping("/apply/offer/carrer")
+    public @ResponseBody List<Carrer> getCarrers(@RequestParam("resume_id")Long resume_id){
+        log.info("GET /apply/offer/carrer...id : " + resume_id);
+        return careerRepository.findAllByResume(resumeRepository.findById(resume_id).get());
+    }
+    @GetMapping("/apply/offer/certification")
+    public @ResponseBody List<Certification> getCertification(@RequestParam("resume_id")Long resume_id){
+        log.info("GET /apply/offer/certification...id : " + resume_id);
+
+        return certificationRepository.findAllByResume(resumeRepository.findById(resume_id).get());
+    }
+
     @GetMapping("/apply/seeker/list")
     public void seeker_list(){
-
         //회사
-
         return ;
     }
+
+
+
+
 
 //    @PostMapping("/apply/add")
 //    public String Apply_Post(Model model,ApplyDto applyDto){

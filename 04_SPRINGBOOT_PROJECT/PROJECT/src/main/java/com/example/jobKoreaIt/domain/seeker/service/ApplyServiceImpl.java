@@ -11,18 +11,13 @@ import com.example.jobKoreaIt.domain.offer.repository.RecruitRepository;
 import com.example.jobKoreaIt.domain.seeker.entity.Apply;
 import com.example.jobKoreaIt.domain.seeker.entity.JobSeeker;
 import com.example.jobKoreaIt.domain.seeker.entity.Resume;
-import com.example.jobKoreaIt.domain.seeker.repository.ApplyRepository;
-import com.example.jobKoreaIt.domain.seeker.repository.JobSeekerRepository;
-import com.example.jobKoreaIt.domain.seeker.repository.ResumeRepository;
+import com.example.jobKoreaIt.domain.seeker.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -42,6 +37,13 @@ public class ApplyServiceImpl {
 
     @Autowired
     JobOfferRepository jobOfferRepository;
+
+    @Autowired
+    CareerRepository careerRepository;
+
+    @Autowired
+    CertificationRepository certificationRepository;
+
 
 //    @Transactional(rollbackFor = Exception.class)
 //    public Apply apply_add(ApplyDto applyDto, Optional<Resume> resume){
@@ -128,11 +130,19 @@ public class ApplyServiceImpl {
     public  List<Apply> getOfferApply(Long recruit_id) {
 
 
+
         Optional<Recruit> recruitOptional = recruitRepository.findById(recruit_id);
 
         if(recruitOptional.isEmpty())
             return null;
+
+        //채용공고에 지원한 사원들 리스트
         List<Apply> replyList = applyRepository.findAllByRecruit(recruitOptional.get());
+
+
+        Map<List<Apply>,Object> Apply_carrer = new LinkedHashMap<>();
+
+
         return replyList ;
     }
 }
