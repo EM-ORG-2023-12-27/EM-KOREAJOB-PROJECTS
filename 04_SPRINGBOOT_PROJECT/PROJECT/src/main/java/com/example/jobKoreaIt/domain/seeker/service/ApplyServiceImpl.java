@@ -42,7 +42,6 @@ public class ApplyServiceImpl {
         Apply apply=new Apply();
 
         Optional<Resume> resume1 = resumeRepository.findById(resume.get().getId());
-
         JobSeeker JobSeeker = jobSeekerRepository.findByTel(applyDto.getTell());
         log.info("jobSeeker : "+JobSeeker);
 

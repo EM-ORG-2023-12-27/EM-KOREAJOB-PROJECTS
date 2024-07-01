@@ -25,44 +25,44 @@
     <h3>입사지원서 작성</h3>
     <div class="form-body">
 
-        <form class="apply-form" th:action="@{/apply/add}" th:object="${applyDto}" method="post">
+        <form class="apply-form" action="/apply/add" method="post">
 
-            <input type="hidden" id="id" th:field="*{id}"/><br>
+<!--            <input type="hidden" id="id" name="id"/><br>-->
             <label form="name">지원회사이름:</label>
-            <input type="text" id="companyname" th:field="*{recruit.title}"/><br/>
+<!--            <input type="text" id="companyname" name="recruit"/><br/>-->
 
             <label for="name">지원자이름:</label>
-            <input type="text" id="name" th:field="*{name}" /><br/>
+            <input type="text" id="name" name="name"/><br/>
 
             <label for="tell">연락처:</label>
-            <input type="text" id="tell" th:field="*{tell}" /><br/>
+            <input type="text" id="tell" name="tell"/><br/>
 
             <label for="email">Email:</label>
-            <input type="text" id="email" th:field="*{email}" /><br/>
+            <input type="text" id="email" name="email"/><br/>
 
             <label for="addr">주소:</label>
-            <input type="text" id="addr" th:field="*{addr}" /><br/>
+            <input type="text" id="addr" name="addr"/><br/>
 
             <label for="nationality">국적:</label>
-            <input type="text" id="nationality" th:field="*{nationality}" /><br/>
+            <input type="text" id="nationality" name="nationality"/><br/>
 
             <label for="birthDate">생년월일:</label>
-            <input type="text" id="birthDate" th:field="*{birthDate}" /><br/>
+            <input type="text" id="birthDate" name="birthDate"/><br/>
 
             <label for="expectedSalary">희망연봉:</label>
-            <input type="text" id="expectedSalary" th:field="*{expectedSalary}" /><br/>
+            <input type="text" id="expectedSalary" name="expectedSalary"/><br/>
 
             <label for="militaryService">병역사항:</label>
-            <input type="text" id="militaryService" th:field="*{militaryService}" /><br/>
+            <input type="text" id="militaryService" name="militaryService"/><br/>
 
             <label for="objective">지원부문:</label>
-            <input type="text" id="objective" th:field="*{objective}" /><br/>
+            <input type="text" id="objective" name="objective"/><br/>
 
-            <label for="resume">이력서 선택:</label>
-            <select name="resume" id="resume" th:field="*{resume.id}">
-                <option value="">이력서를 선택하세요</option>
-                <option th:each="resume : ${resumeList}" th:value="${resume.id}" th:text="${resume.title}"></option>
-            </select>
+<!--            <label for="resume">이력서 선택:</label>-->
+<!--            <select name="resume" id="resume">-->
+<!--                <option value="">이력서를 선택하세요</option>-->
+<!--&lt;!&ndash;                <option th:each="resume : ${resumeList}" th:value="${resume.id}" th:text="${resume.title}"></option>&ndash;&gt;-->
+<!--            </select>-->
             <br/>
 
             <button type="submit">지원서제출</button>

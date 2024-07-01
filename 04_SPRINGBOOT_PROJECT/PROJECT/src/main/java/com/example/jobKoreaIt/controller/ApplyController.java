@@ -50,44 +50,54 @@ public class ApplyController {
     }
 
     @GetMapping("/add")
-    public String add(Model model) {
-        model.addAttribute("applyDto",new ApplyDto());
-        return "/apply/add";
+    public String add(Authentication authentication) {
+        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+        UserDto userDto = principal.getUserDto();
+        if (userDto == null) {
+            return "/login";
+        } else {
+            return "/apply/add";
+        }
     }
 
     @PostMapping("/add")
-    public String add_post(@ModelAttribute @Valid ApplyDto applyDto,
-                              BindingResult bindingResult, Model model) {
-        System.out.println("applyDto = " + applyDto + ", bindingResult = " + bindingResult + ", model = " + model);
+    public String add_post(@ModelAttribute ApplyDto applyDto, Model model) {
+//        System.out.println("applyDto = " + applyDto + ", bindingResult = " + bindingResult + ", model = " + model);
 
-        if (bindingResult.hasErrors()) {
-            for(FieldError error  : bindingResult.getFieldErrors()) {
-            log.info(error.getField()+ " : " + error.getDefaultMessage());
-            model.addAttribute(error.getField(), error.getDefaultMessage());
-            }
-            return "/apply/add";
-        }
-
-        Optional<Resume> resume = resumeRepository.findById(applyDto.getResume().getId());
-        Recruit recruit = recruitRepository.findByTitle(applyDto.getRecruit().getTitle());
-
-        applyService.apply_add(applyDto,resume,recruit);
-
-        List<Resume> resumeList = resumeServiceImpl.getAllResumes(applyDto.getId()); // 모든 이력서 목록 조회
-
-        model.addAttribute("applyDto",applyDto);
-        model.addAttribute("resume",resume);
-        model.addAttribute("resumeList", resumeList); // 이력서 목록을 모델에 추가
+//        if (bindingResult.hasErrors()) {
+//            for(FieldError error  : bindingResult.getFieldErrors()) {
+//            log.info(error.getField()+ " : " + error.getDefaultMessage());
+//            model.addAttribute(error.getField(), error.getDefaultMessage());
+//            }
+//            return "/apply/add";
+//        }
+        System.out.println(applyDto);
+//        Optional<Resume> resume = resumeRepository.findById(applyDto.getResume().getId());
+//        System.out.println("resume : " + resume);
+//
+//        Recruit recruit = recruitRepository.findByTitle(applyDto.getRecruit().getTitle());
+//        System.out.println("recruit : " + recruit);
+//        applyService.apply_add(applyDto, resume, recruit);
+//
+//        List<Resume> resumeList = resumeServiceImpl.getAllResumes(applyDto.getId()); // 모든 이력서 목록 조회
+//        System.out.println("resumeList : " + resumeList);
+//        for (Resume e : resumeList) {
+//            System.out.println(e);
+//        }
+//
+//        model.addAttribute("applyDto", applyDto);
+//        model.addAttribute("resume", resume);
+//        model.addAttribute("resumeList", resumeList); // 이력서 목록을 모델에 추가
         return "redirect:/apply/list";
     }
 
+
     @GetMapping("list")
-    public String Apply_get_list(Model model){
+    public String Apply_get_list(Model model) {
         List<ApplyDto> applyDtoList = applyService.apply_list();
-        model.addAttribute("applyDtoList",applyDtoList);
+        model.addAttribute("applyDtoList", applyDtoList);
         return "apply/list";
     }
-
 
 
 }
