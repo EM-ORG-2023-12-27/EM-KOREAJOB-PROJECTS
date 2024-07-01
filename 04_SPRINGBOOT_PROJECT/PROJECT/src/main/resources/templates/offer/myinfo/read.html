@@ -10,9 +10,81 @@
     <link rel="stylesheet" href="/css/offer/myinfo.css">
 
     <script src="/js/template.js" defer></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .wrapper {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        header {
+            text-align: center;
+            padding: 10px 0;
+            margin-bottom: 20px;
+        }
+        main {
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input[type="text"], input[type="email"], textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button[type="submit"] {
+            background: #5cb85c;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button[type="submit"]:hover {
+            background: #4cae4c;
+        }
+        hr {
+            border: 0;
+            border-top: 1px solid #eee;
+            margin: 20px 0;
+        }
 
+      .career-item {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: 10px;
+            }
+
+      .career-item label {
+                margin-right: 5px;
+            }
+
+       .career-item input {
+                margin-right: 20px;
+                padding: 5px;
+                width: 150px; /* 원하는 너비로 조정 가능 */
+        }
+    </style>
 
 </head>
+
 <body>
 
 <div class="wrapper">
@@ -33,76 +105,76 @@
         </nav>
     </section>
     <main class="layout-150">
-            <aside>
-                <ul class="menu-01">
-                    <li><a href="/offer/myinfo/read">회사정보 확인</a></li>
-                    <li><a href="/offer/myinfo/update">회사정보 수정</a></li>
-                    <li>
-                        <a href="">채용 공고 모집</a>
-                        <ul class="menu-02">
-                            <li><a href="/offer/jobopening/add">채용공고 등록</a></li>
-                            <li><a href="/offer/jobopening/list">채용공고 확인</a></li>
-                            <li><a href="">채용공고 신청현황</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </aside>
-            <section>
-                <h4>회사정보</h4>
-                <hr>
-                <table class="table" style="font-size:.8rem;">
-                    <tbody>
-                        <tr>
-                            <td class="bg-dark text-light" style="width:250px;">계정명</td>
-                            <td th:text="${userDto.userid}"></td>
-                            <td class="bg-dark text-light">패스워드</td>
-                            <td>[보안]</td>
-                        </tr>
-                        <tr>
-                           <td class="bg-dark text-light">회사명</td>
-                           <td th:text="${jobOfferDto.companyName}"></td>
-                           <td class="bg-dark text-light">사업자 번호</td>
-                           <td th:text="${jobOfferDto.companyNumber}"></td>
-                        </tr>
-                        <tr>
-                            <td class="bg-dark text-light">회사이메일</td>
-                            <td th:text="${jobOfferDto.companyEmail}"></td>
-                            <td class="bg-dark text-light">TEL.</td>
-                            <td th:text="${jobOfferDto.companyPhone}"></td>
-                        </tr>
-                        <tr>
-                            <td class="bg-dark text-light">업종</td>
-                            <td colspan="3" th:text="${jobOfferDto.companyIndustry}"></td>
-                        </tr>
-                        <tr>
-                            <td class="bg-dark text-light">우편번호</td>
-                            <td th:text="${jobOfferDto.zipcode}"></td>
-                            <td class="bg-dark text-light">주소</td>
-                            <td th:text="${jobOfferDto.companyAddr1}+' '+${jobOfferDto.companyAddr2}"></td>
-                        </tr>
-                        <tr>
-                            <td class="bg-dark text-light">회사소개</td>
-                            <td colspan="3" th:text="${jobOfferDto.companyexplanation}"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="4">
-                                <hr>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <a href="/offer/myinfo/update" class="btn btn-primary" style="font-size:.8rem;">수정하기</a>
-                                <a href="/" class="btn btn-secondary" style="font-size:.8rem;">회원탈퇴</a>
-                            </td>
-                            <td colspan="3">
+        <aside>
+            <ul class="menu-01">
+                <li><a href="/offer/myinfo/read">회사정보 확인</a></li>
+                <li><a href="/offer/myinfo/update">회사정보 수정</a></li>
+                <li>
+                    <a href="">채용 공고 모집</a>
+                    <ul class="menu-02">
+                        <li><a href="/offer/jobopening/add">채용공고 등록</a></li>
+                        <li><a href="/offer/jobopening/list">채용공고 확인</a></li>
+                        <li><a href="/offer/jobopening/applylist">채용공고 신청현황</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </aside>
+        <section>
+            <h4>회사정보</h4>
+            <hr>
+            <table class="table" style="font-size:.8rem;">
+                <tbody>
+                <tr>
+                    <td class="bg-dark text-light" style="width:250px;">계정명</td>
+                    <td th:text="${userDto.userid}"></td>
+                    <td class="bg-dark text-light">패스워드</td>
+                    <td>[보안]</td>
+                </tr>
+                <tr>
+                    <td class="bg-dark text-light">회사명</td>
+                    <td th:text="${jobOfferDto.companyName}"></td>
+                    <td class="bg-dark text-light">사업자 번호</td>
+                    <td th:text="${jobOfferDto.companyNumber}"></td>
+                </tr>
+                <tr>
+                    <td class="bg-dark text-light">회사이메일</td>
+                    <td th:text="${jobOfferDto.companyEmail}"></td>
+                    <td class="bg-dark text-light">TEL.</td>
+                    <td th:text="${jobOfferDto.companyPhone}"></td>
+                </tr>
+                <tr>
+                    <td class="bg-dark text-light">업종</td>
+                    <td colspan="3" th:text="${jobOfferDto.companyIndustry}"></td>
+                </tr>
+                <tr>
+                    <td class="bg-dark text-light">우편번호</td>
+                    <td th:text="${jobOfferDto.zipcode}"></td>
+                    <td class="bg-dark text-light">주소</td>
+                    <td th:text="${jobOfferDto.companyAddr1}+' '+${jobOfferDto.companyAddr2}"></td>
+                </tr>
+                <tr>
+                    <td class="bg-dark text-light">회사소개</td>
+                    <td colspan="3" th:text="${jobOfferDto.companyexplanation}"></td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <hr>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="/offer/myinfo/update" class="btn btn-primary" style="font-size:.8rem;">수정하기</a>
+                        <a href="/" class="btn btn-secondary" style="font-size:.8rem;">회원탈퇴</a>
+                    </td>
+                    <td colspan="3">
 
-                            </td>
+                    </td>
 
-                        </tr>
-                    </tbody>
-                </table>
+                </tr>
+                </tbody>
+            </table>
 
-            </section>
+        </section>
 
     </main>
 

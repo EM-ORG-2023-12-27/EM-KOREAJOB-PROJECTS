@@ -160,6 +160,12 @@ public class OfferController {
         model.addAttribute("jobOfferDto",principalDetails.getJobOfferDto());
     }
 
+    @PostMapping("/myinfo/update")
+    public void update_post(@AuthenticationPrincipal PrincipalDetails principalDetails,Model model){
+        log.info("principalDetails " + principalDetails);
+        model.addAttribute("userDto",principalDetails.getUserDto());
+        model.addAttribute("jobOfferDto",principalDetails.getJobOfferDto());
+    }
 }
 
 
