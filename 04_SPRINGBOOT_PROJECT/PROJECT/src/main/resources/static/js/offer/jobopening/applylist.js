@@ -30,14 +30,24 @@ function createModalHeaderEls(array){
     while (modalHeader.firstChild) {
             modalHeader.removeChild(modalHeader.firstChild);
     }
-    array.forEach(el=>{
 
+    const title = document.querySelector('.modal .table .title')
+    array.forEach(el=>{
         const li = document.createElement('li');
         const a= document.createElement('a');
         a.innerHTML=el.resume.name;
         a.setAttribute('href',"javascript:void(0)");
+        a.setAttribute('style',"display:block;");
+        a.setAttribute('data-applyid',el.apply_id);
+        a.classList.add('apply_user_resume_btn');
+        a.addEventListener('click',function(){
+                console.log("clicked...");
+
+            title.innerHTML = el.resume.title;
+
+        })
         li.append(a);
         modalHeader.append(li);
-
     })
 }
+
