@@ -23,8 +23,7 @@
             <div style="margin:30px auto;">
                 <h2>이력서 작성</h2>
             </div>
-            <form action=/seeker/resume/add"  method="post" enctype="multipart/form-data">
-
+            <form onsubmit="return false" action="/seeker/resume/add" name="resumeAddForm" method="post" enctype="multipart/form-data">
                 <div class="basic-info">
                     <div class="photo-block">
                         <div id="photoUpload">
@@ -36,15 +35,15 @@
                     <div class="seeker-info">
                         <div>
                             <label for="name">이름:</label>
-                            <input type="text" id="name" name="resume.name" th:value="${jobSeekerDto.username}"  class="form-control w-100" required readonly />
+                            <input type="text" id="name" name="name" th:value="${jobSeekerDto.username}"  class="form-control w-100" required  />
                         </div>
                         <div>
                             <label for="email">Email:</label>
-                            <input type="email" id="email" name="resume.email"  th:value="${jobSeekerDto.email}" class="form-control w-100"required readonly/>
+                            <input type="email" id="email" name="email"  th:value="${jobSeekerDto.email}" class="form-control w-100"required />
                         </div>
                         <div>
                             <label for="phone">휴대폰번호:</label>
-                            <input type="text" id="phone"  name="resume.phone"   th:value="${jobSeekerDto.tel}" class="form-control w-100" required readonly />
+                            <input type="text" id="phone"  name="phone"   th:value="${jobSeekerDto.tel}" class="form-control w-100" required  />
                         </div>
                     </div>
                 </div>
@@ -60,7 +59,7 @@
                                 <td>출신학교</td>
                                 <td> <input type="text" id="schoolName" name="schoolName"  class="w-100 form-control" required /></td>
                                 <td>전공</td>
-                                <td> <input type="text" id="major" name="resume.major" class="w-100 form-control" required /></td>
+                                <td> <input type="text" id="major" name="major" class="w-100 form-control" required /></td>
                             </tr>
                             <tr>
                                 <td>졸업년도</td>
@@ -99,7 +98,7 @@
                     <textarea id="summary" name="summary" class="form-control" required style="height:300px;"></textarea>
                 </div>
                 <div>
-                    <button type="submit">작성완료!</button>
+                    <a href="javascript:void(0)" class="btn-styles submit_btn " style="margin-top:15px;">작성완료!</a>
                 </div>
             </form>
         </section>

@@ -57,6 +57,7 @@ public class PrincipalDetailsService implements UserDetailsService {
             jobSeekerDto.setZipcode(jobSeeker.getZipcode());
             jobSeekerDto.setAddr1(jobSeeker.getAddr1());
             jobSeekerDto.setAddr2(jobSeeker.getAddr2());
+            jobSeekerDto.setEmail(jobSeeker.getEmail());
             principalDetails.setJobSeekerDto(jobSeekerDto);
 
         }else if(StringUtils.equals(userOptional.get().getRole(),"ROLE_OFFER")){

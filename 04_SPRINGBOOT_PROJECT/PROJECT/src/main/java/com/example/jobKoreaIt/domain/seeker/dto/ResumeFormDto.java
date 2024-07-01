@@ -1,6 +1,6 @@
 package com.example.jobKoreaIt.domain.seeker.dto;
 
-import com.example.jobKoreaIt.domain.seeker.entity.Career;
+import com.example.jobKoreaIt.domain.seeker.entity.Carrer;
 import com.example.jobKoreaIt.domain.seeker.entity.Resume;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,5 +13,5 @@ import java.util.List;
 @AllArgsConstructor
 public class ResumeFormDto {
     private Resume resume;
-    private List<Career> careers;
+    private List<Carrer> careers;
 }

@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -16,7 +17,10 @@ public class ResumeDto {
     private String email;
     private String name;
     private String phone;
-    private LocalDate creationDate;
+    private String creationDate;
+
+    private CarrerDto[] carrer;
+    private CertificationDto[] certification;
 
     //--------------
     //새로 추가됨
@@ -24,8 +28,7 @@ public class ResumeDto {
     private String schoolName;
     private String major;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime graduationYear;
+    private String graduationYear;
 
     private String summary;
 

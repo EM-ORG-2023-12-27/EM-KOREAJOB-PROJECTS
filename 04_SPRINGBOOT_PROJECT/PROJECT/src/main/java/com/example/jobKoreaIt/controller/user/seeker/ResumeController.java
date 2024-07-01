@@ -2,11 +2,12 @@ package com.example.jobKoreaIt.controller.user.seeker;
 
 import com.example.jobKoreaIt.config.auth.PrincipalDetails;
 import com.example.jobKoreaIt.domain.seeker.dto.*;
-import com.example.jobKoreaIt.domain.seeker.entity.Career;
-import com.example.jobKoreaIt.domain.seeker.entity.JobSeeker;
+import com.example.jobKoreaIt.domain.seeker.entity.Carrer;
 import com.example.jobKoreaIt.domain.seeker.entity.Resume;
 import com.example.jobKoreaIt.domain.seeker.repository.CareerRepository;
 import com.example.jobKoreaIt.domain.seeker.service.ResumeServiceImpl;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,22 +44,52 @@ public class ResumeController {
     }
 
     @PostMapping("/resume/add")
-    public String resume_add_post(
-            ResumeDto resumeDto,
-            CarrerDto[] carrers,
-            CertificationDto certifications
+    public @ResponseBody  void resume_add_post(
+            @RequestParam Map<String, String> formData
+    ) throws JsonProcessingException {
+        System.out.println(formData);
 
-    )
-    {
-        System.out.println(resumeDto);
-        System.out.println(carrers);
-        System.out.println(certifications);
+        String name = formData.get("name");
+        String email = formData.get("email");
+        String phone = formData.get("phone");
+        String schoolName = formData.get("schoolName");
+        String major = formData.get("major");
+        String graduationYear = formData.get("graduationYear");
+        String summary = formData.get("summary");
 
-//        log.info("POST /resume/add..");
-//        resumeServiceImpl.resume_add(form);
-//        log.info("Form : "+form);
-//        return "redirect:/seeker/resume/list"; // 이력서 추가 후 목록 페이지로 리다이렉트
-        return null;
+        String carrer =formData.get("carrer");
+        ObjectMapper objectMapper = new ObjectMapper();
+        CarrerDto [] carrerDtos = objectMapper.readValue(carrer,CarrerDto[].class);
+
+        String certification = formData.get("certification");
+        CertificationDto [] certificationDtos = objectMapper.readValue(certification,CertificationDto[].class);
+
+        System.out.println("name : " + name);
+        System.out.println("email : " + email);
+        System.out.println("phone : " + phone);
+        System.out.println("schoolName : " + schoolName);
+        System.out.println("major : " + major);
+        System.out.println("graduationYear : " + graduationYear);
+//        System.out.println("carrerDtos : " + carrerDtos);
+        for(CarrerDto carrerDto : carrerDtos)
+            System.out.println(carrerDto);
+        System.out.println("certification : " + certification);
+        for(CertificationDto certificationDto : certificationDtos)
+            System.out.println(certificationDto);
+
+        ResumeDto resumeDto = new ResumeDto();
+        resumeDto.setName(name);
+        resumeDto.setPhone(phone);
+        resumeDto.setEmail(email);
+        resumeDto.setSchoolName(schoolName);
+        resumeDto.setMajor(major);
+        resumeDto.setGraduationYear(graduationYear); //LocalDateTime.parse(graduationYear, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        resumeDto.setCarrer(carrerDtos);
+        resumeDto.setCertification(certificationDtos);
+        resumeDto.setSummary(summary);
+
+
+        resumeServiceImpl.addResume(resumeDto);
     }
 
     //수정 ------------------------------------------------------------
@@ -80,7 +111,7 @@ public class ResumeController {
 
 
             //------------------------
-            List<Career> list =  careerRepository.findAllByResume(resume);
+            List<Carrer> list =  careerRepository.findAllByResume(resume);
 
             System.out.println("Career list ! " + list);
             model.addAttribute("list",list);
