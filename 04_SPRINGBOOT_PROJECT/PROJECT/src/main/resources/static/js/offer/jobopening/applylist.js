@@ -11,6 +11,9 @@ apply_seeeker_btn.forEach(btn=>{
             console.log(resp);
 
             const modalBtn = document.querySelector('.apply_user_modal_btn');
+
+            createModalHeaderEls(resp.data);
+
             modalBtn.click();
 
          })
@@ -20,3 +23,21 @@ apply_seeeker_btn.forEach(btn=>{
 
     })
 })
+
+
+function createModalHeaderEls(array){
+    const modalHeader = document.querySelector('.modal-content .modal-header .user-btn-block');
+    while (modalHeader.firstChild) {
+            modalHeader.removeChild(modalHeader.firstChild);
+    }
+    array.forEach(el=>{
+
+        const li = document.createElement('li');
+        const a= document.createElement('a');
+        a.innerHTML=el.resume.name;
+        a.setAttribute('href',"javascript:void(0)");
+        li.append(a);
+        modalHeader.append(li);
+
+    })
+}
