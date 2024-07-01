@@ -1,5 +1,6 @@
 package com.example.jobKoreaIt.controller.user.seeker;
 
+import com.example.jobKoreaIt.config.auth.PrincipalDetails;
 import com.example.jobKoreaIt.domain.seeker.dto.ApplyDto;
 import com.example.jobKoreaIt.domain.seeker.entity.Apply;
 import com.example.jobKoreaIt.domain.seeker.entity.Resume;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -54,10 +56,13 @@ public class ApplyController {
 
 
     @GetMapping("/apply/offer/list")
-    public void offer_list(@RequestParam("recruit_id") Long recruit_id,Model model){
+    public @ResponseBody ResponseEntity<List<Apply>> offer_list(@RequestParam("recruit_id") Long recruit_id, @AuthenticationPrincipal PrincipalDetails principalDetails, Model model){
 
         //회사
+        List<Apply> list =  applyService.getOfferApply(recruit_id);
 
+
+        return new ResponseEntity<>(list,HttpStatus.OK);
 
     }
     @GetMapping("/apply/seeker/list")

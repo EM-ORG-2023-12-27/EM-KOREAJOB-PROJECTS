@@ -125,22 +125,14 @@ public class ApplyServiceImpl {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public  Map<String,Object> getOfferApply(UserDto userDto) {
+    public  List<Apply> getOfferApply(Long recruit_id) {
 
-        Map<String,Object> result = new LinkedHashMap<>();
 
-        Optional<User> userOptional = userRepository.findById(userDto.getUserid());
-        if(userOptional.isEmpty())
+        Optional<Recruit> recruitOptional = recruitRepository.findById(recruit_id);
+
+        if(recruitOptional.isEmpty())
             return null;
-
-        JobOffer jobOffer =  jobOfferRepository.findByUser(userOptional.get());
-
-        List<Recruit> recruitList =   recruitRepository.findAllByJobOffer(jobOffer);
-
-        recruitList.forEach(recruit->{
-                List<Apply> replyList = applyRepository.findAllByRecruit(recruit);
-                result.put(String.valueOf(recruit.getId()),replyList);
-        });
-        return result;
+        List<Apply> replyList = applyRepository.findAllByRecruit(recruitOptional.get());
+        return replyList ;
     }
 }
