@@ -1,5 +1,7 @@
 package com.example.jobKoreaIt.domain.seeker.service;
 
+import com.example.jobKoreaIt.domain.common.dto.UserDto;
+import com.example.jobKoreaIt.domain.common.entity.User;
 import com.example.jobKoreaIt.domain.common.repository.UserRepository;
 import com.example.jobKoreaIt.domain.seeker.dto.*;
 import com.example.jobKoreaIt.domain.seeker.entity.Carrer;
@@ -189,17 +191,16 @@ public class ResumeServiceImpl {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public Map<String, Object> getMyResumes(JobSeekerDto jobSeekerDto) {
+    public List<Resume> getMyResumes(UserDto userDto) {
+        Optional<User> userOptional =  userRepository.findById(userDto.getUserid());
+        return resumeRepository.findAllByUser(userOptional.get());
 
-        return null;
     }
 
     @Transactional(rollbackFor = Exception.class)
     public void addResume(ResumeDto resumeDto) {
 
         Resume resume = new Resume();
-
-        JobSeeker jobSeekr = new JobSeeker();
 
         resume.setEmail(resumeDto.getEmail());
         resume.setName(resumeDto.getName());
@@ -209,6 +210,11 @@ public class ResumeServiceImpl {
         resume.setSummary(resumeDto.getSummary());
         resume.setCreationDate(LocalDateTime.now());
         resume.setGraduationYear(resumeDto.getGraduationYear());
+        resume.setTitle(resumeDto.getTitle());
+
+        Optional<User> userOptional = userRepository.findById(resumeDto.getUserid());
+
+        resume.setUser(userOptional.get());
 
         resumeRepository.save(resume);
 

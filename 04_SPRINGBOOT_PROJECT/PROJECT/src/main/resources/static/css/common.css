@@ -359,7 +359,6 @@ footer .footer-bottom{
 
 /* MODAL /*/
 .modal-content{
-    border : 3px solid darkcyan;
 }
 .modal-body{
 
@@ -371,7 +370,7 @@ footer .footer-bottom{
     border : 1px solid;
     margin : 5px;
     padding : 10px;
-    height : 270px;
+
 }
 .modal-body>div>*{
     margin-bottom : 5px;

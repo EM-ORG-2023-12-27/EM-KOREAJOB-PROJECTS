@@ -14,10 +14,14 @@ import java.util.List;
 @AllArgsConstructor
 public class ResumeDto {
     private Long id;
+    private String title;
     private String email;
     private String name;
     private String phone;
+    private String userid;
     private String creationDate;
+
+
 
     private CarrerDto[] carrer;
     private CertificationDto[] certification;

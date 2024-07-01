@@ -1,6 +1,7 @@
 package com.example.jobKoreaIt.controller.user.seeker;
 
 import com.example.jobKoreaIt.config.auth.PrincipalDetails;
+import com.example.jobKoreaIt.domain.common.dto.UserDto;
 import com.example.jobKoreaIt.domain.seeker.dto.*;
 import com.example.jobKoreaIt.domain.seeker.entity.Carrer;
 import com.example.jobKoreaIt.domain.seeker.entity.Resume;
@@ -45,10 +46,11 @@ public class ResumeController {
 
     @PostMapping("/resume/add")
     public @ResponseBody  void resume_add_post(
-            @RequestParam Map<String, String> formData
+            @RequestParam Map<String, String> formData,
+            @AuthenticationPrincipal PrincipalDetails principalDetails
     ) throws JsonProcessingException {
         System.out.println(formData);
-
+        String title = formData.get("title");
         String name = formData.get("name");
         String email = formData.get("email");
         String phone = formData.get("phone");
@@ -78,6 +80,7 @@ public class ResumeController {
             System.out.println(certificationDto);
 
         ResumeDto resumeDto = new ResumeDto();
+        resumeDto.setTitle(title);
         resumeDto.setName(name);
         resumeDto.setPhone(phone);
         resumeDto.setEmail(email);
@@ -88,6 +91,8 @@ public class ResumeController {
         resumeDto.setCertification(certificationDtos);
         resumeDto.setSummary(summary);
 
+        UserDto userDto = principalDetails.getUserDto();
+        resumeDto.setUserid(userDto.getUserid());
 
         resumeServiceImpl.addResume(resumeDto);
     }
@@ -184,10 +189,8 @@ public class ResumeController {
 
 
     @GetMapping("/resume/my")
-    public @ResponseBody ResponseEntity<Map<String,Object>> getMayResume(@AuthenticationPrincipal PrincipalDetails principalDetails){
-         Map<String,Object> result = resumeServiceImpl.getMyResumes(principalDetails.getJobSeekerDto());
-         if(result.get("success").equals("false"))
-             return new ResponseEntity<>(result, HttpStatus.BAD_GATEWAY);
+    public @ResponseBody ResponseEntity<List<Resume>> getMayResume(@AuthenticationPrincipal PrincipalDetails principalDetails){
+         List<Resume> result = resumeServiceImpl.getMyResumes(principalDetails.getUserDto());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

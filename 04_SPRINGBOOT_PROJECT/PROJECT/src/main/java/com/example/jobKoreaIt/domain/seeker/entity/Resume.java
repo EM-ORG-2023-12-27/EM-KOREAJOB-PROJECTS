@@ -1,5 +1,6 @@
 package com.example.jobKoreaIt.domain.seeker.entity;
 
+import com.example.jobKoreaIt.domain.common.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +24,13 @@ public class Resume {
     private String email;
     private String name;
     private String phone;
+    private String title;
+
+    @ManyToOne
+    @JoinColumn(name = "userid",foreignKey = @ForeignKey(name="FK_JOB-SEEKER_RESUME_2",
+            foreignKeyDefinition ="FOREIGN KEY(userid) REFERENCES user(userid) ON DELETE CASCADE ON UPDATE CASCADE" ))
+    private User user;
+
 
     // 학력
     private String schoolName;

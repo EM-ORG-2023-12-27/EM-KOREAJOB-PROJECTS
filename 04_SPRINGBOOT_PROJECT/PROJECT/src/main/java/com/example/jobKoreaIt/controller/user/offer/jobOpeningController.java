@@ -8,6 +8,8 @@ import com.example.jobKoreaIt.domain.offer.entity.JobOffer;
 import com.example.jobKoreaIt.domain.offer.entity.Recruit;
 import com.example.jobKoreaIt.domain.offer.service.JobOfferServiceImpl;
 import com.example.jobKoreaIt.domain.offer.service.jobopeningServicelmpl;
+import com.example.jobKoreaIt.domain.seeker.entity.Apply;
+import com.example.jobKoreaIt.domain.seeker.service.ApplyServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @Slf4j
@@ -32,6 +35,8 @@ public class jobOpeningController {
     @Autowired
     private jobopeningServicelmpl jobopeningServicelmpl;
 
+    @Autowired
+    private ApplyServiceImpl applyService;
 
     @GetMapping("/jobopening/add")
     public void jobadd() {
@@ -75,14 +80,20 @@ public class jobOpeningController {
 
     }
 
-
-
     @DeleteMapping("/jobopening/delete")
     public @ResponseBody ResponseEntity<String> jobdelete(@RequestParam("id") Long id) {
         log.info("채용공고 삭제중...");
         jobopeningServicelmpl.jobopenRemove(id);
         return new ResponseEntity("채용공고 삭제를 완료하였습니다.", HttpStatus.OK);
     }
+
+    @GetMapping("/jobopening/applylist")
+    public void applyList(@AuthenticationPrincipal PrincipalDetails principalDetails,Model model){
+        List<Recruit> list = jobopeningServicelmpl.getMyRecruit(principalDetails.getJobOfferDto());
+        System.out.println(list);
+        model.addAttribute("list",list);
+    }
+
 
 
 }

@@ -24,7 +24,12 @@
                 <h2>이력서 작성</h2>
             </div>
             <form onsubmit="return false" action="/seeker/resume/add" name="resumeAddForm" method="post" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="title">제목:</label>
+                    <input type="text" id="title" name="title"   class="form-control w-100" required  />
+                </div>
                 <div class="basic-info">
+
                     <div class="photo-block">
                         <div id="photoUpload">
                             사진을 드래그 앤 드롭 하거나 클릭하여 업로드하세요.

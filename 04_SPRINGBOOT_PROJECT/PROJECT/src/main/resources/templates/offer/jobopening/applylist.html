@@ -56,26 +56,29 @@
             <div>
                 <table class="table w-100">
                     <thead class="bg-dark text-light">
-                        <tr >
-                            <th>No</th>
-                            <th>제목</th>
-                            <th>부서</th>
-                            <th>근무형태</th>
-                            <th>경력</th>
-                            <th>연봉</th>
-                            <th>기간</th>
-                        </tr>
+                    <tr >
+                        <th>No</th>
+                        <th>제목</th>
+                        <th>부서</th>
+                        <th>근무형태</th>
+                        <th>경력</th>
+                        <th>연봉</th>
+                        <th>기간</th>
+                        <th>지원자 확인</th>
+
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="recruit,recruitStat:${list}">
-                            <td th:text="${recruitStat.count}"></td>
-                            <td class="title"><a th:href="@{/offer/jobopening/update(id=${recruit.id})}" th:text="${recruit.title}"></a></td>
-                            <td th:text="${recruit.department}"></td>
-                            <td th:text="${recruit.jobwork}"></td>
-                            <td th:text="${recruit.career}"></td>
-                            <td th:text="${recruit.salary}"></td>
-                            <td th:text="${recruit.startTime}+' ~ '+${recruit.endTime}"></td>
-                        </tr>
+                    <tr th:each="recruit,recruitStat:${list}">
+                        <td th:text="${recruitStat.count}"></td>
+                        <td class="title"><a th:href="@{/offer/jobopening/update(id=${recruit.id})}" th:text="${recruit.title}"></a></td>
+                        <td th:text="${recruit.department}"></td>
+                        <td th:text="${recruit.jobwork}"></td>
+                        <td th:text="${recruit.career}"></td>
+                        <td th:text="${recruit.salary}"></td>
+                        <td th:text="${recruit.startTime}+' ~ '+${recruit.endTime}"></td>
+                        <td><a class="apply_seeeker_btn" href="javascript:void(0) " th:data-recruitid="${recruit.id}">확인하기</a></td>
+                    </tr>
                     </tbody>
                 </table>
             </div>

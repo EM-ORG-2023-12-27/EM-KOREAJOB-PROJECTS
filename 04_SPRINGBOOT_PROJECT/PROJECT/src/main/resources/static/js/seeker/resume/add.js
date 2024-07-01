@@ -213,6 +213,7 @@ const submit_btn = document.querySelector('.submit_btn');
 submit_btn.addEventListener('click',function(){
         console.log('clicked..');
 
+        formData.append('title',resumeAddForm.title.value)
         formData.append('name',resumeAddForm.name.value)
         formData.append('email',resumeAddForm.email.value)
         formData.append('phone',resumeAddForm.phone.value)
