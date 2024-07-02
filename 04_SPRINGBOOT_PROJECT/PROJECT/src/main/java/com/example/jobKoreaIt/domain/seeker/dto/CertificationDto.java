@@ -14,8 +14,6 @@ import java.time.LocalDateTime;
 public class CertificationDto {
 
     private String certificationName;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime certificationDate;
+    private String certificationDate;
 
 }

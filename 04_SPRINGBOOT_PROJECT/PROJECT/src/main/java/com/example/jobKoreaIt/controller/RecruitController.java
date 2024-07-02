@@ -31,8 +31,7 @@ public class RecruitController {
     @GetMapping("/req")
     public void req(@RequestParam("id")Long id, Model model){
         log.info("GET /recruit/id..." + id);
-
-       Recruit recruit=  recruitServiceImpl.getRecruit(id);
+        Recruit recruit=  recruitServiceImpl.getRecruit(id);
         System.out.println(recruit);
         model.addAttribute("recruit",recruit);
     }

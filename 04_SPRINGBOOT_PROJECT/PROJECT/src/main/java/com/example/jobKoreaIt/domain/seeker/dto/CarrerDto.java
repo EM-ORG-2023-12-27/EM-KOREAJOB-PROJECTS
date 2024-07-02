@@ -15,10 +15,8 @@ public class CarrerDto {
     private String companyName;
     private String position;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime startDate;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime endDate;
+    private String startDate;
+    private String endDate;
 
 
 }

@@ -1,12 +1,14 @@
 package com.example.jobKoreaIt.controller.user.seeker;
 
 import com.example.jobKoreaIt.config.auth.PrincipalDetails;
+import com.example.jobKoreaIt.domain.common.dto.UserDto;
 import com.example.jobKoreaIt.domain.seeker.dto.*;
-import com.example.jobKoreaIt.domain.seeker.entity.Career;
-import com.example.jobKoreaIt.domain.seeker.entity.JobSeeker;
+import com.example.jobKoreaIt.domain.seeker.entity.Carrer;
 import com.example.jobKoreaIt.domain.seeker.entity.Resume;
 import com.example.jobKoreaIt.domain.seeker.repository.CareerRepository;
 import com.example.jobKoreaIt.domain.seeker.service.ResumeServiceImpl;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +17,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -43,22 +47,61 @@ public class ResumeController {
     }
 
     @PostMapping("/resume/add")
-    public String resume_add_post(
-            ResumeDto resumeDto,
-            CarrerDto[] carrers,
-            CertificationDto certifications
+    public @ResponseBody  void resume_add_post(
+            @RequestPart("file") MultipartFile file,
+            @RequestParam Map<String, String> formData,
+            @AuthenticationPrincipal PrincipalDetails principalDetails
+    ) throws IOException {
+        System.out.println(formData);
+        String title = formData.get("title");
+        String name = formData.get("name");
+        String email = formData.get("email");
+        String phone = formData.get("phone");
+        String schoolName = formData.get("schoolName");
+        String major = formData.get("major");
+        String graduationYear = formData.get("graduationYear");
+        String summary = formData.get("summary");
 
-    )
-    {
-        System.out.println(resumeDto);
-        System.out.println(carrers);
-        System.out.println(certifications);
+        System.out.println("file : " + file);
 
-//        log.info("POST /resume/add..");
-//        resumeServiceImpl.resume_add(form);
-//        log.info("Form : "+form);
-//        return "redirect:/seeker/resume/list"; // 이력서 추가 후 목록 페이지로 리다이렉트
-        return null;
+
+        String carrer =formData.get("carrer");
+        ObjectMapper objectMapper = new ObjectMapper();
+        CarrerDto [] carrerDtos = objectMapper.readValue(carrer,CarrerDto[].class);
+
+        String certification = formData.get("certification");
+        CertificationDto [] certificationDtos = objectMapper.readValue(certification,CertificationDto[].class);
+
+        System.out.println("name : " + name);
+        System.out.println("email : " + email);
+        System.out.println("phone : " + phone);
+        System.out.println("schoolName : " + schoolName);
+        System.out.println("major : " + major);
+        System.out.println("graduationYear : " + graduationYear);
+//        System.out.println("carrerDtos : " + carrerDtos);
+        for(CarrerDto carrerDto : carrerDtos)
+            System.out.println(carrerDto);
+        System.out.println("certification : " + certification);
+        for(CertificationDto certificationDto : certificationDtos)
+            System.out.println(certificationDto);
+
+        ResumeDto resumeDto = new ResumeDto();
+        resumeDto.setTitle(title);
+        resumeDto.setName(name);
+        resumeDto.setPhone(phone);
+        resumeDto.setEmail(email);
+        resumeDto.setSchoolName(schoolName);
+        resumeDto.setMajor(major);
+        resumeDto.setGraduationYear(graduationYear); //LocalDateTime.parse(graduationYear, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        resumeDto.setCarrer(carrerDtos);
+        resumeDto.setCertification(certificationDtos);
+        resumeDto.setSummary(summary);
+        resumeDto.setFile(file);
+
+        UserDto userDto = principalDetails.getUserDto();
+        resumeDto.setUserid(userDto.getUserid());
+
+        resumeServiceImpl.addResume(resumeDto);
     }
 
     //수정 ------------------------------------------------------------
@@ -69,28 +112,8 @@ public class ResumeController {
     public String resume_update_get(@PathVariable("id") long id, Model model) {
         log.info("id : "+id);
         log.info("GET /resume/update..");
-        Optional<Resume> resumeOptional = resumeServiceImpl.resume_read(id);
 
-
-        if (resumeOptional.isPresent()) {
-            Resume resume= resumeOptional.get();
-            System.out.println("/resume/update/{id} resume : " + resume);
-
-            model.addAttribute("resume", resume);
-
-
-            //------------------------
-            List<Career> list =  careerRepository.findAllByResume(resume);
-
-            System.out.println("Career list ! " + list);
-            model.addAttribute("list",list);
-            //------------------------
-
-            return "seeker/resume/update"; // 수정 페이지 보여주기
-        } else {
-            model.addAttribute("notFound", "이력서를 찾을 수 없습니다.");
-            return "error"; // 에러 페이지 보여주기
-        }
+        return null;
     }
 
     @PostMapping("/resume/update")
@@ -114,13 +137,12 @@ public class ResumeController {
     public String resume_read_get(@PathVariable("id") Long id, Model model) {
         log.info("GET /resume/read..");
 
-        Optional<Resume> resumeOptional = resumeServiceImpl.resume_read(id);
-        if (resumeOptional.isPresent()) {
-            Resume resume = resumeOptional.get();
-            model.addAttribute("resume", resume);
-        } else {
-            model.addAttribute("notFound", "이력서를 찾을 수 없습니다.");
-        }
+        Map<String,Object> result = resumeServiceImpl.resume_read(id);
+
+        model.addAttribute("resume",  result.get("resume"));
+        model.addAttribute("carrerList", result.get("carrerList"));
+        model.addAttribute("certificationList", result.get("certificationList"));
+
         return "seeker/resume/read"; // return the view name
     }
 
@@ -153,10 +175,8 @@ public class ResumeController {
 
 
     @GetMapping("/resume/my")
-    public @ResponseBody ResponseEntity<Map<String,Object>> getMayResume(@AuthenticationPrincipal PrincipalDetails principalDetails){
-         Map<String,Object> result = resumeServiceImpl.getMyResumes(principalDetails.getJobSeekerDto());
-         if(result.get("success").equals("false"))
-             return new ResponseEntity<>(result, HttpStatus.BAD_GATEWAY);
+    public @ResponseBody ResponseEntity<List<Resume>> getMayResume(@AuthenticationPrincipal PrincipalDetails principalDetails){
+         List<Resume> result = resumeServiceImpl.getMyResumes(principalDetails.getUserDto());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

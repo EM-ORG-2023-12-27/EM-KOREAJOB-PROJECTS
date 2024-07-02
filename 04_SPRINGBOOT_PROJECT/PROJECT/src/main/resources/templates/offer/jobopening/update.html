@@ -27,10 +27,11 @@
 
             <div class="add">
                 <h1><span class="material-symbols-outlined" style="font-size : 2rem;">bookmark_added</span> 채용공고 등록</h1>
-                <form action="/offer/jobopening/add" method="post" class="for" enctype="multipart/form-data">
-
+                <form action="/offer/jobopening/update" method="post" class="for" enctype="multipart/form-data">
+                    <input type="hidden" name="id" th:value="${recruit.id}" />
                     <table class="table w-100" style="font-size:.8rem;">
                         <tbody>
+
                         <tr>
                             <td class="text-light" style="background-color:#00a8ff">제목</td>
                             <td colspan="3"><input type="text" id="title" name="title" th:value="${recruit.title}" class="form-control" placeholder="ex 채용공고에 사용될 제목을 입력하세요."  required></td>
@@ -133,7 +134,11 @@
                         </tbody>
 
                     </table>
-                    <button type="submit" class="submit-button">등록</button>
+                    <div class="" style="">
+                        <button class="btn btn-primary">수정요청</button>
+                        <a href="" class="btn btn-secondary delete_btn">삭제하기</a>
+                    </div>
+
 
                 </form>
             </div>

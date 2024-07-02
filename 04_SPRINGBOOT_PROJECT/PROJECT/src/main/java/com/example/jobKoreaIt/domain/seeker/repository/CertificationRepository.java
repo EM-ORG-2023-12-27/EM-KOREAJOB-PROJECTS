@@ -1,7 +1,7 @@
 package com.example.jobKoreaIt.domain.seeker.repository;
 
-import com.example.jobKoreaIt.domain.common.entity.User;
-import com.example.jobKoreaIt.domain.seeker.entity.JobSeeker;
+
+import com.example.jobKoreaIt.domain.seeker.entity.Certification;
 import com.example.jobKoreaIt.domain.seeker.entity.Resume;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -9,9 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ResumeRepository extends JpaRepository<Resume,Long> {
-
-
-    List<Resume> findAllByUser(User user);
-
+public interface CertificationRepository extends JpaRepository<Certification,Long> {
+    List<Certification> findAllByResume(Resume resume);
 }
