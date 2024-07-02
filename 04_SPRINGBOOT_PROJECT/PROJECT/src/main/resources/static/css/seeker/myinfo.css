@@ -1,36 +1,72 @@
+main {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+main section {
+    width: 100%;
+}
+
 aside {
-    height : 600px;
-    width : 450px;
-    margin : 20px;
-
-    display:flex;
-    justify-content : center;
-    align-items : start;
-
-}
-aside ul.menu-01{
-    text-align:center;
-    padding : 5px;
-
+    height: 600px;
+    width: 450px;
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
 }
 
-aside ul.menu-01>li{
-    border : 1px solid;
-    margin : 5px;
-    padding : 5px;
+aside ul.menu-01 {
+    text-align: center;
+    padding: 5px;
+    list-style-type: none;
 }
-aside ul.menu-01>li>a{
-    display:block;
+
+aside ul.menu-01 > li {
+    margin: 5px;
+    padding: 5px;
 }
-aside ul.menu-01>li>.menu-02{
+
+/* 공통 버튼 스타일 */
+aside ul.menu-01 > li > a,
+aside ul.menu-01 > li > .menu-02 > li > a {
+    display: block;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    background-color: #007BFF;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+    width: 200px;
+    height: 50px;
+    line-height: 30px;
+    font-size: 14px;
+    overflow: hidden;
+}
+
+aside ul.menu-01 > li > a:hover,
+aside ul.menu-01 > li > .menu-02 > li > a:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+/* 하위 메뉴 스타일 */
+aside ul.menu-01 > li > .menu-02 {
 
 }
-aside ul.menu-01>li>.menu-02>li{
-    border : 1px;
-    margin : 5px;
-    padding : 5px;
-    border : 1px solid;
-}
-aside ul.menu-01>li>.menu-02>li>a{
 
+/* 하위 메뉴 아이템 스타일 */
+aside ul.menu-01 > li > .menu-02 > li {
+    margin: 5px 0;
+    margin-top : 10px;
+
+}
+
+aside ul.menu-01 > li > .menu-02 > li > a {
+    width: 200px;
+    height: 50px;
+    line-height: 20px;
+    margin-top : 10px;
 }
