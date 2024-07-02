@@ -58,7 +58,8 @@ public class SecurityConfig  {
                 authorize->{
                     authorize.requestMatchers("/js/**","/css/**","/images/**","/templates","/assets/**").permitAll();
                     authorize.requestMatchers("/","/login","/user/join","/seeker/join","/offer/join").permitAll();
-                   
+                    authorize.requestMatchers("/upload/**").hasAnyRole("SEEKER","OFFER");
+
 
 
                     //SEEKER/OFFER

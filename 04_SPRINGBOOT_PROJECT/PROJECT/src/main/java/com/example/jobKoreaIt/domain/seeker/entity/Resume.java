@@ -45,5 +45,5 @@ public class Resume {
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private LocalDateTime creationDate;
 
-
+    private String filePath;
 }

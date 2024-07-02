@@ -39,8 +39,9 @@ function createModalHeaderEls(array){
     const schoolName=document.querySelector('.modal .table .schoolName');
     const major=document.querySelector('.modal .table .major');
     const graduationYear=document.querySelector('.modal .table .graduationYear');
-
-
+    const summary = document.querySelector('.modal .table .summary-block');
+    const filePath = document.querySelector('.file_path')
+    console.log("summary",summary);
     array.forEach(el=>{
         const li = document.createElement('li');
         const a= document.createElement('a');
@@ -59,8 +60,8 @@ function createModalHeaderEls(array){
             schoolName.innerHTML=el.resume.schoolName;
             major.innerHTML=el.resume.major;
             graduationYear.innerHTML = el.resume.graduationYear;
-
-
+            summary.value = el.resume.summary;
+            filePath.src=el.resume.filePath;
 
             axios.get('/apply/offer/carrer?resume_id='+el.resume.id)
             .then(resp=>{
@@ -88,9 +89,9 @@ function createModalHeaderEls(array){
                     const td2 = document.createElement('td');
                     td2.innerHTML = position;
                     const td3 = document.createElement('td');
-                    td3.innerHTML = startDate;
+                    td3.innerHTML = startDate.join('-');
                     const td4 = document.createElement('td');
-                    td4.innerHTML = endDate
+                    td4.innerHTML = endDate.join('-');
 
                     tr.appendChild(td1);
                     tr.appendChild(td2);
@@ -108,7 +109,7 @@ function createModalHeaderEls(array){
             })
             .catch(err=>{console.log(err);});
 
-            //
+            //자격증 가져오기
             axios.get('/apply/offer/certification?resume_id='+el.resume.id)
             .then(resp=>{
                  const certificationSub = document.querySelectorAll('.certification-sub');
@@ -131,7 +132,7 @@ function createModalHeaderEls(array){
                     const td2 = document.createElement('td');
                     td2.setAttribute('colspan','2');
 
-                    td2.innerHTML = certificationDate;
+                    td2.innerHTML = certificationDate.join('-');
 
                     tr.appendChild(td1);
                     tr.appendChild(td2);
@@ -145,8 +146,8 @@ function createModalHeaderEls(array){
                 })
             })
             .catch(err=>{console.log(err);});
-
             //
+
         })
 
         li.append(a);

@@ -17,7 +17,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -46,9 +48,10 @@ public class ResumeController {
 
     @PostMapping("/resume/add")
     public @ResponseBody  void resume_add_post(
+            @RequestPart("file") MultipartFile file,
             @RequestParam Map<String, String> formData,
             @AuthenticationPrincipal PrincipalDetails principalDetails
-    ) throws JsonProcessingException {
+    ) throws IOException {
         System.out.println(formData);
         String title = formData.get("title");
         String name = formData.get("name");
@@ -58,6 +61,9 @@ public class ResumeController {
         String major = formData.get("major");
         String graduationYear = formData.get("graduationYear");
         String summary = formData.get("summary");
+
+        System.out.println("file : " + file);
+
 
         String carrer =formData.get("carrer");
         ObjectMapper objectMapper = new ObjectMapper();
@@ -90,6 +96,7 @@ public class ResumeController {
         resumeDto.setCarrer(carrerDtos);
         resumeDto.setCertification(certificationDtos);
         resumeDto.setSummary(summary);
+        resumeDto.setFile(file);
 
         UserDto userDto = principalDetails.getUserDto();
         resumeDto.setUserid(userDto.getUserid());
@@ -105,28 +112,8 @@ public class ResumeController {
     public String resume_update_get(@PathVariable("id") long id, Model model) {
         log.info("id : "+id);
         log.info("GET /resume/update..");
-        Optional<Resume> resumeOptional = resumeServiceImpl.resume_read(id);
 
-
-        if (resumeOptional.isPresent()) {
-            Resume resume= resumeOptional.get();
-            System.out.println("/resume/update/{id} resume : " + resume);
-
-            model.addAttribute("resume", resume);
-
-
-            //------------------------
-            List<Carrer> list =  careerRepository.findAllByResume(resume);
-
-            System.out.println("Career list ! " + list);
-            model.addAttribute("list",list);
-            //------------------------
-
-            return "seeker/resume/update"; // 수정 페이지 보여주기
-        } else {
-            model.addAttribute("notFound", "이력서를 찾을 수 없습니다.");
-            return "error"; // 에러 페이지 보여주기
-        }
+        return null;
     }
 
     @PostMapping("/resume/update")
@@ -150,13 +137,12 @@ public class ResumeController {
     public String resume_read_get(@PathVariable("id") Long id, Model model) {
         log.info("GET /resume/read..");
 
-        Optional<Resume> resumeOptional = resumeServiceImpl.resume_read(id);
-        if (resumeOptional.isPresent()) {
-            Resume resume = resumeOptional.get();
-            model.addAttribute("resume", resume);
-        } else {
-            model.addAttribute("notFound", "이력서를 찾을 수 없습니다.");
-        }
+        Map<String,Object> result = resumeServiceImpl.resume_read(id);
+
+        model.addAttribute("resume",  result.get("resume"));
+        model.addAttribute("carrerList", result.get("carrerList"));
+        model.addAttribute("certificationList", result.get("certificationList"));
+
         return "seeker/resume/read"; // return the view name
     }
 

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,10 +22,10 @@ public class ResumeDto {
     private String userid;
     private String creationDate;
 
-
-
     private CarrerDto[] carrer;
     private CertificationDto[] certification;
+    private MultipartFile file;
+
 
     //--------------
     //새로 추가됨

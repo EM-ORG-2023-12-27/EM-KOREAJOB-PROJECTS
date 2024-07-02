@@ -34,7 +34,6 @@ public class RecruitController {
         Recruit recruit=  recruitServiceImpl.getRecruit(id);
         System.out.println(recruit);
         model.addAttribute("recruit",recruit);
-
     }
 
 }

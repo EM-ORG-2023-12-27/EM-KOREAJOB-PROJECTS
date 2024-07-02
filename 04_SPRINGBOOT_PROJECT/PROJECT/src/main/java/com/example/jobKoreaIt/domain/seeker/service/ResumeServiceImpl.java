@@ -12,6 +12,7 @@ import com.example.jobKoreaIt.domain.seeker.repository.CareerRepository;
 import com.example.jobKoreaIt.domain.seeker.repository.CertificationRepository;
 import com.example.jobKoreaIt.domain.seeker.repository.JobSeekerRepository;
 import com.example.jobKoreaIt.domain.seeker.repository.ResumeRepository;
+import com.example.jobKoreaIt.properties.UPLOADPATH;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,13 +20,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.batch.BatchProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
@@ -114,10 +115,20 @@ public class ResumeServiceImpl {
 
     //이력서 상세보기위한 서비스
     @Transactional(rollbackFor = Exception.class)
-    public Optional<Resume> resume_read(Long id)
+    public Map<String,Object> resume_read(Long id)
     {
+        Map<String,Object> result = new HashMap();
+
         log.info("JobSeekerRepositroy/read...!");
-        return resumeRepository.findById(id);
+        Resume resume = resumeRepository.findById(id).get();
+        List<Carrer> carrerList =  careerRepository.findAllByResume(resume);
+        List<Certification> certificationList = certificationRepository.findAllByResume(resume);
+
+        result.put("resume", resume);
+        result.put("carrerList", carrerList);
+        result.put("certificationList", certificationList);
+
+        return result;
     }
 
     //이력서 삭제 서비스
@@ -197,8 +208,10 @@ public class ResumeServiceImpl {
 
     }
 
+
+
     @Transactional(rollbackFor = Exception.class)
-    public void addResume(ResumeDto resumeDto) {
+    public void addResume(ResumeDto resumeDto) throws IOException {
 
         Resume resume = new Resume();
 
@@ -211,12 +224,13 @@ public class ResumeServiceImpl {
         resume.setCreationDate(LocalDateTime.now());
         resume.setGraduationYear(resumeDto.getGraduationYear());
         resume.setTitle(resumeDto.getTitle());
+        resume.setSummary(resumeDto.getSummary());
 
         Optional<User> userOptional = userRepository.findById(resumeDto.getUserid());
 
         resume.setUser(userOptional.get());
-
         resumeRepository.save(resume);
+
 
         //경력
         for(CarrerDto carrerDto : resumeDto.getCarrer()){
@@ -239,6 +253,27 @@ public class ResumeServiceImpl {
             certification.setResume(resume);
             certificationRepository.save(certification);
         }
+
+
+        //저장 폴더 지정()
+        String uploadPath= UPLOADPATH.ROOTDIRPATH+ File.separator+ UPLOADPATH.UPPERDIRPATH+ File.separator;
+        uploadPath+=UPLOADPATH.RESUME + File.separator+ resumeDto.getUserid() + File.separator +resume.getId();
+
+        File dir = new File(uploadPath);
+        if(!dir.exists())
+            dir.mkdirs();
+
+        MultipartFile file = resumeDto.getFile();
+
+        File fileobj = new File(dir,file.getOriginalFilename());
+
+        file.transferTo(fileobj);
+
+        // DB에 파일경로 저장
+        String filePath= File.separator+ UPLOADPATH.UPPERDIRPATH+ File.separator;
+        filePath+=UPLOADPATH.RESUME + File.separator+ resumeDto.getUserid() + File.separator +resume.getId()+File.separator+resumeDto.getFile().getOriginalFilename();
+        resume.setFilePath(filePath);
+        resumeRepository.save(resume);
     }
 }
 

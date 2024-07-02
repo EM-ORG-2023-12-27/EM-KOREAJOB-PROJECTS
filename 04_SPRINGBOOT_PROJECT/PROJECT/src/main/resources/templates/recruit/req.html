@@ -42,13 +42,13 @@
         <section>
             <div class="header">
                 <div class="top-header">
-                    <span>(주)에듀플렉스</span>
+                    <span  th:text="${recruit.jobOffer.companyName}"></span>
                     <span style="border : 1px solid;">관심기업</span>
                     <span style="border : 1px solid;">채용중</span>
                 </div>
                 <div class="title">
                     <div>
-                        <h3>[우수교육기업] 에듀플렉스 학습컨설턴트 186기 서울 경기 채용</h3>
+                        <h3 th:text="${recruit.title}"></h3>
                     </div>
                     <div class="apply-btn">
                         <a href="javascript:void(0)" class="btn btn-danger recruit_btn" style="border-radius:0" >입사지원</a>
@@ -56,25 +56,25 @@
                 </div>
                 <div>
                     <hr>
-                    <table class="table w-100">
+                    <table class="table w-100" style=".8rem;">
                         <tbody>
                             <tr>
                                 <td class="bg-dark text-light" style="width:150px;">경력</td>
-                                <td>1</td>
+                                <td th:text="${recruit.career}"></td>
                                 <td class="bg-dark text-light" style="width:150px;">급여</td>
-                                <td>1</td>
+                                <td th:text="${recruit.salary}"></td>
                             </tr>
                             <tr>
                                 <td  class="bg-dark text-light" style="width:150px;">학력</td>
-                                <td>1</td>
+                                <td th:text="${recruit.ability}"></td>
                                 <td  class="bg-dark text-light" style="width:150px;">근무요일</td>
-                                <td>1</td>
+                                <td> 월-금(0900:18:00)</td>
                             </tr>
                             <tr>
                                 <td  class="bg-dark text-light" style="width:150px;">근무형태</td>
-                                <td>1</td>
+                                <td th:text="${recruit.jobwork}"></td>
                                 <td  class="bg-dark text-light" style="width:150px;">근무지역</td>
-                                <td>1</td>
+                                <td th:text="${recruit.jobzone}"></td>
                             </tr>
                         </tbody>
                     </table>

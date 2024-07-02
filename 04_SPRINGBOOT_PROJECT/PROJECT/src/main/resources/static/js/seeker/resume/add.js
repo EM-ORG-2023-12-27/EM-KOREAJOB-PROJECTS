@@ -42,7 +42,9 @@
             photoInput.addEventListener('change', function() {
                 if (photoInput.files.length > 0) {
                     displayPreview(photoInput.files[0]);
+                    formData.append('file',files[0]);
                 }
+
             });
 
             function displayPreview(file) {

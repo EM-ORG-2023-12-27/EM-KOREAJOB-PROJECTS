@@ -86,7 +86,7 @@ public class JwtTokenProvider {
         if(StringUtils.equals(authorities,"ROLE_SEEKER")){
             JobSeekerDto jobSeekerDto = principalDetails.getJobSeekerDto();
             // Access Token 생성
-            Date accessTokenExpiresIn = new Date(now + 60*5*1000);    // 60*5 초후 만료
+            Date accessTokenExpiresIn = new Date(now + 60*60*1000);    // 60*60 초후 만료
             accessToken = Jwts.builder()
                     .setSubject(userDto.getUserid())
                     .claim("userid",userDto.getUserid())             //정보저장
