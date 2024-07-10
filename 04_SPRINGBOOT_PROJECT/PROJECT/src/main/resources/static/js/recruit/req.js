@@ -25,6 +25,11 @@ recruit_btn.addEventListener('click',function(){
 function createResumeItem(data){
     const parent = document.querySelector('.modal-body table tbody');
 
+
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+
     const tr = document.createElement('tr');
     const td1 = document.createElement('td');
     const td2 = document.createElement('td');
