@@ -7,7 +7,7 @@
     <!-- link -->
     <th:block th:insert="~{fragments/link :: linkFragment}" />
 
-    <link rel="stylesheet" href="/css/seeker/resume/add.css">
+    <link rel="stylesheet" href="/css/seeker/resume/read.css">
     <script src="/js/seeker/resume/add.js" defer></script>
 </head>
 <body>
@@ -31,8 +31,8 @@
                 <div class="basic-info">
 
                     <div class="photo-block">
-                        <div i style="width:200px;height:200px;display:flex;justify-content:center;align-items:center;">
-                            <img  th:src="@{${resume.filePath}}" alt="사진 미리보기"  style="width:100%;height:100;object-fit:contain"/>
+                        <div  style="width:300px;height:300px;display:flex;justify-content:center;align-items:center;border: 1px solid;padding : 5px;">
+                            <img  th:src="@{${resume.filePath}}" alt="사진 미리보기"  style="width:100%;height:100%;object-fit:contain;"/>
                         </div>
                     </div>
                     <div class="seeker-info">
@@ -113,7 +113,7 @@
                 </div>
                 <div>
                     <label for="summary">자기소개서:</label>
-                    <textarea id="summary" name="summary" class="form-control" required style="height:300px;" th:value="${resume.summary}"></textarea>
+                    <textarea id="summary" name="summary" class="form-control" required style="height:300px;" th:text="${resume.summary}"></textarea>
                 </div>
                 <div>
                     <a href="javascript:void(0)" class="btn-styles submit_btn btn btn-success mt-3" style="margin-top:15px;">작성완료</a>
