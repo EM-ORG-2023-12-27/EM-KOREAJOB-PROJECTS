@@ -222,6 +222,7 @@ submit_btn.addEventListener('click',function(){
         formData.append('schoolName',resumeAddForm.schoolName.value)
         formData.append('major',resumeAddForm.major.value)
         formData.append('graduationYear',resumeAddForm.graduationYear.value)
+        formData.append('summary',resumeAddForm.summary.value)
         //경력
         let carrer = [];
         const carrerBlockEls = document.querySelectorAll('.carrer-block');
