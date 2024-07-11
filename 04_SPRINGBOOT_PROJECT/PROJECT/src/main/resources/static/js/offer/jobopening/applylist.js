@@ -32,6 +32,7 @@ function createModalHeaderEls(array){
             modalHeader.removeChild(modalHeader.firstChild);
     }
     //
+    const status = document.querySelector('.modal .modal-body .status');
     const title = document.querySelector('.modal .table .title');
     const name =document.querySelector('.modal .table .name');
     const email=document.querySelector('.modal .table .email');
@@ -53,6 +54,7 @@ function createModalHeaderEls(array){
         a.addEventListener('click',function(){
                 console.log("clicked...");
 
+
             title.innerHTML = el.resume.title;
             name.innerHTML = el.resume.name;
             email.innerHTML = el.resume.email;
@@ -62,6 +64,7 @@ function createModalHeaderEls(array){
             graduationYear.innerHTML = el.resume.graduationYear;
             summary.value = el.resume.summary;
             filePath.src=el.resume.filePath;
+
 
             axios.get('/apply/offer/carrer?resume_id='+el.resume.id)
             .then(resp=>{
@@ -74,9 +77,6 @@ function createModalHeaderEls(array){
                 const data = resp.data;
                 data.forEach(el=>{
                     console.log(el);
-
-
-
                     const companyName = el.companyName;
                     const position = el.position;
                     const startDate = el.startDate;
@@ -146,7 +146,16 @@ function createModalHeaderEls(array){
                 })
             })
             .catch(err=>{console.log(err);});
-            //
+
+            //상태 가져오기
+            axios.get('/apply/offer/status?resume_id='+el.resume.id)
+            .then(resp=>{
+                console.log(resp);
+                status.innerHTML = resp.data;
+            })
+            .catch(err=>{console.log(err)})
+
+
 
         })
 

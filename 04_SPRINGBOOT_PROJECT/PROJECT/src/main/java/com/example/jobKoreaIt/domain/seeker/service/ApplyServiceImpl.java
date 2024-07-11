@@ -120,6 +120,7 @@ public class ApplyServiceImpl {
 
         apply.setOffer_status("");
         apply.setSeeker_status("이력서 접수완료");
+        apply.setOffer_status("면접 대기");
 
         applyRepository.save(apply);
 
@@ -144,5 +145,12 @@ public class ApplyServiceImpl {
 
 
         return replyList ;
+    }
+    @Transactional(rollbackFor = Exception.class)
+    public Apply getStatusByResumeId(Long resumeId) {
+
+        Resume resume = resumeRepository.findById(resumeId).get();
+
+        return applyRepository.findByResume(resume);
     }
 }

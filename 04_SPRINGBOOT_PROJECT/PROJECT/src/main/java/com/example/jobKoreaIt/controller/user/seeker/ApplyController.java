@@ -22,7 +22,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -77,11 +79,22 @@ public class ApplyController {
         log.info("GET /apply/offer/carrer...id : " + resume_id);
         return careerRepository.findAllByResume(resumeRepository.findById(resume_id).get());
     }
+
     @GetMapping("/apply/offer/certification")
     public @ResponseBody List<Certification> getCertification(@RequestParam("resume_id")Long resume_id){
         log.info("GET /apply/offer/certification...id : " + resume_id);
 
         return certificationRepository.findAllByResume(resumeRepository.findById(resume_id).get());
+    }
+
+    @GetMapping("/apply/offer/status")
+    public @ResponseBody String getStatus(@RequestParam("resume_id")Long resume_id){
+
+        log.info("GET /apply/offer/getStatus...id : " + resume_id);
+        Apply apply =  applyService.getStatusByResumeId(resume_id);
+        System.out.println("apply " + apply );
+        return apply.getOffer_status();
+
     }
 
     @GetMapping("/apply/seeker/list")
