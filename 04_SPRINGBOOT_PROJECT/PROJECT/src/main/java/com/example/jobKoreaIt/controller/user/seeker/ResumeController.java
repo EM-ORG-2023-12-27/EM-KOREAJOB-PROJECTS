@@ -142,7 +142,7 @@ public class ResumeController {
         model.addAttribute("resume",  result.get("resume"));
         model.addAttribute("carrerList", result.get("carrerList"));
         model.addAttribute("certificationList", result.get("certificationList"));
-
+        System.out.println( result.get("resume"));
         return "seeker/resume/read"; // return the view name
     }
 
