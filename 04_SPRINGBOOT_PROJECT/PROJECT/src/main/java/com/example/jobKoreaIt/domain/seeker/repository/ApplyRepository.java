@@ -13,4 +13,6 @@ public interface ApplyRepository extends JpaRepository<Apply,Long> {
     List<Apply> findAllByRecruit(Recruit recruit);
 
     Apply findByResume(Resume resume);
+
+    Apply findByResumeAndRecruit(Resume resume, Recruit recruit);
 }

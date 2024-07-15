@@ -12,7 +12,7 @@ apply_seeeker_btn.forEach(btn=>{
 
             const modalBtn = document.querySelector('.apply_user_modal_btn');
 
-            createModalHeaderEls(resp.data);
+            createModalHeaderEls(resp.data,recruit_id);
 
             modalBtn.click();
 
@@ -25,7 +25,7 @@ apply_seeeker_btn.forEach(btn=>{
 })
 
 
-function createModalHeaderEls(array){
+function createModalHeaderEls(array,recruit_id){
     //기존 노드 삭제
     const modalHeader = document.querySelector('.modal-content .modal-header .user-btn-block');
     while (modalHeader.firstChild) {
@@ -42,6 +42,11 @@ function createModalHeaderEls(array){
     const graduationYear=document.querySelector('.modal .table .graduationYear');
     const summary = document.querySelector('.modal .table .summary-block');
     const filePath = document.querySelector('.file_path')
+
+    const metting = document.querySelector('.metting');
+    metting.setAttribute('data-recruit-id',recruit_id);
+
+
     console.log("summary",summary);
     array.forEach(el=>{
         const li = document.createElement('li');
@@ -64,7 +69,7 @@ function createModalHeaderEls(array){
             graduationYear.innerHTML = el.resume.graduationYear;
             summary.value = el.resume.summary;
             filePath.src=el.resume.filePath;
-
+            metting.setAttribute('data-resume-id',el.resume.id);
 
             axios.get('/apply/offer/carrer?resume_id='+el.resume.id)
             .then(resp=>{
@@ -163,4 +168,24 @@ function createModalHeaderEls(array){
         modalHeader.append(li);
     })
 }
+
+//-------------------------------------------------
+// 면접진행 버튼 클릭
+//-------------------------------------------------
+const metting =  document.querySelector('.metting');
+metting.addEventListener('click',function(){
+    console.log('metting.. click...');
+    const recruit_id = metting.getAttribute('data-recruit-id');
+    const resume_id = metting.getAttribute('data-resume-id');
+    axios.get(`/apply/status/change?resume_id=${resume_id}&recruit_id=${recruit_id}&offerStatus=미팅진행중&seekerStatus=면접확정`)
+    .then(resp=>{
+        console.log(resp);
+        const offerStatus = resp.data.offerStatus;
+        const status = document.querySelector('.status');
+        status.innerHTML = offerStatus;
+    })
+    .catch(err=>{console.log(err);});
+})
+
+
 

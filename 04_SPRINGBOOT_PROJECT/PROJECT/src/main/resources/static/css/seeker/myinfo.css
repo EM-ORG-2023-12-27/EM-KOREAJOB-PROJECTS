@@ -10,63 +10,92 @@ main section {
 
 aside {
     height: 600px;
-    width: 450px;
-    margin: 20px;
+    width: 250px;
+    margin-right: 20px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: flex-start;
+
 }
 
 aside ul.menu-01 {
     text-align: center;
-    padding: 5px;
+    padding: 0;
     list-style-type: none;
 }
 
 aside ul.menu-01 > li {
-    margin: 5px;
-    padding: 5px;
+    margin-bottom: 5px;
 }
 
-/* 공통 버튼 스타일 */
 aside ul.menu-01 > li > a,
 aside ul.menu-01 > li > .menu-02 > li > a {
-    display: block;
     padding: 10px;
     text-align: center;
     text-decoration: none;
-    color: white;
-    background-color: #007BFF;
-    border-radius: 4px;
-    transition: background-color 0.3s, color 0.3s;
-    width: 200px;
-    height: 50px;
-    line-height: 30px;
-    font-size: 14px;
+
+
+    border-radius: 2px;
+    width: 170px;
+    font-size: 1rem;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items : center;
+    border : 1px solid gray;
+    color: gray;
 }
 
 aside ul.menu-01 > li > a:hover,
 aside ul.menu-01 > li > .menu-02 > li > a:hover {
-    background-color: #0056b3;
-    color: white;
+    color: black;
+    border : 1px solid;
+
 }
 
-/* 하위 메뉴 스타일 */
 aside ul.menu-01 > li > .menu-02 {
-
 }
 
-/* 하위 메뉴 아이템 스타일 */
 aside ul.menu-01 > li > .menu-02 > li {
     margin: 5px 0;
-    margin-top : 10px;
-
 }
 
 aside ul.menu-01 > li > .menu-02 > li > a {
-    width: 200px;
-    height: 50px;
-    line-height: 20px;
-    margin-top : 10px;
+    width: 140px;
+    display:flex;
+    justify-content : center;
+    align-items : center;
+
+}
+
+.menu-01>li:nth-child(3){
+    height : 100%;
+    width : 100%;
+    border : 1px solid gray;
+}
+.menu-01>li:nth-child(3)>a{
+    width : 150px;
+    height : 100%;
+    border : 0;
+    margin : 0 auto;
+    border-bottom : 1px solid gray;
+}
+.menu-01>li:nth-child(3)>a:hover{
+    color: black;
+    border : 0;
+    border-bottom : 1px solid black;
+}
+.menu-01>li:nth-child(3) .menu-02{
+    margin : 10px;
+}
+
+main aside li{
+    text-align:center;
+}
+main aside ul{
+    display:flex;
+    justify-content : center;
+    align-items : center;
+    flex-direction : column;
+
 }
