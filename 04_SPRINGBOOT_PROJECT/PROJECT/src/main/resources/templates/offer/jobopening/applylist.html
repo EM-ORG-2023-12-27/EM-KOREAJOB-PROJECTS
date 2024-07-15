@@ -47,7 +47,7 @@
                 <li><a href="">회사정보 확인</a></li>
                 <li><a href="">회사정보 수정</a></li>
                 <li>
-                    <a href="">채용 공고 모집</a>
+                    <a href="javascript:void(0)">채용 공고 모집</a>
                     <ul class="menu-02">
                         <li><a href="/offer/jobopening/add">채용공고 등록</a></li>
                         <li><a href="/offer/jobopening/list">채용공고 확인</a></li>
@@ -81,7 +81,7 @@
                         <td th:text="${recruit.career}"></td>
                         <td th:text="${recruit.salary}"></td>
                         <td th:text="${recruit.startTime}+' ~ '+${recruit.endTime}"></td>
-                        <td><a class="apply_seeeker_btn" href="javascript:void(0) " th:data-recruitid="${recruit.id}">확인하기</a></td>
+                        <td><a class="apply_seeeker_btn" href="javascript:void(0) "  th:data-recruitid="${recruit.id}">확인하기</a></td>
                     </tr>
                     </tbody>
                 </table>
@@ -111,10 +111,10 @@
             <div class="modal-body">
                 <div class="control-btn-block">
                     <div>
-                        <span class="status" style="font-size:.7rem;border : 1px solid green;color:green;box-shadow : 5px 5px 5px lightgray;"></span>
+                        <span class="status" style="font-size:.8rem;border : 1px solid green;color:green;box-shadow : 5px 5px 5px lightgray;"></span>
                     </div>
                     <div>
-                        <button type="button" style="font-size:.8rem" class="btn btn-secondary" data-bs-dismiss="modal">면접진행</button>
+                        <button type="button" style="font-size:.8rem" class="btn btn-secondary metting" data-bs-dismiss="modal">면접진행</button>
                         <button type="button" style="font-size:.8rem" class="btn btn-secondary" data-bs-dismiss="modal">채용확정</button>
                     </div>
                 </div>

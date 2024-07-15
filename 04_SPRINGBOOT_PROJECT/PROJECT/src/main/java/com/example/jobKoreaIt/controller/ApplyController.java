@@ -1,4 +1,4 @@
-package com.example.jobKoreaIt.controller.user.seeker;
+package com.example.jobKoreaIt.controller;
 
 import com.example.jobKoreaIt.config.auth.PrincipalDetails;
 import com.example.jobKoreaIt.domain.seeker.dto.ApplyDto;
@@ -104,6 +104,16 @@ public class ApplyController {
     }
 
 
+    @GetMapping("/apply/status/change")
+    public @ResponseBody Map<String,Object> changeStatus(ApplyDto applyDto,String offerStatus, String seekerStatus){
+        log.info("GET /apply/status/metting ...."+applyDto + "offerStatus : " + offerStatus + "seekerStatus : " + seekerStatus);
+        applyService.changeStatus(applyDto,offerStatus,seekerStatus);
+
+        Map<String,Object> result = new HashMap<>();
+        result.put("offerStatus",offerStatus);
+        result.put("seekerStatus",seekerStatus);
+        return result;
+    }
 
 
 

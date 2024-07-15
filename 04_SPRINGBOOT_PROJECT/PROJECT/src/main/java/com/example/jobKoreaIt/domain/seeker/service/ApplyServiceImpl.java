@@ -8,6 +8,7 @@ import com.example.jobKoreaIt.domain.offer.entity.JobOffer;
 import com.example.jobKoreaIt.domain.offer.entity.Recruit;
 import com.example.jobKoreaIt.domain.offer.repository.JobOfferRepository;
 import com.example.jobKoreaIt.domain.offer.repository.RecruitRepository;
+import com.example.jobKoreaIt.domain.seeker.dto.ApplyDto;
 import com.example.jobKoreaIt.domain.seeker.entity.Apply;
 import com.example.jobKoreaIt.domain.seeker.entity.JobSeeker;
 import com.example.jobKoreaIt.domain.seeker.entity.Resume;
@@ -152,5 +153,19 @@ public class ApplyServiceImpl {
         Resume resume = resumeRepository.findById(resumeId).get();
 
         return applyRepository.findByResume(resume);
+    }
+
+
+
+    @Transactional(rollbackFor = Exception.class)
+
+    public void changeStatus(ApplyDto applyDto, String offerStatus, String seekerStatus) {
+        Resume resume = resumeRepository.findById(applyDto.getResume_id()).get();
+        Recruit recruit = recruitRepository.findById(applyDto.getRecruit_id()).get();
+
+        Apply apply =  applyRepository.findByResumeAndRecruit(resume,recruit);
+        apply.setSeeker_status(seekerStatus);
+        apply.setOffer_status(offerStatus);
+        applyRepository.save(apply);
     }
 }
