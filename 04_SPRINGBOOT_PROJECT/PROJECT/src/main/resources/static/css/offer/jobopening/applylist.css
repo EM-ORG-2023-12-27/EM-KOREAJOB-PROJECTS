@@ -73,9 +73,10 @@
         margin : auto;
     }
     .control-btn-block{
-        diplay:flex;
-        justify-content:right !important;
+        display:flex;
+        justify-content:space-between !important;
     }
     .control-btn-block>*{
         margin:5px;
+        border : 0;
     }
