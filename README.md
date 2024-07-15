@@ -112,7 +112,7 @@ ERD[KoreaJobDb]
 ![ERD](https://github.com/user-attachments/assets/be538a90-4163-480e-92f8-5c61591bd31a)
 
 
-FILE TREES[JSP/SERVLET]
+FILE TREES[]
 --- 
 ```
 C:.
