@@ -1,5 +1,6 @@
 package com.example.jobKoreaIt.domain.seeker.service;
 
+import com.example.jobKoreaIt.config.auth.PrincipalDetails;
 import com.example.jobKoreaIt.domain.common.dto.UserDto;
 import com.example.jobKoreaIt.domain.common.entity.User;
 import com.example.jobKoreaIt.domain.common.repository.UserRepository;
@@ -9,6 +10,7 @@ import com.example.jobKoreaIt.domain.offer.entity.Recruit;
 import com.example.jobKoreaIt.domain.offer.repository.JobOfferRepository;
 import com.example.jobKoreaIt.domain.offer.repository.RecruitRepository;
 import com.example.jobKoreaIt.domain.seeker.dto.ApplyDto;
+import com.example.jobKoreaIt.domain.seeker.dto.JobSeekerDto;
 import com.example.jobKoreaIt.domain.seeker.entity.Apply;
 import com.example.jobKoreaIt.domain.seeker.entity.JobSeeker;
 import com.example.jobKoreaIt.domain.seeker.entity.Resume;
@@ -167,5 +169,22 @@ public class ApplyServiceImpl {
         apply.setSeeker_status(seekerStatus);
         apply.setOffer_status(offerStatus);
         applyRepository.save(apply);
+    }
+    @Transactional(rollbackFor = Exception.class)
+
+    public List<Apply> getSeekerApply(PrincipalDetails principalDetails) {
+        UserDto userDto = principalDetails.getUserDto();
+        JobSeekerDto jobSeekerDto = principalDetails.getJobSeekerDto();
+
+        User user =  userRepository.findById(userDto.getUserid()).get();
+
+        List<Resume> resumeList =  resumeRepository.findAllByUser(user);
+        List<Apply> applyList = new ArrayList<>();
+
+        resumeList.forEach(resume->{
+            applyList.add(applyRepository.findByResume(resume));
+        });
+
+        return applyList;
     }
 }

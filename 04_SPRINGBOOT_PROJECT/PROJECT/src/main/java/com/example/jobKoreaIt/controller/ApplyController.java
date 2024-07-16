@@ -97,15 +97,19 @@ public class ApplyController {
 
     }
 
-    @GetMapping("/apply/seeker/list")
-    public void seeker_list(){
-        //회사
-        return ;
-    }
+//    @GetMapping("/apply/seeker/applylist")
+//    public String seeker_list(){
+//        //회사
+//        return "seeker/myinfo/applylist";
+//    }
 
 
     @GetMapping("/apply/status/change")
-    public @ResponseBody Map<String,Object> changeStatus(ApplyDto applyDto,String offerStatus, String seekerStatus){
+    public @ResponseBody Map<String,Object> changeStatus(
+            ApplyDto applyDto,
+            @RequestParam("offerStatus") String offerStatus,
+            @RequestParam("seekerStatus") String seekerStatus
+    ){
         log.info("GET /apply/status/metting ...."+applyDto + "offerStatus : " + offerStatus + "seekerStatus : " + seekerStatus);
         applyService.changeStatus(applyDto,offerStatus,seekerStatus);
 

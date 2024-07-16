@@ -177,7 +177,7 @@ metting.addEventListener('click',function(){
     console.log('metting.. click...');
     const recruit_id = metting.getAttribute('data-recruit-id');
     const resume_id = metting.getAttribute('data-resume-id');
-    axios.get(`/apply/status/change?resume_id=${resume_id}&recruit_id=${recruit_id}&offerStatus=미팅진행중&seekerStatus=면접확정`)
+    axios.get(`/apply/status/change?resume_id=${resume_id}&recruit_id=${recruit_id}&offerStatus=면접진행중&seekerStatus=면접확정`)
     .then(resp=>{
         console.log(resp);
         const offerStatus = resp.data.offerStatus;
@@ -188,4 +188,20 @@ metting.addEventListener('click',function(){
 })
 
 
-
+//-------------------------------------------------
+// 채용확정 버튼 클릭
+//-------------------------------------------------
+const choice =  document.querySelector('.choice');
+choice.addEventListener('click',function(){
+    console.log('choice.. click...');
+    const recruit_id = metting.getAttribute('data-recruit-id');
+    const resume_id = metting.getAttribute('data-resume-id');
+    axios.get(`/apply/status/change?resume_id=${resume_id}&recruit_id=${recruit_id}&offerStatus=채용확정&seekerStatus=합격`)
+    .then(resp=>{
+        console.log(resp);
+        const offerStatus = resp.data.offerStatus;
+        const status = document.querySelector('.status');
+        status.innerHTML = offerStatus;
+    })
+    .catch(err=>{console.log(err);});
+})
