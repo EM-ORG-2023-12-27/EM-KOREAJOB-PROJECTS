@@ -65,17 +65,23 @@
                     <thead class="bg-dark text-light">
                         <tr >
                             <th>No</th>
+                            <th>모집 공고</th>
                             <th>회사 정보</th>
                             <th>지원한 이력서</th>
                             <th>상태</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>4</td>
+                        <tr th:each="apply,applyStat:${list}">
+                            <td th:text="${applyStat.count}"></td>
+                            <td>
+                                <a th:href="@{/recruit/req(id=${apply.recruit.id})}" th:text="${apply.recruit.title}"></a>
+                            </td>
+                            <td th:text="${apply.recruit.jobOffer.companyName}"></td>
+                            <td>
+                                <a th:href="@{'/seeker/resume/read/'+${apply.resume.id}}" th:text="${apply.resume.title}"></a>
+                            </td>
+                            <td th:text="${apply.seeker_status}"></td>
                         </tr>
                     </tbody>
                 </table>

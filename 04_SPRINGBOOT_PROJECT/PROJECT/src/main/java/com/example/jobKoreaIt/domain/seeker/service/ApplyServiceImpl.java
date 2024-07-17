@@ -182,7 +182,9 @@ public class ApplyServiceImpl {
         List<Apply> applyList = new ArrayList<>();
 
         resumeList.forEach(resume->{
-            applyList.add(applyRepository.findByResume(resume));
+            Apply apply =  applyRepository.findByResume(resume);
+            if(apply!=null)
+                applyList.add(apply);
         });
 
         return applyList;
