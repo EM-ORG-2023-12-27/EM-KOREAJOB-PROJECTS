@@ -8,7 +8,6 @@
     <th:block th:insert="~{fragments/link :: linkFragment}" />
 
     <link rel="stylesheet" href="/css/offer/myinfo.css">
-    <link rel="stylesheet" href="/css/offer/jobopening/applylist.css">
 
 
 
@@ -44,50 +43,58 @@
     <main class="layout-150">
         <aside>
             <ul class="menu-01">
-                <li><a href="">회사정보 확인</a></li>
-                <li><a href="">회사정보 수정</a></li>
+                <li><a href="">나의정보 확인</a></li>
+                <li><a href="">나의정보 수정</a></li>
                 <li>
-                    <a href="javascript:void(0)">채용 공고 모집</a>
+                    <a href="">이력서 관리</a>
                     <ul class="menu-02">
-                        <li><a href="/offer/jobopening/add">채용공고 등록</a></li>
-                        <li><a href="/offer/jobopening/list">채용공고 확인</a></li>
-                        <li><a href="/offer/jobopening/applylist">채용공고 신청현황</a></li>
+                        <li><a href="/seeker/resume/list">이력서 확인하기</a></li>
+                        <li><a href="/seeker/resume/add">이력서 작성하기</a></li>
+                        <li><a href="">이력서 수정하기</a></li>
+                        <li><a href="">이력서 삭제하기</a></li>
                     </ul>
                 </li>
+                <li><a href="/seeker/myinfo/applylist">구직현황 확인</a></li>
             </ul>
+
         </aside>
-        <section>
+
+        <section style="width : 100%;">
             <div>
                 <table class="table w-100">
                     <thead class="bg-dark text-light">
-                    <tr >
-                        <th>No</th>
-                        <th>제목</th>
-                        <th>부서</th>
-                        <th>근무형태</th>
-                        <th>경력</th>
-                        <th>연봉</th>
-                        <th>기간</th>
-                        <th>지원자 확인</th>
-
-                    </tr>
+                        <tr >
+                            <th>No</th>
+                            <th>모집 공고</th>
+                            <th>회사 정보</th>
+                            <th>지원한 이력서</th>
+                            <th>상태</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="recruit,recruitStat:${list}">
-                        <td th:text="${recruitStat.count}"></td>
-                        <td class="title"><a th:href="@{/offer/jobopening/update(id=${recruit.id})}" th:text="${recruit.title}"></a></td>
-                        <td th:text="${recruit.department}"></td>
-                        <td th:text="${recruit.jobwork}"></td>
-                        <td th:text="${recruit.career}"></td>
-                        <td th:text="${recruit.salary}"></td>
-                        <td th:text="${recruit.startTime}+' ~ '+${recruit.endTime}"></td>
-                        <td><a class="apply_seeeker_btn" href="javascript:void(0) "  th:data-recruitid="${recruit.id}">확인하기</a></td>
-                    </tr>
+                        <tr th:each="apply,applyStat:${list}">
+                            <td th:text="${applyStat.count}"></td>
+                            <td>
+                                <a th:href="@{/recruit/req(id=${apply.recruit.id})}" th:text="${apply.recruit.title}"></a>
+                            </td>
+                            <td th:text="${apply.recruit.jobOffer.companyName}"></td>
+                            <td>
+                                <a th:href="@{'/seeker/resume/read/'+${apply.resume.id}}" th:text="${apply.resume.title}"></a>
+                            </td>
+                            <td th:text="${apply.seeker_status}"></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
         </section>
     </main>
+
+
+    <!-- 지울것  -->
+
+    <div th:each="apply : ${list}">
+        <div th:text="${apply}"></div>
+    </div>
 
     <!-- footer       -->
     <th:block th:insert="~{fragments/footer :: footerFragment}" />
@@ -180,6 +187,7 @@
         </div>
     </div>
 </div>
+
 
 
 </body>
