@@ -89,13 +89,6 @@
         </section>
     </main>
 
-
-    <!-- 지울것  -->
-
-    <div th:each="apply : ${list}">
-        <div th:text="${apply}"></div>
-    </div>
-
     <!-- footer       -->
     <th:block th:insert="~{fragments/footer :: footerFragment}" />
 </div>
